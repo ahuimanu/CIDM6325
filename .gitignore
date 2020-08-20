@@ -111,3 +111,6 @@ media/
 **/migrations/**
 !**/migrations
 !**/migrations/__init__.py
+
+#secret key
+secret_key.txt
