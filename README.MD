@@ -48,3 +48,13 @@ There is a built-in query expression structure that saves time and avoids the ne
 #### Views
 
 We will try to use Class-Based-Views as much as possible.  However, Function-Based-Views are also possible.
+
+#### Secret Key
+
+Django uses a SECRET_KEY for many security purposes in your project.  Since I will be encouraging the use of Github, publishing your secret key is a problem to avoid.  In fact, if you look at this repository, the initial commit contains a secret key (since changed).
+
+Relevant part of the documentation: [The secret key must be a large random value and it must be kept secret.](https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/#secret-key)
+
+Also, since we'll use Git and Github, placing an effective GITIGNORE file into our repository is important: [Gitignore for a Django project](https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/)
+
+
