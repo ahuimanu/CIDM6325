@@ -41,4 +41,10 @@ This is there to structure your database.  Django Models are classes.  Review th
 
 A great feature of Django is the built-in admin interface - you can perform CRUD operations here.
 
-####    
+#### Queries
+
+There is a built-in query expression structure that saves time and avoids the need to write SQL directly in most cases.
+
+#### Views
+
+We will try to use Class-Based-Views as much as possible.  However, Function-Based-Views are also possible.
