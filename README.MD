@@ -11,11 +11,13 @@ We will work through Antonio Melé's [Django By Example - Third Edition](https:/
 
 I encourage you to hand-code from the book and resist the temptation to just copy and paste from the source files.
 
-### Build a Blog Notes
+## Build a Blog Notes
 
 Here are observations and notes from the chapters
 
-#### Chapter 1 - Build a Blog
+### Chapter 1 - Build a Blog
+
+---
 
 * Make sure you install the latest version of any software the author refers to
     * For Python, you can go to [Python.org](https://www.python.org/)
