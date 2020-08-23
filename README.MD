@@ -57,7 +57,7 @@ Relevant part of the documentation: [The secret key must be a large random value
 
 Also, since we'll use Git and Github, placing an effective GITIGNORE file into our repository is important: [Gitignore for a Django project](https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/)
 
-# Templates
+#### Templates
 
 Templates are HTML files with escapes to contain minimal display and presentation logic.  The _beauty_ of your pages will completely rely on one of a few options:
 * Your skill with CSS
