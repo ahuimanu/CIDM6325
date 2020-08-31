@@ -138,3 +138,58 @@ Although Antonio specifies a version, if you install `django-taggit` without a v
 ***GOTCHA***: Make sure your virtual environment is active when you run the above.
 
 You will notice that a significant amout of power comes from the [taggit app](https://django-taggit.readthedocs.io/en/latest/getting_started.html)
+
+### Chapter 3 - Extending the Blog Application
+
+---
+
+Although very powerful as-is, in Chapter 3, Antonio rounds out the Blog app with the following features:
+* Custom template tags and filters
+* Sitemap and syndication (both useful for SEO)
+* Full-text search in Postgres (will be difficult to do on desktop)
+
+**Template Tags and Filters**
+
+The templating system provides for dynamic content presentation on both the backend (with views and models) as well as in the front end with template tags and filters.
+
+The Django Template Language has a number of [Built-in template tags and filters](https://docs.djangoproject.com/en/3.0/ref/templates/builtins/)
+
+However, a remarkable feature is the ability to extend these built-in tags and filters with your own custom versions.  In order to do so, we must create our own custom app to hold our customizations.
+
+***GOTCHA***: Because our tag customizations are created in a django app, make sure restart the server after code changes to the tag customizations:
+* `CTRL + C` to quit
+* `python manage.py runserver` to restart
+
+Custom template filters allow for further text processing as a Django Template is rendered.
+
+* Recall that filters operate in the following manner: `variable|filter_name`
+* You can also pass arguments to filters: `variable|filter_name:"arg"`
+
+Django has a number of [built-in filters](https://docs.djangoproject.com/en/3.0/ref/templates/builtins/#built-in-filter-reference).
+
+
+**Markdown Filter**
+
+Earlier, I mentioned that this README utilizes [Markdown](https://daringfireball.net/projects/markdown/basics).
+
+As a blog application, text input would be greatly enhanced by the use of markdown.  So, we turn to PIP to acquire [Markdown Capabilities](https://python-markdown.github.io/) for our Django Project.
+
+To install: `pip install Markdown`
+
+We can then create custom filters in our `blog_tags` app.
+
+**Sitemaps**
+
+SEO is significantly enhanced when you help Google's crawlers and spiders with a well-crafted sitemap.
+
+Django facilitates this with `django.contrib.sites` and `django.contrib.sitemaps`
+
+To generate sitemaps programmatically - which is common - allows for a responsive tailoring of how you reveal your site to Google et al.
+
+Read more about [the sitemap framework](https://docs.djangoproject.com/en/3.0/ref/contrib/sitemaps/).
+
+**Feeds**
+
+Although social mediea (Facebook, Instragram, Twitter, etc.) have somewhat *regrettably* relegated syndication strategies like RSS and Atom, these are still useful features.
+
+There are [built-in syndication features](https://docs.djangoproject.com/en/3.0/ref/contrib/syndication/) in Django: `django.contrib.syndication`

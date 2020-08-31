@@ -35,8 +35,11 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Determines which IP addresses and URLs can be validly hosted
 ALLOWED_HOSTS = []
 
+# For sites and site_maps
+SITE_ID = 1
 
 # Application definition
 
@@ -46,6 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'taggit',
