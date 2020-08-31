@@ -66,7 +66,9 @@ Templates are HTML files with escapes to contain minimal display and presentatio
 * Use of a robust component library
 * Some template you find/purchase
 
-### Chapter 1 - Enhancing Your Blog with Advanced Features
+### Chapter 2 - Enhancing Your Blog with Advanced Features
+
+---
 
 Antonio really adds in some useful features here and provides a fairly advanced use of Django within two chapters of the book:
 * Email
