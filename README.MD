@@ -65,3 +65,56 @@ Templates are HTML files with escapes to contain minimal display and presentatio
 * Your skill with CSS
 * Use of a robust component library
 * Some template you find/purchase
+
+### Chapter 1 - Enhancing Your Blog with Advanced Features
+
+Antonio really adds in some useful features here and provides a fairly advanced use of Django within two chapters of the book:
+* Email
+* Comments
+* Tags and metadata
+* Recommendations
+
+#### Forms and Email
+
+Django provides a few classes for working with Forms:
+* [Form](https://docs.djangoproject.com/en/3.0/ref/forms/api/)
+* [ModelForm](https://docs.djangoproject.com/en/3.0/ref/forms/models/)
+
+There are a number of [FormFields](https://docs.djangoproject.com/en/3.0/ref/forms/fields/) that you include in your Form models to create a user interface.
+
+**Passwords**
+Immediately, Antonio starts to talk about using an email account.  Putting authentication information into your source files is a non-starter...
+
+Let's use [DOTENV](https://pypi.org/project/python-dotenv/).  You can see how I handle this in the code.
+
+**django shell**
+
+Notice how Antonio opens the [django shell](https://docs.djangoproject.com/en/3.0/ref/django-admin/#shell) to quickly test email sending. The shell is very handy for this purpose and others.
+
+`python manage.py shell`
+
+**gmail and smtp**
+
+If you use the gmail example from the book, it will likely fail due to the security you have with your account (2-factor and whatnot).  The solution is to use [App Passwords](https://support.google.com/accounts/answer/185833?p=InvalidSecondFactor&visit_id=637344913016438884-914897482&rd=1).
+
+Or, try one of the approaches Antonio mentions.  
+
+We will also explore using the free tier of services like (SendGrid)[https://sendgrid.com/] or [MailChimp](https://mailchimp.com/)
+
+#### Comments and Tags
+
+We see another application of foreign key, which reminds us that the Django ORM is there to help shape the tables in an RDBMS.
+
+Don't forget to run `python manage.py makemigrations`
+
+Also, if we want to use the Django Admin, we always need to register our new models with the admin:
+
+``` python
+from .models import Post, Comment
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'post', 'created', 'active')
+    list_filter = ('active', 'created', 'updated')
+    search_fields = ('name', 'email', 'body')
+
+```
