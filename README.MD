@@ -101,7 +101,7 @@ If you use the gmail example from the book, it will likely fail due to the secur
 
 Or, try one of the approaches Antonio mentions.  
 
-We will also explore using the free tier of services like (SendGrid)[https://sendgrid.com/] or [MailChimp](https://mailchimp.com/)
+We will also explore using the free tier of services like [SendGrid](https://sendgrid.com/) or [MailChimp](https://mailchimp.com/)
 
 #### Comments and Tags
 
