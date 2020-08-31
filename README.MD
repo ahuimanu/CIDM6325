@@ -11,6 +11,8 @@ We will work through Antonio Melé's [Django By Example - Third Edition](https:/
 
 I encourage you to hand-code from the book and resist the temptation to just copy and paste from the source files.
 
+This README file is constructed using [MarkDown](https://www.markdownguide.org/basic-syntax)
+
 ## Build a Blog Notes
 
 Here are observations and notes from the chapters
@@ -120,3 +122,19 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ('name', 'email', 'body')
 
 ```
+
+**Models and Forms**
+
+We can build forms straight from models, which is handy.
+
+**Taggit**
+
+By using the [Django Taggit](https://github.com/jazzband/django-taggit) app/library, you are getting your first taste of extending Django by using 3rd-party code, we will do more of this as time goes on.
+
+Although Antonio specifies a version, if you install `django-taggit` without a version specified, it will install the latest: 
+
+`pip install django-taggit`
+
+***GOTCHA***: Make sure your virtual environment is active when you run the above.
+
+You will notice that a significant amout of power comes from the [taggit app](https://django-taggit.readthedocs.io/en/latest/getting_started.html)
