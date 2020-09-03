@@ -193,3 +193,35 @@ Read more about [the sitemap framework](https://docs.djangoproject.com/en/3.0/re
 Although social mediea (Facebook, Instragram, Twitter, etc.) have somewhat *regrettably* relegated syndication strategies like RSS and Atom, these are still useful features.
 
 There are [built-in syndication features](https://docs.djangoproject.com/en/3.0/ref/contrib/syndication/) in Django: `django.contrib.syndication`
+
+**Full-Text Search and PostGres**
+
+[PostgreSQL](https://www.postgresql.org/) is a [Relational Database Management System](https://en.wikipedia.org/wiki/Relational_database#RDBMS) that is very full-featured, free, and open source.  It is also the preferred RDBMS in the Django community.
+
+There are installers for Windows, Mac, and Linux.  Postgres will happily run on your local machine and, eventually, on your VPS.
+
+To complete chapter 3, Antonio has us using Postgres for its full-text search capabilities.
+
+***Windows Note***
+The commands that Antonio shows at the end of chapter 3 will work on your VPS, but won't necessarily work as shown on windows. For windows, we will use pgAdmin, which is a browser-based management tool for PostgreSQL.  I will demo this in the video that goes along with this code and these notes.
+
+**Settings**
+
+The settings file needs to be adjusted to use Postgres.
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'blog',
+        'USER': 'blog',
+        'PASSWORD': '*****',
+    }
+}
+```
+
+DO NOT HARD-CODE THIS INFORMATION, use the dotenv approach.
+
+**Fulltext Search**
+
+The postgres contrib package makes this very easy.
