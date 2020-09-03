@@ -13,6 +13,12 @@ I encourage you to hand-code from the book and resist the temptation to just cop
 
 This README file is constructed using [MarkDown](https://www.markdownguide.org/basic-syntax)
 
+## Python Tips and Guidance
+
+I will keep some general Python notes here:
+* For [Visual Studio Code](https://code.visualstudio.com/), please use the [Python Extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python).
+* The Python Extension should help you to adhere to the [Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/) with its [linting](https://en.wikipedia.org/wiki/Lint_(software)) capabilities.
+
 ## Build a Blog Notes
 
 Here are observations and notes from the chapters
