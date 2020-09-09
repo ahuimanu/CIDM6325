@@ -261,6 +261,7 @@ Antonio moves on to cover several very useful aspects of Django and web developm
 * you activate your virtual environments this way: `conda activate your_env`
 * once active, use `pip install` as normal
 * upgrade a pip package this way: `pip install package_name --upgrade`
+* Also, as the author's book is frozen in time, like any book, you'll likely want to upgrade the packages he refers to using these commands.
 
 **Extending the User Model**
 
@@ -268,3 +269,34 @@ There are a few things Antonio does that are common in the Django world but also
 * Use of FBV over CBV (most advocate for CBV)
 * Use of the default User object and [extension through a related Profile](https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#extending-the-existing-user-model)
 * Extension of the [User model via in inheritance](https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#substituting-a-custom-user-model).
+* Both of these approaches are demonstrated in the book
+
+**Custom Authentication Backend**
+
+Often, and to avoid YAA/YAP (Yes Another Account/Yet Another Password), it might be good to avoid a localized account approach that the default authentication makes possible.
+
+The `AUTHENTICATION_BACKENDS` setting allows for [multiple approaches](https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#other-authentication-sources).  This allows for multiple inquiries for authentication in your app.
+
+**Social Authentication**
+
+A good example of multiple auth backends is in the book using `social-auth-app-django`.  However, `django-allauth` is also common and popular.  For instance, [Cookiecutter Django](https://cookiecutter-django.readthedocs.io/en/latest/) uses allauth.
+
+Bear in mind that the `social-auth-app-django` is very likely updated.  Also, social-auth is very capable and the services provided by it [are now fairly commodity](https://python-social-auth.readthedocs.io/en/latest/backends/index.html#supported-backends).
+
+For a fresh install, perhaps not specifying a version is best: `pip install social-auth-app-django`
+
+***NOTE*** please note the `hosts` entry mentioned in Chapter 4.  The presages why it will be important to operate with a domain name soon and deploy.  How to create a hosts entry is discussed for the common platforms: Windows, Mac, and Linux.
+
+Now that we are using named hosts, it is necessary to indicate to Django what IPs or hosts it is permitted to operate on:
+
+`ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']`
+
+When we are in DEBUG mode, all traffic is allowed, but when we deploy, it will be a different matter.
+
+***HTTPS Required***
+
+Over the last few years, it has become absolutely necessary to ensure that your site is served using HTTP (via TLS/SSL).  In fact, your site will be negatively scored by Google and Bing if you aren't serving traffic via HTTPS.  Once we setup deployment and proxy services through NGINX, this will be handled for us.  However, the chapter mentions setting up [RunServerPlus]() for an extended development experience.
+
+**Social Backends**
+
+Authentication examples using Facebook, Twitter, and Google are demonstrated.
