@@ -247,3 +247,9 @@ Antonio moves on to cover several very useful aspects of Django and web developm
 * using signals for event detection
 * Using a caching mechanism with [Redis](https://redis.io/)
 
+## Chapter 4 - Bookmarks
+
+* Don't forget that Antonio provides all source code on the [Packtpub Github](https://github.com/PacktPublishing/Django-3-by-Example).
+* You will need to draw on what you learned in the blog app.  For instance, in working with static files.
+* To show the nuts-and-bolts, Antonio seems to use Function-Based-Views commonly, we'll want to refactor down the road to [Class-Based-Views](https://docs.djangoproject.com/en/3.1/topics/class-based-views/).
+* There are a number of pre-built CBVs for authentication that we should use for [user authentication in Django](https://docs.djangoproject.com/en/3.1/topics/auth/).
