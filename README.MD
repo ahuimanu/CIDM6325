@@ -232,7 +232,7 @@ DO NOT HARD-CODE THIS INFORMATION, use the dotenv approach.
 
 The postgres contrib package makes this very easy.
 
-=====
+---
 
 # Bookmarks Social Site
 
