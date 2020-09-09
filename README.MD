@@ -302,3 +302,18 @@ Over the last few years, it has become absolutely necessary to ensure that your 
 **Social Backends**
 
 Authentication examples using Facebook, Twitter, and Google are demonstrated.
+
+## Chapter 4 - Images
+
+---
+
+Lots of great new features in this chapter.  Quick notes:
+
+* don't forget that a **slug** is a quick phrase associated with an item. 
+* We use the `slugify` utility to derive a slug from an image name.
+
+
+**Many to Many**
+
+The Django ORM handles [many-to-many relationships](https://docs.djangoproject.com/en/3.0/topics/db/examples/many_to_many/) particuarly well.
+
