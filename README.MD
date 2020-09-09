@@ -231,3 +231,19 @@ DO NOT HARD-CODE THIS INFORMATION, use the dotenv approach.
 **Fulltext Search**
 
 The postgres contrib package makes this very easy.
+
+=====
+
+# Bookmarks Social Site
+
+Antonio moves on to cover several very useful aspects of Django and web development with this "social" site:
+
+* Authentication
+* Extending the user model
+* Users and profiles
+* Social authentication with [OAuth2](https://oauth.net/2/)
+* REST services and [jquery's AJAX](https://api.jquery.com/Jquery.ajax/)
+* Creating a following system
+* using signals for event detection
+* Using a caching mechanism with [Redis](https://redis.io/)
+
