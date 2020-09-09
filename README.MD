@@ -253,3 +253,18 @@ Antonio moves on to cover several very useful aspects of Django and web developm
 * You will need to draw on what you learned in the blog app.  For instance, in working with static files.
 * To show the nuts-and-bolts, Antonio seems to use Function-Based-Views commonly, we'll want to refactor down the road to [Class-Based-Views](https://docs.djangoproject.com/en/3.1/topics/class-based-views/).
 * There are a number of pre-built CBVs for authentication that we should use for [user authentication in Django](https://docs.djangoproject.com/en/3.1/topics/auth/).
+
+***NOTE:*** Over time, the packages you've installed in python will go stale.  Here are some notes about `conda` and `pip`:
+
+* You can update conda itself with `conda update conda`
+* You install an initial ***miniconda*** virtual environment this way: `conda create -n your_env python=x.x.x`
+* you activate your virtual environments this way: `conda activate your_env`
+* once active, use `pip install` as normal
+* upgrade a pip package this way: `pip install package_name --upgrade`
+
+**Extending the User Model**
+
+There are a few things Antonio does that are common in the Django world but also, arguably, supplanted by more up-to-date techniques:
+* Use of FBV over CBV (most advocate for CBV)
+* Use of the default User object and [extension through a related Profile](https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#extending-the-existing-user-model)
+* Extension of the [User model via in inheritance](https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#substituting-a-custom-user-model).
