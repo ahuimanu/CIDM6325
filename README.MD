@@ -311,9 +311,22 @@ Lots of great new features in this chapter.  Quick notes:
 
 * don't forget that a **slug** is a quick phrase associated with an item. 
 * We use the `slugify` utility to derive a slug from an image name.
+* I've included a 'home' app so that when you start the server, there is some page that loads.
 
-
-**Many to Many**
+### Many to Many Relationships
 
 The Django ORM handles [many-to-many relationships](https://docs.djangoproject.com/en/3.0/topics/db/examples/many_to_many/) particuarly well.
+
+### Form Validation
+Django allows you to define form methods to clean specific fields using the clean_<fieldname>() convention. [More on form and field validation](https://docs.djangoproject.com/en/3.1/ref/forms/validation/).
+
+### The necessity of client-side code
+
+Although some would argue that [jQuery](https://jquery.com/) is passé, it still performs valuable client-side services and utilities that are often easier to implement as opposed to [Vanilla JavaScript](http://vanilla-js.com/).  Again, I acknowledge that this is debatable.
+
+The creation of the "Bookmarklet" requires that we use client-side code.  Honestly, this part will be fairly tricky and ramps up the breadth and depth of tools we employ.
+
+Although this code is complex, it is also clever and does really work.
+
+### detail view for an image
 

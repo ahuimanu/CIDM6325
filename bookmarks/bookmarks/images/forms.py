@@ -15,6 +15,10 @@ class ImageCreateForm(forms.ModelForm):
         }
 
     def clean_url(self):
+        """ 
+        Django allows you to define form methods to clean specific fields using the clean_<fieldname>() convention. 
+        More on form validation here: https://docs.djangoproject.com/en/3.1/ref/forms/validation/
+        """
         url = self.cleaned_data['url']
         valid_extensions = ['jpg', 'jpeg']
         extension = url.rsplit('.', 1)[1].lower()
