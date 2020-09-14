@@ -313,6 +313,8 @@ Lots of great new features in this chapter.  Quick notes:
 * We use the `slugify` utility to derive a slug from an image name.
 * I've included a 'home' app so that when you start the server, there is some page that loads.
 
+The command to run your app with RunServerPlus is: `python manage.py runserver_plus --cert-file cert.crt`
+
 ### Many to Many Relationships
 
 The Django ORM handles [many-to-many relationships](https://docs.djangoproject.com/en/3.0/topics/db/examples/many_to_many/) particuarly well.
@@ -328,5 +330,42 @@ The creation of the "Bookmarklet" requires that we use client-side code.  Honest
 
 Although this code is complex, it is also clever and does really work.
 
-### detail view for an image
+### thumbnails
 
+Thumbnails are an important aspect that should be automated if at all possible.  Fortunately, [PIPY](https://pypi.org/) has a choice of solutions.
+
+Antonio has used [easy thumbnails](https://pypi.org/project/easy-thumbnails/) in the bookmarks project.  [Easy thumbnails](https://easy-thumbnails.readthedocs.io/en/latest/) is a great example of the immediate power you have available by including code from the Python community. This is among the reasons that [Python](https://www.python.org/) has become a [favorite language in the data science and data analytics realm and beyond](https://www.howtopython.org/why-python-programming-language-popular-2020/).
+
+### AJAX 
+
+Part of why we use client-side [JavaScript](https://developer.mozilla.org/en-US/docs/Glossary/JavaScript) libraries like [jQuery](https://jquery.com/) is to make asynchronous/out-of-process calls back to the server from the client. Formalized as [Asynchrous JavaScript and XML](https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX), AJAX represents the process of making such calls and was the driving factor behind the [Web 2.0 phenomenon](https://en.wikipedia.org/wiki/Web_2.0).  This makes AJAX essential learning and constitutes a necessary tool in our toolset.
+
+As a client-side technology, it is necessary to identify the dependency in our `base.html` template:
+
+***NOTE:*** try to use the latest version of jQuery.  As Antonio is using [Google hosted libraries](https://developers.google.com/speed/libraries/) in the code below, you can go there to get the latest and greatest.  Such a resource is known as a [Content Delivery Network](https://en.wikipedia.org/wiki/Content_delivery_network) and holds the advantage of being available on a fast server and also likely cached within the browsers of end users.
+
+```html
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+    {% block domready %}
+    {% endblock %}
+  });
+</script>
+```
+
+**The Document Object Model**
+
+Primarily, we use JavaScript/jQuery both for [Document Object Model](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model) (DOM) manipulation and for AJAX.  As such, the above code ensures that the DOM has fully loaded prior to attempting operations on it.
+
+### Cross-Site Request Forgery
+
+As is usually the case with most technologies, they present a double-edged sword where the source of power and benefit can also be the [source of risk and harm](https://developer.mozilla.org/en-US/docs/Web/Security).  Django provides good protection against [Cross-Side Request Forgery](https://developer.mozilla.org/en-US/docs/Glossary/CSRF) for forms and also provides the means to develop [custom CSRF techniques for AJAX](https://docs.djangoproject.com/en/3.1/ref/csrf/#ajax).
+
+### Custom View Decorators
+
+Although django provides an ability to detect whether a POST (or any HTTP request) was made with [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest) using the [`is_ajax`](https://docs.djangoproject.com/en/3.1/ref/csrf/) method, we will simplify this with a [Python Decorator](https://www.python.org/dev/peps/pep-0318/).
+
+### Adding AJAX Pagination
+
+Another adjantage of client-side AJAX is the ability to create an [infinite scroll](https://www.seoclarity.net/blog/pagination-vs-infinite-scroll), which is a common and popular UI choice. Antonio extends his code to handle either standard or AJAX pagination.

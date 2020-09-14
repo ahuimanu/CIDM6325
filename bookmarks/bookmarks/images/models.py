@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 from django.utils.text import slugify
 
 # Create your models here.
@@ -7,8 +8,9 @@ class Image(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name='images_created',
                              on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200,
+    # increased these from 200 characters to 500 as many URLs are long                             
+    title = models.CharField(max_length=500)
+    slug = models.SlugField(max_length=500,
                             blank=True)
     url = models.URLField()
     image = models.ImageField(upload_to='images/%Y/%m/%d/')
@@ -22,6 +24,9 @@ class Image(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('images:detail', args=[self.id, self.slug])        
 
     def save(self, *args, **kwargs):
         if not self.slug:
