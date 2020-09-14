@@ -11,7 +11,7 @@ We will work through Antonio Melé's [Django By Example - Third Edition](https:/
 
 I encourage you to hand-code from the book and resist the temptation to just copy and paste from the source files.
 
-This README file is constructed using [MarkDown](https://www.markdownguide.org/basic-syntax)
+This README file is constructed using [MarkDown](https://www.markdownguide.org/basic-syntax).  Here is another good [Markdown reference](https://commonmark.org/help/).
 
 ## Python Tips and Guidance
 
@@ -303,7 +303,7 @@ Over the last few years, it has become absolutely necessary to ensure that your 
 
 Authentication examples using Facebook, Twitter, and Google are demonstrated.
 
-## Chapter 4 - Images
+## Chapter 5 - Images
 
 ---
 
@@ -369,3 +369,61 @@ Although django provides an ability to detect whether a POST (or any HTTP reques
 ### Adding AJAX Pagination
 
 Another adjantage of client-side AJAX is the ability to create an [infinite scroll](https://www.seoclarity.net/blog/pagination-vs-infinite-scroll), which is a common and popular UI choice. Antonio extends his code to handle either standard or AJAX pagination.
+
+## Chapter 6 - Follow and Tracking
+
+---
+
+The feature list in this chapter goes even deeper.  
+
+### Building the Follow System
+
+Although the Django ORM handles [many-to-many relationships](https://en.wikipedia.org/wiki/Many-to-many_%28data_model%29) with the [ManyToManyField](https://docs.djangoproject.com/en/3.1/topics/db/examples/many_to_many/), there are times when it becomes necessary to also associate data with the link between the two models.
+
+In the chapter, Antonio establishes a `Contact`entity to describe the relationships between users.
+
+**Custom User Model**
+Antonio again reminds us that a well-planned [custom user model](https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#specifying-a-custom-user-model), established up-front and early in the project, is the best approach as opposed to the [monkey patching](https://en.wikipedia.org/wiki/Monkey_patch) (an actual term in the Python community) he demonstrates with the `Profile` class.
+
+
+**ABSOLUTE_URL_OVERRIDES**
+The app creates a detail page for each user using the `ABSOLUTE_URL_OVERRIDES` setting in Django.  This is useful as we use the `get_absolute_url()` method to get a URL per object from the Django ORM.
+
+### Building the Activity Stream
+
+Tracking user actions and making them available as an activity stream is a common feature of social websites.
+
+**Content Types Framework**
+
+Django provides the contenttypes framework to work with the modles in your project/app.  This is a form of [introspection](https://book.pythontips.com/en/latest/object_introspection.html) or reflection that allows meta-awareness within your application.
+
+Content Type is also useful to manage more complex relationshps between models in your application.
+
+### Denormalization
+
+The most common reason to denormalize data is for performance.  The price is the potential for a loss of management and stability that the Django ORM and an RDBMS provide.
+
+[Django Signals](https://docs.djangoproject.com/en/3.1/ref/signals/) allow for notification when an internal action will take place such that you may take action, often before and after, to accomplish some task.
+
+This is done in the example to develop a running tally of total likes.
+
+### App configuration
+
+We often add the AppConfig class when using URLs, but haven't discussed it much yet.  AppConfig is a part of the [Django Application Configuration](https://docs.djangoproject.com/en/3.0/ref/applications/) tools available.
+
+These tools are useful to specify signal receiver functions.
+
+### REDIS for in-memory database function
+
+Directly from Antonio:
+
+> Redis is an advanced key/value database that allows you to save different types of data. It also has extremely fast I/O operations. Redis stores everything in memory, but the data can be persisted by dumping the dataset to disk every once in a while, or by adding each command to a log. Redis is very versatile compared to other key/value stores: it provides a set of powerful commands and supports diverse data structures, such as strings, hashes, lists, sets, ordered sets, and even bitmaps or HyperLogLogs.
+
+**Redis installation**
+
+REDIS does not come with a convenient installer in the case of Windows and even Mac, to a degree.
+
+Cases:
+* If on Windows, [this reference] is good but assumes installation of the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10#install-the-windows-subsystem-for-linux).
+
+Although I will demonstrate this, using REDIS is entirely optional.
