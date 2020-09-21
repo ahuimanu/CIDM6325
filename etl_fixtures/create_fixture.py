@@ -135,6 +135,7 @@ def main():
     write_data_to_django_fixture(outfilepath)
 
 
+# explaination of why this is here: https://realpython.com/python-main-function/
 if __name__ == "__main__":
     main()
 
