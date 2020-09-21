@@ -35,3 +35,59 @@ The BTS provides statistics on US and International Air Carriers in a database c
 1. ***Develop Queries***: This will eventually be an assignment where I direct you to develop a number of queries so that you are confortable with [Django as a web application framework](https://docs.djangoproject.com/en/3.1/misc/design-philosophies/) that is useful for accessing data and data inquiries.
 
 1. ***List/Detail CBVs***: Use the [ListView](https://ccbv.co.uk/projects/Django/3.0/django.views.generic.list/ListView/) and [DetailView](https://ccbv.co.uk/projects/Django/3.0/django.views.generic.detail/DetailView/) [CBVs](https://ccbv.co.uk/) to show the results of various queries of the [Air Carriers : T-100 Domestic Market (U.S. Carriers)](https://www.transtats.bts.gov/Fields.asp) data.
+
+
+## Queries for you to run
+
+I will have demonstrated one or two queries, but the full list to attempt is:
+
+* What are the top 5 airports in terms of:
+    * Total passengers by origin
+    * Total passengers by destination
+* What are the top 5 airports in terms of:
+    * Total freight by origin
+    * Total freight by destination
+* What are the top 5 airports in terms of:
+    * Total mail by origin
+    * Total mail by destination
+* What are the top 5 airports in terms of:
+    * Total distance by origin
+    * Total distance by destination    
+* Which airport reported the most passengers by month
+* Which airport reported the longest distance by month
+* Which airline reported the most freight carried?
+* Which airline reported the most passengers carried?
+* Which airline reported the most mail carried?
+* Which airline reported the longest flight distance?
+* Rank order passengers carried, by month, for these airlines:
+    * AA (American Airlines)
+    * AS (Alaska Airlines)
+    * DL (Delta Airlines)
+    * UA (United Airlines)
+    * WN (Southwest Airlines)
+* Find the average number of passengers for flights into:
+    * LAX
+    * SFO
+    * DFW
+    * ATL
+    * ORD
+* Find the average volume of freight for flights departing:
+    * MIA
+    * MEM
+    * JFK
+    * ANC
+    * SDF
+* What city pairs represent the most freight carried for the longest distance?
+* What city pairs represent the most mail carried for the shortest distance?
+
+# Queries
+
+Answering these questions provides you with an opportunity to practice and perfect your grasp and command of [Django ORM provisions for querying](https://docs.djangoproject.com/en/3.1/topics/db/queries/).  Some key aspects to study:
+
+* [QuerySets and functions](https://docs.djangoproject.com/en/3.1/topics/db/queries/)
+* [Q Objects](https://docs.djangoproject.com/en/3.1/topics/db/queries/#complex-lookups-with-q-objects) for complex lookups
+* [Relationships](https://docs.djangoproject.com/en/3.1/topics/db/queries/#related-objects)
+* [Aggregations](https://docs.djangoproject.com/en/3.1/topics/db/aggregation/)
+* [Basic Search](https://docs.djangoproject.com/en/3.1/topics/db/aggregation/)
+
+
