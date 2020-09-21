@@ -1,6 +1,6 @@
 # Django 3 By Example Part 1 - Blog
 
-Part one of [Antonio Mele's Django 3 By Example](https://www.packtpub.com/product/django-3-by-example-third-edition/9781838981952) covers making a blog.
+Part One of [Antonio Mele's Django 3 By Example](https://www.packtpub.com/product/django-3-by-example-third-edition/9781838981952) covers making a blog.
 
 ## Chapter 1
 
