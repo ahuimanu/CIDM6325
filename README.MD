@@ -5,7 +5,7 @@
 We will work through Antonio Melé's [Django By Example - Third Edition](https://www.packtpub.com/web-development/django-3-by-example-third-edition) Applications Together:
 
 * [Part 1 - Building a Blog](https://github.com/ahuimanu/CIDM6325/tree/master/blog)
-* Part 2 - Building a Social Website
+* [Part 2 - Building a Social Website](https://github.com/ahuimanu/CIDM6325/tree/master/bookmarks)
 * Part 3 - Building an Online Shop (eCommerce)
 * Part 4 - Building a Chat Server using an API
 
