@@ -21,7 +21,11 @@ The BTS provides statistics on US and International Air Carriers in a database c
 
 ## Procedure
 
-* ***Understand the Data***: Our first order of business will be to review and understand the [Air Carriers : T-100 Domestic Market (U.S. Carriers)](https://www.transtats.bts.gov/Fields.asp).  
+1. ***Understand the Data***: Our first order of business will be to review and understand the [Air Carriers : T-100 Domestic Market (U.S. Carriers)](https://www.transtats.bts.gov/Fields.asp).  
 
 
-* ***Develop Models***: From the description of the views, it should be possible to develop appropriate [Django Models](https://docs.djangoproject.com/en/3.1/topics/db/models/).
+1. ***Develop Models***: From the description of the views, it should be possible to develop appropriate [Django Models](https://docs.djangoproject.com/en/3.1/topics/db/models/).
+
+1. ***Create new project and virtual environment*** - As we've done previously, use [django-admin](https://docs.djangoproject.com/en/3.1/ref/django-admin/) and either [venv](https://docs.python.org/3/library/venv.html) or [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html).  Note, stick to venv if you've been having trouble with Conda.
+
+1. [Transform](https://en.wikipedia.org/wiki/Data_transformation) the [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) data downloaded from the [Air Carriers : T-100 Domestic Market (U.S. Carriers)](https://www.transtats.bts.gov/Fields.asp) Tables into importable serializations using [Django Fixtures](https://docs.djangoproject.com/en/3.1/howto/initial-data/).  *NOTE*: I will have included code for this in the [Github Repo for the course](https://github.com/ahuimanu/CIDM6325).
