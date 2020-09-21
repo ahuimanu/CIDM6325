@@ -114,3 +114,6 @@ media/
 
 #secret key
 secret_key.txt
+
+#requirements
+requirements.txt
