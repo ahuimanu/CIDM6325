@@ -14,3 +14,11 @@ The issue is that you often have a few options for loading data for availability
 ## CBV [Class-Based Views](https://ccbv.co.uk/)
 
 We can get a fairly simple list view and detail view with built-in [Django Class-Based Views](https://docs.djangoproject.com/en/3.1/topics/class-based-views/).
+
+## [United States Department of Transportation - Bureau of Transportation Statistics](https://www.bts.gov/)
+
+The BTS provides statistics on US and International Air Carriers in a database called The T-100.  Specifically, I will focus on the [Air Carriers : T-100 Domestic Market (U.S. Carriers)](https://www.transtats.bts.gov/Fields.asp) Tables.
+
+## Procedure
+
+Our first order of business will be to review and understand the [Air Carriers : T-100 Domestic Market (U.S. Carriers)](https://www.transtats.bts.gov/Fields.asp).  From the description of the views, it should be possible to develop appropriate [Django Models](https://docs.djangoproject.com/en/3.1/topics/db/models/).
