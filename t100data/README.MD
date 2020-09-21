@@ -28,4 +28,10 @@ The BTS provides statistics on US and International Air Carriers in a database c
 
 1. ***Create new project and virtual environment*** - As we've done previously, use [django-admin](https://docs.djangoproject.com/en/3.1/ref/django-admin/) and either [venv](https://docs.python.org/3/library/venv.html) or [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html).  Note, stick to venv if you've been having trouble with Conda.
 
-1. [Transform](https://en.wikipedia.org/wiki/Data_transformation) the [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) data downloaded from the [Air Carriers : T-100 Domestic Market (U.S. Carriers)](https://www.transtats.bts.gov/Fields.asp) Tables into importable serializations using [Django Fixtures](https://docs.djangoproject.com/en/3.1/howto/initial-data/).  *NOTE*: I will have included code for this in the [Github Repo for the course](https://github.com/ahuimanu/CIDM6325).
+1. ***Create an ETL Process*** [Transform](https://en.wikipedia.org/wiki/Data_transformation) the [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) data downloaded from the [Air Carriers : T-100 Domestic Market (U.S. Carriers)](https://www.transtats.bts.gov/Fields.asp) Tables into importable serializations using [Django Fixtures](https://docs.djangoproject.com/en/3.1/howto/initial-data/).  *NOTE*: I will have included code for this in the [Github Repo for the course](https://github.com/ahuimanu/CIDM6325).
+
+1. ***Autoload Fixtures***: Create a `fixtures` folder in your project so that Django will auto-load your ETL data.
+
+1. ***Develop Queries***: This will eventually be an assignment where I direct you to develop a number of queries so that you are confortable with [Django as a web application framework](https://docs.djangoproject.com/en/3.1/misc/design-philosophies/) that is useful for accessing data and data inquiries.
+
+1. ***List/Detail CBVs***: Use the [ListView](https://ccbv.co.uk/projects/Django/3.0/django.views.generic.list/ListView/) and [DetailView](https://ccbv.co.uk/projects/Django/3.0/django.views.generic.detail/DetailView/) [CBVs](https://ccbv.co.uk/) to show the results of various queries of the [Air Carriers : T-100 Domestic Market (U.S. Carriers)](https://www.transtats.bts.gov/Fields.asp) data.
