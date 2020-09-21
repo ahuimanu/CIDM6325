@@ -37,7 +37,7 @@ The BTS provides statistics on US and International Air Carriers in a database c
 1. ***List/Detail CBVs***: Use the [ListView](https://ccbv.co.uk/projects/Django/3.0/django.views.generic.list/ListView/) and [DetailView](https://ccbv.co.uk/projects/Django/3.0/django.views.generic.detail/DetailView/) [CBVs](https://ccbv.co.uk/) to show the results of various queries of the [Air Carriers : T-100 Domestic Market (U.S. Carriers)](https://www.transtats.bts.gov/Fields.asp) data.
 
 
-## Queries for you to run
+## Queries for you to complete
 
 I will have demonstrated one or two queries, but the full list to attempt is:
 
@@ -80,7 +80,14 @@ I will have demonstrated one or two queries, but the full list to attempt is:
 * What city pairs represent the most freight carried for the longest distance?
 * What city pairs represent the most mail carried for the shortest distance?
 
-# Queries
+## Views, CBVs, and Templates
+
+For each query above, create a view so that each can be answered by simply following a link.  Also, use (as much as possible), the following [Class-Based Views](https://ccbv.co.uk/) for the UI:
+* [TemplateView](https://ccbv.co.uk/projects/Django/3.0/django.views.generic.base/TemplateView/): For basic pages
+* [ListView](https://ccbv.co.uk/projects/Django/3.0/django.views.generic.list/ListView/): To show lists of output
+* [DetailView](https://ccbv.co.uk/projects/Django/3.0/django.views.generic.detail/DetailView/): To show the details of any given record
+
+## Queries
 
 Answering these questions provides you with an opportunity to practice and perfect your grasp and command of [Django ORM provisions for querying](https://docs.djangoproject.com/en/3.1/topics/db/queries/).  Some key aspects to study:
 
