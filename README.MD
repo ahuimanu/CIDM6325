@@ -13,6 +13,13 @@ I encourage you to hand-code from the book and resist the temptation to just cop
 
 This README file is constructed using [MarkDown](https://www.markdownguide.org/basic-syntax).  Here is another good [Markdown reference](https://commonmark.org/help/).
 
+## EXTRAS
+
+There are also a few extra modules and/or applications in this repository that are shared in support of the course.
+
+* [ETL Fixtures](https://github.com/ahuimanu/CIDM6325/tree/master/etl_fixtures): A python module to Extract, Transform, and Load T-100 Market data from a CSV file to a Django Fixture JSON file.
+* [T-100 Data](https://github.com/ahuimanu/CIDM6325/tree/master/t100data): A Django Project that demonstrates loading and querying the T-100 Market data.
+
 ## Python Tips and Guidance
 
 I will keep some general Python notes here:
