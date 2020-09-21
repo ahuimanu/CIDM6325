@@ -21,4 +21,7 @@ The BTS provides statistics on US and International Air Carriers in a database c
 
 ## Procedure
 
-Our first order of business will be to review and understand the [Air Carriers : T-100 Domestic Market (U.S. Carriers)](https://www.transtats.bts.gov/Fields.asp).  From the description of the views, it should be possible to develop appropriate [Django Models](https://docs.djangoproject.com/en/3.1/topics/db/models/).
+* ***Understand the Data***: Our first order of business will be to review and understand the [Air Carriers : T-100 Domestic Market (U.S. Carriers)](https://www.transtats.bts.gov/Fields.asp).  
+
+
+* ***Develop Models***: From the description of the views, it should be possible to develop appropriate [Django Models](https://docs.djangoproject.com/en/3.1/topics/db/models/).
