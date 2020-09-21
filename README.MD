@@ -4,10 +4,10 @@
 
 We will work through Antonio Melé's [Django By Example - Third Edition](https://www.packtpub.com/web-development/django-3-by-example-third-edition) Applications Together:
 
-* Building a Blog
-* Building a Social Website
-* Building an Online Shop (eCommerce)
-* Building a Chat Server using an API
+* [Part 1 - Building a Blog](https://github.com/ahuimanu/CIDM6325/tree/master/blog)
+* Part 2 - Building a Social Website
+* Part 3 - Building an Online Shop (eCommerce)
+* Part 4 - Building a Chat Server using an API
 
 I encourage you to hand-code from the book and resist the temptation to just copy and paste from the source files.
 
