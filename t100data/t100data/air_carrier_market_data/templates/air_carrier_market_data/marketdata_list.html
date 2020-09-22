@@ -1,0 +1,8 @@
+{% block content %}
+    <h2>Market Data List Unfiltered</h2>
+    <ul>
+        {% for item in object_list %}
+            <li>{{ item.carrier_name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

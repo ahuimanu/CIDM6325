@@ -17,5 +17,4 @@ class MarketData(models.Model):
     dest_iata_code = models.CharField(max_length=3)
     dest_city_name = models.TextField()
     dest_state_abr = models.TextField(max_length=2)
-    month = models.IntegerField()
-
+    month = models.IntegerField(default=0)
