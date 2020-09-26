@@ -117,3 +117,7 @@ secret_key.txt
 
 #requirements
 requirements.txt
+
+# do not upload certs
+.crt
+.key
