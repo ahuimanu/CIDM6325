@@ -434,3 +434,20 @@ Cases:
 * If on Windows, [this reference] is good but assumes installation of the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10#install-the-windows-subsystem-for-linux).
 
 Although I will demonstrate this, using REDIS is entirely optional.
+
+# Windows Subsystem for Linux
+
+The desire for Unix on Windows is as old as windows.  With Windows 10, a very viable approach, thanks to virtualization and contemporary hardware, is possible using the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/).  Of particular advantage is to be able to run an environment that is identical to a remote envoronment. There are sections of [Antonio Mele's book](https://github.com/PacktPublishing/Django-3-by-Example) where the ability to do this would be beneficial:
+
+* Postgres
+* Redis
+
+Better still, we can adopt a hybrid approach to using Visual Studio Code such that we can connect to our WSL linux install locally and use all the tooling and commands you'd use in the Ubuntu Linux environment.  This allows us to run all of the same commands that [Antonio Mele](https://github.com/PacktPublishing/Django-3-by-Example) does in the [book](https://www.packtpub.com/product/django-3-by-example-third-edition/9781838981952).
+
+## Working with VS Code
+
+This is the integration I really wanted to show you: [Get started using Visual Studio Code with Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-vscode)
+
+## Mac or Linux
+
+With a Mac, you'd want to look into [homebrew](https://brew.sh/), which will get packages for you the way the [Advanced Package Tool (apt)](https://geek-university.com/linux/advanced-packaging-tool-apt/) would in [Ubuntu](https://ubuntu.com/).
