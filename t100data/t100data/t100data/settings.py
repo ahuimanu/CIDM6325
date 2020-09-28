@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'home.apps.HomeConfig',
     'air_carrier_market_data.apps.AirCarrierMarketDataConfig',
 ]
 
