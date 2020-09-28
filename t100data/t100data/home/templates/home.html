@@ -17,7 +17,7 @@
             <li>What are the top 5 airports in terms of:
                 <ul>
                     <li><a href="{% url 'top5paxorigin' %}">Total passengers by origin</a></li>
-                    <li>Total passengers by destination</li>            
+                    <li> <a href="{% url 'top5paxdestination' %}"> Total passengers by destination</a></li>
                 </ul>
             </li>
             {% comment %} 
@@ -62,7 +62,7 @@
             * Which airline reported the longest flight distance?     
             {% endcomment %}
             <li>Which airport reported the most passengers by month?</li>
-            <li>Which airport reported the longest distance by month?</li>
+            <li><a href=" {% url 'topdistance_month' %} ">Which airport reported the longest distance by month?</a></li>
             <li>Which airline reported the most freight carried?</li>
             <li>Which airline reported the most passengers carried?</li>
             <li>Which airline reported the most mail carried?</li>

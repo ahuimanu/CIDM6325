@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Market Data List Unfiltered</h2>
-    <p><a href="{% url 'home' %}">RETURN</a></p>
     <ul>
         {% for item in object_list %}
             <li>{{ item.carrier_name }}</li>

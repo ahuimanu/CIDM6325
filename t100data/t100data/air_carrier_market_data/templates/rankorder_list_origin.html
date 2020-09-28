@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+    <h2>FOR: {{ title }}</h2>
+    <table class="table table-bordered">
+        {% comment %} 
+        id = models.AutoField(primary_key=True)
+        passengers = models.IntegerField()
+        freight = models.IntegerField()
+        mail = models.IntegerField()
+        distance = models.IntegerField()
+        carrier_id = models.CharField(max_length=3)
+        carrier_name = models.TextField()
+        orig_airport_id = models.IntegerField()
+        orig_iata_code = models.CharField(max_length=3)
+        orig_city_name = models.TextField()
+        orig_state_abr = models.TextField(max_length=2)
+        dest_airport_id = models.IntegerField()
+        dest_iata_code = models.CharField(max_length=3)
+        dest_city_name = models.TextField()
+        dest_state_abr = models.TextField(max_length=2)
+        month = models.IntegerField(default=0)
+        {% endcomment %}
+    <thead>
+        <tr>
+            <th>Airport</th>
+            <th>City</th>        
+            <th>Passengers</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% comment %} loop through the filtered results {% endcomment %}
+    {% comment %} 
+    note: the humanize app was installed to create the thousands separator
+    https://docs.djangoproject.com/en/3.1/ref/contrib/humanize/ 
+    {% endcomment %}
+    {% for airport in airport_list %}
+        <tr>
+            <td>{{ airport.orig_iata_code }}</td>
+            <td>{{ airport.orig_city_name }}</td>
+            <td>{{ airport.total_pax | intcomma }}</td>
+        </tr>
+    {% endfor %}    
+    </tbody>
+  </table>
+{% endblock content %}
