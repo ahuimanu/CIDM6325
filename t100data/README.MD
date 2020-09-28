@@ -53,8 +53,8 @@ I will have demonstrated one or two queries, but the full list to attempt is:
 * What are the top 5 airports in terms of:
     * Total distance by origin
     * Total distance by destination    
-* Which airport reported the most passengers by month
-* Which airport reported the longest distance by month
+* Which airport reported the most passengers by month?
+* Which airport reported the longest distance by month?
 * Which airline reported the most freight carried?
 * Which airline reported the most passengers carried?
 * Which airline reported the most mail carried?
@@ -66,17 +66,17 @@ I will have demonstrated one or two queries, but the full list to attempt is:
     * UA (United Airlines)
     * WN (Southwest Airlines)
 * Find the average number of passengers for flights into:
-    * LAX
-    * SFO
-    * DFW
-    * ATL
-    * ORD
+    * LAX (Los Angeles)
+    * SFO (San Francisco)
+    * DFW (Dallas-Fort Worth)
+    * ATL (Atlanta)
+    * ORD (Chicago)
 * Find the average volume of freight for flights departing:
-    * MIA
-    * MEM
-    * JFK
-    * ANC
-    * SDF
+    * MIA (Miami)
+    * MEM (Memphis)
+    * JFK (New York JFK)
+    * ANC (Anchorage)
+    * SDF (Louisville)
 * What city pairs represent the most freight carried for the longest distance?
 * What city pairs represent the most mail carried for the shortest distance?
 
