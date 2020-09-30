@@ -4,47 +4,70 @@
     <h2>FOR: {{ title }}</h2>
     <table class="table table-bordered">
         {% comment %} 
-        id = models.AutoField(primary_key=True)
-        passengers = models.IntegerField()
-        freight = models.IntegerField()
-        mail = models.IntegerField()
-        distance = models.IntegerField()
-        carrier_id = models.CharField(max_length=3)
-        carrier_name = models.TextField()
-        orig_airport_id = models.IntegerField()
-        orig_iata_code = models.CharField(max_length=3)
-        orig_city_name = models.TextField()
-        orig_state_abr = models.TextField(max_length=2)
-        dest_airport_id = models.IntegerField()
-        dest_iata_code = models.CharField(max_length=3)
-        dest_city_name = models.TextField()
-        dest_state_abr = models.TextField(max_length=2)
-        month = models.IntegerField(default=0)
+            id = models.AutoField(primary_key=True)
+            passengers = models.IntegerField()
+            freight = models.IntegerField()
+            mail = models.IntegerField()
+            distance = models.IntegerField()
+            carrier_id = models.CharField(max_length=3)
+            carrier_name = models.TextField()
+            orig_airport_id = models.IntegerField()
+            orig_iata_code = models.CharField(max_length=3)
+            orig_city_name = models.TextField()
+            orig_state_abr = models.TextField(max_length=2)
+            dest_airport_id = models.IntegerField()
+            dest_iata_code = models.CharField(max_length=3)
+            dest_city_name = models.TextField()
+            dest_state_abr = models.TextField(max_length=2)
+            month = models.IntegerField(default=0)
         {% endcomment %}
-    <thead>
-        <tr>
-            <th>Origin Airport</th>
-            <th>Origin City</th>
-            <th>Destination Airport</th>
-            <th>Destionation City</th>            
-            <th>Distance</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% comment %} loop through the filtered results {% endcomment %}
-    {% comment %} 
-    note: the humanize app was installed to create the thousands separator
-    https://docs.djangoproject.com/en/3.1/ref/contrib/humanize/ 
-    {% endcomment %}
-    {% for airport in airport_list %}
-        <tr>
-            <td>{{ airport.orig_iata_code }}</td>
-            <td>{{ airport.orig_city_name }}</td>
-            <td>{{ airport.dest_iata_code }}</td>
-            <td>{{ airport.dest_city_name }}</td>            
-            <td>{{ airport.total_distance | intcomma }}</td>
-        </tr>
-    {% endfor %}    
-    </tbody>
-  </table>
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Origin Airport</th>
+                <th>Origin City</th>
+                <th>Destination Airport</th>
+                <th>Destionation City</th>            
+                <th>Distance</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% comment %} 
+            
+            loop through the filtered results 
+
+            note: the humanize app was installed to create the thousands separator
+            https://docs.djangoproject.com/en/3.1/ref/contrib/humanize/ 
+            {% endcomment %}
+            {% for airport in airport_list %}
+                {% for item in airport %}
+                    <tr>
+                        <td>
+                            {% comment %} a little clunky, but this gives an ability to
+                            write show the month. A lookup table would
+                            have been better {% endcomment %}
+                            {% if item.month == 1 %}
+                                January
+                            {% elif item.month == 2 %}
+                                Feburary
+                            {% elif item.month == 3 %}
+                                March
+                            {% elif item.month == 4 %}
+                                April
+                            {% elif item.month == 5 %}
+                                May
+                            {% elif item.month == 6 %}
+                                June
+                            {% endif %}
+                        </td>
+                        <td>{{ item.orig_iata_code }}</td>
+                        <td>{{ item.orig_city_name }}</td>
+                        <td>{{ item.dest_iata_code }}</td>
+                        <td>{{ item.dest_city_name }}</td>            
+                        <td>{{ item.total_distance | intcomma }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock content %}
