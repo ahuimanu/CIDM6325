@@ -4,6 +4,53 @@
 <head>
   <title>{% block title %}{% endblock %}</title>
   <link href="{% static "css/base.css" %}" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>  
+  <script>
+
+    var csrftoken = Cookies.get('csrftoken');
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+
+    jQuery(document).ready(function(){
+      {% block domready %}
+        $('a.like').click(function(e){
+          e.preventDefault();
+          $.post('{% url "images:like" %}',
+            {
+              id: $(this).data('id'),
+              action: $(this).data('action')
+            },
+            function(data){
+              if (data['status'] == 'ok')
+              {
+                var previous_action = $('a.like').data('action');
+                // toggle data-action
+                jQuery('a.like').data('action', previous_action == 'like' ?
+                'unlike' : 'like');
+                // toggle link text
+                $('a.like').text(previous_action == 'like' ? 'Unlike' :
+                'Like');
+                // update total likes
+                var previous_likes = parseInt($('span.count .total').text());
+                $('span.count .total').text(previous_action == 'like' ?
+                previous_likes + 1 : previous_likes - 1);
+              }
+            }
+          );
+        });
+      {% endblock %}
+    });
+  </script>
 </head>
 <body>
   <div id="header">
@@ -14,7 +61,7 @@
           <a href="{% url "dashboard" %}">My dashboard</a>
         </li>
         <li {% if section == "images" %}class="selected"{% endif %}>
-          <a href="#">Images</a>
+          <a href="{% url "images:list" %}">Images</a>
         </li>
         <li {% if section == "people" %}class="selected"{% endif %}>
           <a href="#">People</a>

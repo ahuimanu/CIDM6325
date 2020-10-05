@@ -435,6 +435,8 @@ Cases:
 
 Although I will demonstrate this, using REDIS is entirely optional.
 
+---
+
 # Windows Subsystem for Linux
 
 The desire for Unix on Windows is as old as windows.  With Windows 10, a very viable approach, thanks to virtualization and contemporary hardware, is possible using the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/).  Of particular advantage is to be able to run an environment that is identical to a remote envoronment. There are sections of [Antonio Mele's book](https://github.com/PacktPublishing/Django-3-by-Example) where the ability to do this would be beneficial:
@@ -451,3 +453,36 @@ This is the integration I really wanted to show you: [Get started using Visual S
 ## Mac or Linux
 
 With a Mac, you'd want to look into [homebrew](https://brew.sh/), which will get packages for you the way the [Advanced Package Tool (apt)](https://geek-university.com/linux/advanced-packaging-tool-apt/) would in [Ubuntu](https://ubuntu.com/).
+
+---
+
+# Online Shop
+
+The online shop has a number of very practical use-cases for Django and Python:
+
+* Product catalog management
+* [Django Sessions](https://docs.djangoproject.com/en/3.1/topics/http/sessions/) to track shopping cart state.
+* [Django Celery](https://docs.celeryproject.org/en/stable/django/) for managing background and asynchronous tasks
+* Payment Gateway integration using [Braintree](https://www.braintreepayments.com/)
+* Exporting/Serializing data
+* Generating PDFs
+* Internationalization
+
+## Chapter 7 - Creating an Online Shop Project
+
+We cover some basics, some of which we've covered before, and some that are new:
+
+* Creating the product catalog models, adding them to the administration site, and building the basic views to display the catalog
+* Building a shopping cart system using Django sessions to allow users to keep selected products while they browse the site
+* Creating the form and functionality to place orders on the site
+* Sending an asynchronous email confirmation to users when they place an order
+
+Ensure that you create your virtual environment:
+
+```
+mkdir env
+python -m venv env/myshop
+source env/myshop/bin/activate
+```
+
+Try to keep your virtual environments together.
