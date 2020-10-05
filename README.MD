@@ -486,3 +486,84 @@ source env/myshop/bin/activate
 ```
 
 Try to keep your virtual environments together.
+
+### Product Catalog
+
+This section is a straight-forward review of most of what was covered in *blog* and *bookmarks*.  Still, it is very handy to have an example of showing a catalog of items for viewers to peruse.
+
+### Shopping Cart and Django Sessions
+
+The issue with the World Wide Web is that the HTTP/HTTPS protocols are "stateless."
+
+![HTTP Stateless](https://i.imgur.com/3BdgRVN.jpg)
+
+Practically, this means every question is "forgotten" by the server and client unless steps are taken to ensure some record of the conversation.
+
+There are two main ways to get around this:
+
+* Cookies / LocalStorage ("memory" lies on the client side - aka browser)
+* Sessions ("memory" lies on the server side perhaps with some client-side help)
+
+![Cookies as a Solution](https://i.imgur.com/3FZRIC2.jpg)
+
+Sessions are Key-Value pairs, stored against an ID.  Often, the ID will be kept in a cookie, but that is not always necessary as cookies may be entirely disabled on the client side.
+
+![Session Variables as a Solution](https://i.imgur.com/T7rHEaF.png)
+
+#### Django Sessions as Middleware
+
+[Django's Middleware Framework](https://docs.djangoproject.com/en/3.1/topics/http/middleware/) provides a means of "intercepting" any [Request / Response](https://docs.djangoproject.com/en/3.1/ref/request-response/) cycle to further check and apply rules for the overall operation of your application. Django Sessions are implemented using Middleware.
+
+In your application, session variables and values are stored as [Python Dictionaries](https://docs.python.org/3/tutorial/datastructures.html#dictionaries).
+
+So, we can read/write from the session collection simply:
+
+``` python
+# write
+request.session['foo'] = 'bar'
+
+# read
+request.session.get('foo')
+
+# delete
+del request.session['foo']
+```
+
+#### Django Sessions Settings
+
+The MIDDLEWARE list in `settings.py` should already contain `'django.contrib.sessions.middleware.SessionMiddleware'` using the default *startproject* command with *django-admin*.
+
+As there a number of strategies to manage the session variables on the server side, we also have a `settings.py` option to establish the `SESSION_ENGINE`.
+
+By default, Django uses the database and a built-in *Session* model which is defined in the *django.contrib.sessions* application found in a default install of Django.
+
+However, the other strategies are:
+
+* **Database sessions**: Session data is stored in the database. This is the default session engine.
+* **File-based sessions**: Session data is stored in the filesystem.
+* **Cached sessions**: Session data is stored in a cache backend. You can specify cache backends using the CACHES setting. Storing session data in a cache system provides the best performance.
+* **Cached database sessions**: Session data is stored in a write-through cache and database. Reads only use the database if the data is not already in the cache.
+* **Cookie-based sessions**: Session data is stored in the cookies that are sent to the browser.
+
+#### Related Settings
+
+We can further control the behavior of Sessions on the server with the following entries in the `settings.py` file:
+
+* **SESSION_COOKIE_AGE**: The duration of session cookies in seconds. The default value is 1209600 (two weeks).
+* **SESSION_COOKIE_DOMAIN**: The domain used for session cookies. Set this to mydomain.com to enable cross-domain cookies or use None for a standard domain cookie.
+* **SESSION_COOKIE_SECURE**: A Boolean indicating that the cookie should only be sent if the connection is an HTTPS connection.
+* **SESSION_EXPIRE_AT_BROWSER_CLOSE**: A Boolean indicating that the session has to expire when the browser is closed.
+* **SESSION_SAVE_EVERY_REQUEST**: A Boolean that, if True, will save the session to the database on every request. The session expiration is also updated each time it's saved.
+
+#### Serialization
+
+As was the case in the T-100 project for Assignment 4.5, it is commonly the case that some form of [serialization](https://docs.djangoproject.com/en/3.1/topics/serialization/) is needed to extract and load data into the O/RM.  This same strategy is in use when working with sessions as [Django will serialize values and objects as JSON](https://docs.djangoproject.com/en/3.1/topics/serialization/).  Therefore, every session variable value you store will be serialized as [JSON](https://docs.python.org/3/library/json.html).
+
+#### Context Processors
+
+When we pass a request into our views, we may also establish a [context so that we can pass along additional information to our templates for rendering](https://docs.djangoproject.com/en/3.1/ref/templates/api/#playing-with-context-objects).  There are various [built-in context processors](https://docs.djangoproject.com/en/3.1/ref/templates/api/#built-in-template-context-processors) and we also have the ability to adjust context processing.
+
+### Registering customer orders
+
+When a cart is ready to be finalized, it needs to transition to an invoice/order such that payment and shipping (if applicable) processes may proceed.  Further, this order needs to be recorded as it is possible that the products purchased may one day no longer reside in the catalog.
+
