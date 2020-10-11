@@ -6,7 +6,7 @@ We will work through Antonio Melé's [Django By Example - Third Edition](https:/
 
 * [Part 1 - Building a Blog](https://github.com/ahuimanu/CIDM6325/tree/master/blog)
 * [Part 2 - Building a Social Website](https://github.com/ahuimanu/CIDM6325/tree/master/bookmarks)
-* Part 3 - Building an Online Shop (eCommerce)
+* [Part 3 - Building an Online Shop (eCommerce)](https://github.com/ahuimanu/CIDM6325/tree/master/myshop)
 * Part 4 - Building a Chat Server using an API
 
 I encourage you to hand-code from the book and resist the temptation to just copy and paste from the source files.
