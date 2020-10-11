@@ -567,3 +567,60 @@ When we pass a request into our views, we may also establish a [context so that 
 
 When a cart is ready to be finalized, it needs to transition to an invoice/order such that payment and shipping (if applicable) processes may proceed.  Further, this order needs to be recorded as it is possible that the products purchased may one day no longer reside in the catalog.
 
+In this section, Antonio shows us how to use [inline admin models/views](https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#inlinemodeladmin-objects) which makes master/detail management easier.  
+
+![InLine Admin Models](https://i.imgur.com/dN37nbY.png)
+
+#### Creating a Customer Order
+
+The general steps for placing an order include:
+
+* Present a user with an order form to fill in their data
+* Create a new `Order` instance with the data entered, and create an associated `OrderItem` instance for each item in the cart
+* Clear all the cart's contents and redirect the user to a success page
+
+## Launching asynchronous tasks with Celery
+
+When we discussed how the web is stateless, another limitation to overcome is the inherent latency of using networking protocols.  The [Open Systems Interconnection (OSI )Model](https://en.wikipedia.org/wiki/OSI_model) describes how network protocols interoperated at various "layers" required to initiate and receive networked data communications.
+
+This creates a "stack" of communication coordination and, despite the fast speed of electrons across transmission media, it is not instantaneous.  Further, the speed of communications on your local device/computer will always be faster than the speed of data communications across any network media as the distance to cover is neglible within the device.
+
+![HTTP Network Communications Stack](https://i.imgur.com/Hp3Qsme.jpg)
+
+In our app, we'd like to send responses to the user as quickly as possible and let the server execute some process asynchronously. The server will do this asynchronously often when some data Input/Output needs to occur, particularly so when network communications are required.
+
+However, this is also relevant for time-consuming processes or processes subject to failure at runtime.  In the eCommerce/"myshop" application, it will make sense to send a receipt for the order using email. As we will use Simple Mail Transfer Protocol (SMTP) to send the email, there are various causes of latency and failure that make it prudent to decouple the process for sending an email from the rest of the Django architecture and processing. We want to launch an asynchronous tasks to prevent blocking further code execution.
+
+In this chapter, Antonio shows us how to use [Celery](http://docs.celeryproject.org/en/latest/index.html) as a distributed task queue for message processing. Celery provides an ability to launch asynchronous tasks on demand or scheduled to be run at a specific time.
+
+#### Celery Installation
+
+As is the case with almost everything else in Python/Django, we use `pip` to [obtain celery from PyPi](https://pypi.org/project/celery/).
+
+#### RabbitMQ
+
+We need additional software to work with Celery for message queueing.
+
+Antonio explains:
+
+> Celery requires a message broker in order to handle requests from an external source. A message broker is used to translate messages to a formal messaging protocol and manage message queues for multiple receivers, providing reliable storage and guaranteed message delivery. You use a message broker to send messages to Celery workers, which process tasks as they receive them.
+
+Much like [Postgres](https://www.postgresql.org/) or [Redis](https://redis.io/), [RabbitMQ](https://www.rabbitmq.com/) needs to be [installed separately](https://www.rabbitmq.com/download.html) and this process differs depending on what Operating System you work with.
+
+***CAUTION***: As was the case with Postgres and Redis, this also means that the instructions that Antonio shows in the book assume a Linux environment (or perhaps a Mac environment).  The Windows installation process will differ.
+
+Of the two installation methods listed for windows:
+
+* [Chocolatey](https://chocolatey.org/) - [Installation with Chocolatey](https://chocolatey.org/packages/rabbitmq)
+* [Windows Installer](https://www.rabbitmq.com/install-windows.html)
+
+I've chosen *chocolatey*. The [Windows Installation Guide](https://www.rabbitmq.com/install-windows.html) also highlights a common side-effect of using various tools to assemble a modern web application in that there are many dependencies, which makes for many sources of trouble and occassions for trouble-shooting.
+
+A prime example is RabbitMQ's reliance on [Erlang](https://www.erlang.org/).
+
+I suspect that a similar approach on Mac, using [homebrew](https://brew.sh/), is best there.
+
+Once installed, running RabbitMQ is accomplished the same way regardless of OS:
+
+`rabbitmq-server`
+
