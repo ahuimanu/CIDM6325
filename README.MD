@@ -705,3 +705,121 @@ This would arguably be an optional step.
 Further, Flower does not support Celery 5.0.0 as of October 2020. 
 
 Again, this is a **perfect illustration** of why Antonio puts specific versions into his tutorials/chapters.
+
+## Chapter 8 - Managing Payments and Orders
+
+Antonio brings another set of very useful features that would potentially work well with your own project ideas:
+
+* Integrate a payment gateway into your project
+* Export orders to CSV files
+* Create custom views for the administration site
+* Generate PDF invoices dynamically
+
+### Payment Gateways
+
+If you want to make money on the web, you will eventually be faced with working with Payment Gateways. In some cases, you can work more directly with services like [PayPal](https://developer.paypal.com/home/) or [Stripe](https://stripe.com/docs/api), but there are other services that provide aggregation of multiple payment methods, and Antonio has us focus on and use [Braintree](https://www.braintreepayments.com/).
+
+#### Braintree Sandbox Account
+
+Common among payment gateways is to provide a sandbox within which a developer may test their payment implementation using fake transactions and card numbers.  It is usually a trivial matter to then simply switch on the "live" version.
+
+When you fill out the signup form, I suppose you can use CIDM 6325 as the Company Name, or use anything you'd care to.
+
+![Braintree Signup](https://i.imgur.com/Kclzl1H.png)
+
+Once you do the "confirm your account" email dance, you will be provided with a dashboard and the important credentials that your app can use to communicate with the payment gateway.
+
+![Braintree Credentials](https://i.imgur.com/aHMYmZg.png)
+
+#### Braintree Python Integration
+
+There is a Python module for braintree that we can install using pip:
+
+`pip install braintree`
+
+And several settings to load into `settings.py` for the project:
+
+***WARNING*** DO NOT PUT ACTUAL VALUES INTO YOUR SETTINGS FILE, USE DOTENV!!!
+
+``` Python
+# Braintree settings
+BRAINTREE_MERCHANT_ID = 'XXX'  # Merchant ID
+BRAINTREE_PUBLIC_KEY = 'XXX'   # Public Key
+BRAINTREE_PRIVATE_KEY = 'XXX'  # Private key
+import braintree
+BRAINTREE_CONF = braintree.Configuration(
+    braintree.Environment.Sandbox,
+    BRAINTREE_MERCHANT_ID,
+    BRAINTREE_PUBLIC_KEY,
+    BRAINTREE_PRIVATE_KEY
+)
+```
+
+### Integrating the payment gateway
+
+Antonio has us create a new app so that we can proceed through the general steps of working with payments:
+
+* Add items to the shopping cart
+* Check out the shopping cart
+* Enter credit card details and pay
+
+Antonio also introduces the concept of using a redirect to communicate with the payment gateway code.  We also use sessions to store the order id.  Lastly, all of this assumes that celery is running.  For these reasons, this material is cumulative.
+
+#### Integrating Braintree using Hosted Fields
+
+Pay careful attention to how Antonio describes working with hosted fields and braintree:
+
+> The Hosted Fields integration allows you to create your own payment form using custom styles and layouts. An iframe is added dynamically to the page using the Braintree JavaScript software development kit (SDK). The iframe includes the Hosted Fields payment form. When the customer submits the form, Hosted Fields collects the card details securely and attempts to tokenize them. If tokenization succeeds, you can send the generated token nonce to your view to make a transaction using the Python braintree module. A token nonce is a secure, one-time-use reference to payment information. It allows you to send sensitive payment information to Braintree without touching the raw data.
+
+Antonio proceeds to outline the specific steps:
+
+* In the view, a client token is generated using the braintree Python module. This token is used in the next step to instantiate the Braintree JavaScript client; it's not the payment token nonce.
+* The view renders the checkout template. The template loads the Braintree JavaScript SDK using the client token and generates the iframe with the hosted payment form fields.
+* Users enter their credit card details and submit the form. A payment token nonce is generated with the Braintree JavaScript client. You send the token to your view with a POST request.
+* The payment view receives the token nonce and you use it to generate a transaction using the braintree Python module.
+
+Often, the payment gateway service will provide you [fake credit cards to use in their sandbox](https://developers.braintreepayments.com/guides/credit-cards/testing-go-live/python).
+
+Those are the basic steps and it is all quite easy.
+
+Some issues to bear in mind:
+
+* Antonio's example doesn't show you how to handle payment delines, but he does [point to the documentation](https://developers.braintreepayments.com/reference/general/processor-responses/authorization-responses).
+* Antonio waits until the end of the book (which is what I should have done) to show how to take all of his applications Live, including how to [take payments into live production](https://developers.braintreepayments.com/start/go-live/python) as well.
+
+### Exporting orders to CSV files
+
+As I demonstrated in the T-100 project, Comma-Separated Values files are useful for imports and exports of data.  As such exports are typically an administrative function, Antonio shows us how to use the admin dashboard to get a CSV export of our orders.
+
+#### Custom Admin Action
+
+We create a custom admin action for CSV export that accepts:
+
+* The current ModelAdmin being displayed
+* The current request object as an HttpRequest instance
+* A QuerySet for the objects selected by the user
+
+The ability to export data as CSV is quite handy and something I've always really liked about Python and Django's ["batteries included"](https://www.python.org/dev/peps/pep-0206/) approach.  This is perfect for business students taking a computing degree that is business oriented.
+
+### Extending the administration site with custom views
+
+While the CSV export is very handy, Antonio also shows us how to customize the admin view in order to extend the capabilities of the admin app.
+
+While we create a new admin template and view with Antonio, he reminds use that we can override any of the built-in admin templates as well: [https://github.com/django/django/tree/3.0/django/contrib/admin/templates/admin](https://github.com/django/django/tree/3.0/django/contrib/admin/templates/admin)
+
+### Generating PDF invoices dynamically
+
+Right along with the ability to work with CSV files is the ease with which we can produce PDF files as well.
+
+The [Django documentation covers this topic](https://docs.djangoproject.com/en/3.0/howto/outputting-pdf/) and demonstrates the use of *ReportLab* for the purpose of PDF generation.
+
+However, with the above approach, any PDF styling would be our responsibility.  Antonio recommends we use [WeasyPrint](https://weasyprint.readthedocs.io/en/latest/install.html) as it is good at rendering a PDF from our Template Layouts.
+
+`pip install WeasyPrint`
+
+***Windows Notes***
+
+You will certainly further your education in the intricacies of working on multiple platforms with all of what we are working with and leanring about.  Specifically, the installation of [WeasyPrint on Windows](https://weasyprint.readthedocs.io/en/stable/install.html#windows) requires some additional care.
+
+Follow these intructions thoroughly.
+
