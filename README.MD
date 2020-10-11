@@ -593,7 +593,7 @@ However, this is also relevant for time-consuming processes or processes subject
 
 In this chapter, Antonio shows us how to use [Celery](http://docs.celeryproject.org/en/latest/index.html) as a distributed task queue for message processing. Celery provides an ability to launch asynchronous tasks on demand or scheduled to be run at a specific time.
 
-#### Celery Installation
+### Celery Installation
 
 As is the case with almost everything else in Python/Django, we use `pip` to [obtain celery from PyPi](https://pypi.org/project/celery/).
 
@@ -620,7 +620,88 @@ A prime example is RabbitMQ's reliance on [Erlang](https://www.erlang.org/).
 
 I suspect that a similar approach on Mac, using [homebrew](https://brew.sh/), is best there.
 
-Once installed, running RabbitMQ is accomplished the same way regardless of OS:
+Antonio presents that the following command will run RabbitMQ, and for Mac/Unix/Linux, he is correct:
 
 `rabbitmq-server`
 
+However, as is usually the case, on Windows it is different.
+
+As I mentioned, I used the Chocolatey install method [mentioned at the RabbitMQ website](https://www.rabbitmq.com/install-windows.html#chocolatey).
+
+Further, I would take care as most of how you run on windows is through batch files, just as is the case with `venv` and its `Scripts` directory.
+
+I have found that just running RabbitMQ from its install directory with an elevated CMD or PowerShell shell is sufficient.
+
+For me, the install path is `C:\Program Files\RabbitMQ Server\rabbitmq_server-3.8.5\sbin` which should also be the case on your machine.
+
+From what I can gather, once installed, RabbitMQ seems to just run as a Windows Service at startup.
+
+For this reason, much as is the case with PgAdmin4, you can simply point a browser to the admin interface for RabbitMQ and you can monitor its function and perform administrative tasks.
+
+The admin interface is running here for me: `http://localhost:15672/#/`
+
+***Massive VS Code Annoyance***
+
+It would seem that pylint can't see some of our own project's elements and underlines the code with a "red squigelly" saying that `Order has no members` or some such message.
+
+This helped:
+
+In case of a Pylint error, install the following
+```
+pipinstall pylint-django
+```
+
+Then create a file, .pylintrc, in the root folder of your project and write the following
+
+```
+load-plugins=pylint-django
+```
+
+#### Celery and Django
+
+Although Django has built-in support for Celery, as it is a common task queue tool used in the Django world, there are specific configuration aspects unique to Django.  
+
+Antonio's code follows these steps, however, if you wish to use the latest version of Celery (5.0.0 in October 2020), then I would still review the Celery documentation:
+
+[First Steps with Django](https://docs.celeryproject.org/en/latest/django/first-steps-with-django.html)
+
+***Celery Update***
+
+The most current version of Celery is 5.0.0.  The [5.0.0 documentation seems to recommend](https://docs.celeryproject.org/en/latest/django/first-steps-with-django.html#using-the-shared-task-decorator) the use of the `shared_task` decorator rather than the `task` decorator. You can simply use the older version of celery that Antonio specifies if you wish to avoid these changes. This is EXACTLY why Antonio is specific with versions throughout his code.  When I use `shared_task` with Celery 5.0.0, the code runs fine.
+
+#### EMAIL BACKEND
+
+Don't forget (covered in Antonio's Chapter 2) that if you do not plan to wire up to an SMTP mail server during development, then Django provides a console email backend for testing. Without setting this, the built-in email provisions in Django will try to use your local machine to send an email, which will not succeed unless you have explicitly set this up (which is very unlikely).
+
+Here is what you want to ensure is added to your `settings.py` file:
+
+```
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+```
+
+***Case Sensitivity***
+It might be the case that the following instruction from Antonio in Chapter 7:
+
+`celery -A myshop worker -l info`
+
+Might need to be changed to:
+
+`celery -A myshop worker -l INFO`
+
+As the -l instructs what log level to use and the lower-case version may not work.  This could be a windows thing.
+
+Once Celery, RabbitMQ, and Django are working together, you can see evidence of the EMAIL_BACKEND working:
+
+![Celery, RabbitMQ, and Django](https://i.imgur.com/Ad92HzZ.png)
+
+### Monitoring Celery
+
+Of course, having the command-line version of celery running is fine, but keeping a console up and running to monitor Celery and RabbitMQ might not be ideal.  For this, Antonio suggests that we install [Flower](https://pypi.org/project/flower/) to monitor [Celery](https://pypi.org/project/celery/).
+
+`pip install flower`
+
+This would arguably be an optional step.
+
+Further, Flower does not support Celery 5.0.0 as of October 2020. 
+
+Again, this is a **perfect illustration** of why Antonio puts specific versions into his tutorials/chapters.
