@@ -862,4 +862,6 @@ This provides Django an opportunity to provide i18n and l10n services.  Django w
 
 Antonio covers a case of the use of Spanish and English.  The book is fairly instructive throughout this section so I have few additional notes to add.
 
+### Recommender System
 
+This section is optional as it covers REDIS.  This is a worthwhile section, but I am not requiring it due to the technical overhead of running REDIS on your local machine.
