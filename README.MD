@@ -823,3 +823,9 @@ You will certainly further your education in the intricacies of working on multi
 
 Follow these intructions thoroughly.
 
+## Chapter 9 - Coupons, Discounts, and Internationalization
+
+The biggest components of this chapter are [I18N](https://en.wikipedia.org/wiki/Internationalization_and_localization) and the recommender system.
+
+The coupon example is useful but mainly from the standpoint of how to introduce new features across several apps, models, views, templates, etc.
+
