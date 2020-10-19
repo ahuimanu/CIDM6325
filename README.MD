@@ -860,6 +860,6 @@ This provides Django an opportunity to provide i18n and l10n services.  Django w
 
 ### Enabling i18n
 
-Antonio covers a case of the use of Spanish and English:
+Antonio covers a case of the use of Spanish and English.  The book is fairly instructive throughout this section so I have few additional notes to add.
 
 
