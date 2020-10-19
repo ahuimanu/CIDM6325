@@ -829,3 +829,37 @@ The biggest components of this chapter are [I18N](https://en.wikipedia.org/wiki/
 
 The coupon example is useful but mainly from the standpoint of how to introduce new features across several apps, models, views, templates, etc.
 
+### Internationalization (i18n) and Localization (l10n)
+
+While a significant proportion of the Intenet and World Wide Web's earliest days often assumed the use of English and Western character sets, the need to adjust content to facilitate users from a variety of native toungues and cultures is obvious as the Internet and World Wide Web is a global resource.  To wit, the number of [native Mandarin speakers](https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers) is quite large and the [number of Internet users in China is equally quite large](https://en.wikipedia.org/wiki/List_of_countries_by_number_of_Internet_users) - *hint*: both are, respectively, the largest groups in class.
+
+#### Django Support for i18n and l10n
+
+Django is built with significant facilities to [accommodate i18n, l18n](https://docs.djangoproject.com/en/3.1/topics/i18n/), and [timezone management](https://docs.djangoproject.com/en/3.1/topics/i18n/timezones/), all of which are of concern when your site may reach a broad spectrum of visitors and users. 
+
+We start with the creation of message files that make it clear which text should be translated/localized.
+
+The message files have a `.po` extension and, once compiled and translated, take on the `.mo` extension.
+
+Further, the `manage.py` utility recognizes the `makemessages` and `compilemessages` commands to work with i18n and l10n.
+
+The built-in i18n and l10n capabilities do rely on the GNU open-source `gettext toolkit`.
+
+* For Mac, it is recommended to use homebrew for these purposes.
+* For Windows, [Django provides these instructions](https://docs.djangoproject.com/en/3.1/topics/i18n/translation/#gettext-on-windows).
+
+***Process***
+
+Antonio outlines the process fairly well:
+
+1. Mark strings for translation in code and templates
+2. Run `python manage.py makemessages`
+3. Obtain translations and then run `python manage.py compilemessages` to generate the `.mo` files
+
+This provides Django an opportunity to provide i18n and l10n services.  Django will examine whether `LocalMiddleWare` is enabled in your `settings.py` file or examine a `LANGUAGE_CODE` setting if enabled.
+
+### Enabling i18n
+
+Antonio covers a case of the use of Spanish and English:
+
+
