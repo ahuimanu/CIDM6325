@@ -1,5 +1,7 @@
 # Code Repository for CIDM6325
 
+[TOC]
+
 ## Fall 2020
 
 We will work through Antonio Melé's [Django By Example - Third Edition](https://www.packtpub.com/web-development/django-3-by-example-third-edition) Applications Together:
