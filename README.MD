@@ -865,3 +865,190 @@ Antonio covers a case of the use of Spanish and English.  The book is fairly ins
 ### Recommender System
 
 This section is optional as it covers REDIS.  This is a worthwhile section, but I am not requiring it due to the technical overhead of running REDIS on your local machine.
+
+# E-Learning Platform
+
+We made it! This is the final project that Antonio shows and I believe Antonio has show signficant value in the number of highly practical demonstrations he has provided of a modern and Python-drive framework like Django.
+
+Antonio really ends with a finale here as he covers sevaral advanced features of Django:
+
+*Chapter 10*:
+
+* Fixtures to load data (we previewed this in the T-100 project)
+* CBVs and Mixins (I covered this early as well)
+* Formsets
+* User groups and permissions
+* Content Management System (I will also mention [Wagtail](https://wagtail.io/))
+
+*Chapter 11*:
+
+* Caching with Memcached
+* Django cache framework
+* Monitor and modify Memcache behavior
+
+*Chapter 12*:
+
+* Using the Django Rest Framework
+* Specifying serializers
+* Using the Python Requests library
+
+*Chapter 13*:
+
+* Django Channels to consume your REST API
+* Using WebSocket (A front-end technology)
+* Redis (optional)
+* Work with the asynchronous capabilities of Django 3.x
+
+## Chapter 10 - Building an E-Learning Platform
+
+Antonio starts off with a "good" approach as has been the case with all of his projects, where just the basic elements are reviewed.
+
+In preparation, Antonio sets up the follow models and adds them to the Django Admin:
+
+* Subject
+* Course
+* Module
+
+This is done in a manner that is consistent with each of the previous projects.
+
+### Fixtures
+
+We saw fixtures in the T-100 project.  They are a way to load data into your Django models in the database.  As I covered in the T-100 project, Django will use any of the following serialization formats to accept a fixture:
+
+* [JSON](https://en.wikipedia.org/wiki/JSON)
+* [XML](https://en.wikipedia.org/wiki/XML)
+* [YAML](https://en.wikipedia.org/wiki/YAML)
+
+Whereas I took [CSV](https://docs.python.org/3/library/csv.html) files in the T-100 projects and used Python to transform them into the JSON fixture files, Antonio shows that we can export data we create with the Django admin as fixtures and then re-import them.  As such, this is a strategy to backing up the data in a Django website/application.
+
+We accomplish export and import with the following options to the `manage.py` script:
+
+* `dumpdata`
+* `loaddata`
+
+We can then create a `fixtures/` subdirectory where fixture files will be automatically found.
+
+Applications of fixtures include testing, pre-loading data, and backup/restore.
+
+### Model Inheritance
+
+[Inheritance](https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)) is an [Object-Oriented](https://en.wikipedia.org/wiki/Object-oriented_programming) concept but comes in handy both in the use of Django Templates but also in model specification.  This allows for diversifation and specificity as your project evolves.
+
+The implementation of Model Inheritance varies according to options available to specify how the database will structure the inheritance relationships:
+
+* ***Abstract models***: Useful when you want to put some common information into several models.
+* ***Multi-table model inheritance***: Applicable when each model in the hierarchy is considered a complete model by itself.
+* ***Proxy models***: Useful when you need to change the behavior of a model, for example, by including additional methods, changing the default manager, or using different meta options.
+
+BTW, this is very similar to the same strategies in [Microsoft's Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/modeling/inheritance).
+
+#### Abstract Models
+
+From Antonio:
+
+>An abstract model is a base class in which you define fields you want to include in all child models. Django doesn't create any database tables for abstract models. A database table is created for each child model, including the fields inherited from the abstract class and the ones defined in the child model.
+
+The principle approach is to us the internal "Meta" class in a Django model to specify metadata according to this description from the [Django Docs](https://docs.djangoproject.com/en/3.1/topics/db/models/#meta-options):
+
+>Model metadata is “anything that’s not a field”, such as ordering options (ordering), database table name (db_table), or human-readable singular and plural names (verbose_name and verbose_name_plural). None are required, and adding class Meta to a model is completely optional.
+
+So, we indicate that a Model class is abstract with this entry into `class Meta:`
+
+`abstract = True`
+
+This is Antonio's example:
+
+``` python
+from django.db import models
+
+class BaseContent(models.Model):
+    title = models.CharField(max_length=100)
+    created = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        abstract = True
+
+class Text(BaseContent):
+    body = models.TextField()
+
+```
+
+Antonio uses this approach in the chapter.
+
+#### Multi-table model inheritance
+
+If a table-per-model approach is desired, then this is the way to go.  Antonio explains:
+
+>In multi-table inheritance, each model corresponds to a database table. Django creates a OneToOneField field for the relationship between the child model and its parent model. To use multi-table inheritance, you have to subclass an existing model. Django will create a database table for both the original model and the sub-model. 
+
+This is somewhat default behavior as simple Python-level inheritance is used:
+
+``` python
+from django.db import models
+
+class BaseContent(models.Model):
+    title = models.CharField(max_length=100)
+    created = models.DateTimeField(auto_now_add=True)
+
+class Text(BaseContent):
+    body = models.TextField()
+```
+
+#### Proxy models
+
+Whereas an abstract model simply provides the fields that a child model should assume and write to its table, a proxy model creates a single table from which both the parent and child model may operate.
+
+>A proxy model changes the behavior of a model. Both models operate on the database table of the original model. To create a proxy model, add proxy=True to the Meta class of the model. 
+
+``` python
+from django.db import models
+from django.utils import timezone
+
+class BaseContent(models.Model):
+    title = models.CharField(max_length=100)
+    created = models.DateTimeField(auto_now_add=True)
+
+class OrderedContent(BaseContent):
+    class Meta:
+        proxy = True
+        ordering = ['created']
+    def created_delta(self):
+        return timezone.now() - self.created
+
+```
+
+### Creating custom model fields
+
+In most cases, the [built-in Model field types](https://docs.djangoproject.com/en/3.1/ref/models/fields/#field-types) will be sufficient for most needs.  However, Antonio demostrates how to create custom model fields to provide more specific behaviors.
+
+More information on [custom model fields](https://docs.djangoproject.com/en/3.1/howto/custom-model-fields/) is available in the [Django Documentation](https://docs.djangoproject.com/).
+
+### Creating a CMS
+
+This is a massive topic that Antonio greatly reduces for orientation.  There are a number of very mature CMS applications that you can add into your Django project.  My recommendation would be the [Wagtail CMS](https://wagtail.io/).
+
+For simplifiation, Antonio introduces the following features for his "mini" CMS:
+
+* Log in to the CMS
+* List the courses created by the instructor
+* Create, edit, and delete courses
+* Add modules to a course and reorder them
+* Add different types of content to each module and reorder them
+
+### Managing course modules and their contents
+
+Antonio moves on to specifying what should go into the contents of a course by working with modules.
+
+The complexity of this task requires that we manage multiple form objects on the same page using groupings called [formsets](https://docs.djangoproject.com/en/3.1/topics/forms/formsets/).  Since Django also has the ability to shape a form based on a model using [ModelForm](https://docs.djangoproject.com/en/3.1/topics/forms/modelforms/), there is also a provision for creating [Model formsets](https://docs.djangoproject.com/en/3.1/topics/forms/modelforms/#model-formsets).
+
+I respect Antonio's decision to use both jQuery and jQueryUI in his examples as they are tried-and-true technologies.  That said, [modern JavaScript](https://developer.mozilla.org/en-US/docs/Glossary/JavaScript), [JavaScript frameworks](https://medium.com/javarevisited/10-of-the-most-popular-javascript-frameworks-libraries-for-web-development-in-2019-a2c8cea68094) and [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) have relegated this approach to some degree.  
+
+# Deployment (Chapter 14)
+
+Finally, Antonio covers deployment, which is vital to getting your project onto the web and into the "hands" of your users.
+
+Topics include:
+
+* Configuring your VPS to serve as your production environment
+* Understanding [PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service) options.
+* Creating custom middleware
+* Creating custom management controls for deployment
