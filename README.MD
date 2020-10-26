@@ -1,7 +1,6 @@
-# Code Repository for CIDM6325
-
 - [Code Repository for CIDM6325](#code-repository-for-cidm6325)
   * [Fall 2020](#fall-2020)
+  * [Guide to Book Topics for Final Project (Baseline, Good, Better, Best)](#guide-to-book-topics-for-final-project--baseline--good--better--best-)
   * [EXTRAS](#extras)
   * [Python Tips and Guidance](#python-tips-and-guidance)
   * [Build a Blog Notes](#build-a-blog-notes)
@@ -82,6 +81,9 @@
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
+# Code Repository for CIDM6325
+
+Working with Django for web application and eCommerce development.
 
 ## Fall 2020
 
@@ -95,6 +97,113 @@ We will work through Antonio Melé's [Django By Example - Third Edition](https:/
 I encourage you to hand-code from the book and resist the temptation to just copy and paste from the source files.
 
 This README file is constructed using [MarkDown](https://www.markdownguide.org/basic-syntax).  Here is another good [Markdown reference](https://commonmark.org/help/).
+
+## Guide to Book Topics for Final Project (Baseline, Good, Better, Best)
+
+I have classified the learning objectives from Antonio's book according to the following scheme.  Each category is relative to the following requirements for your final project:
+
+* You must implement all baseline components - Gets you to 70% of the value
+* You must implement the required/demonstrated SEO tools - Gets you to 75% of the value
+* You will implement *at least* six **Good** components - Gets you to 80% of the vaue
+* You will implement *at least* three **Better** components - Gets you to 85% of the value
+* You will implement *at least* one **Best** components - Gets you to 90% of the value
+
+Where is the remaining 10%? It comes from the synthesis and service to your idea (implementation).
+
+* **Baseline**: Essential Django knowledge that must be demonstrated in your final project
+* **Good**: Fundamental knowledge that sets up a more useful app
+* **Better**: Approaching a higher degree of robustness
+* **Best**: Approaching professional-grade features and tools
+
+Topic                                   | Baseline  | Good  | Better  | Best
+---                                     | ---       | ---   | ---     | ---
+***Chapter 1***                         |           |       |         |
+Installation                            | x         |       |         |
+Creating projects and apps              | x         |       |         |
+Models, Views, Templates                | x         |       |         |
+Routing                                 | x         |       |         |
+Pagination in Views                     | x         |       |         |
+Queries and QuerySets                   | x         |       |         |
+***Chapter 2***                         |           |       |         |
+Forms and ModelForm                     | x         |       |         |
+Third-party integration                 | x         |       |         |
+Sending emails                          |           | x     |         |
+***Chapter 3***                         |           |       |         | 
+Template Filters                        |           |       |         |
+Sitemaps                                | x         |       |         |
+Syndication                             |           | x     |         |
+Postgres                                | x         |       |         |
+Postgres Full-text search               | x         |       |         |
+***Chapter 4***                         |           |       |         |
+Django auth                             | x         |       |         |
+Custom user model                       |           | x     |         |
+Social auth integration                 |           | x     |         |
+***Chapter 5***                         |           |       |         |
+Advanced model relationships            | x         |       |         |
+Frontend with JS and jQuery             |           | x     |         |
+Custom decorators                       |           | x     |         |
+Use JS/jQuery for AJAX                  |           |       | x       |
+***Chapter 6***                         |           |       |         |
+Many to Many relationships              | x         |       |         |
+Django signals                          |           |       | x       |
+Signals to track activity               |           |       | x       | 
+key-value store with REDIS              |           |       |         | x
+***Chapter 7***                         |           |       |         |
+CRUD on objects                         | x         |       |         |
+eCommerce catalog/cart/checkout/orders  |           | x     |         |
+Django sessions/cookies                 |           | x     |         |
+Custom context processing               |           | x     |         |
+Celery/RabbitMQ/Flower for task queueing|           |       |         | x
+***Chapter 8***                         |           |       |         |
+Custom Admin Views                      |           | x     |         |
+CSV handling                            |           | x     |         |
+Payment gateways                        |           |       | x       |
+PDF handling                            |           | x     |         |
+***Chapter 9***                         |           |       |         |
+i18n and l10n                           |           | x     |         |
+Translation                             |           |       | x       |
+Recommendation engine in REDIS          |           |       |         | x
+***Chapter10***                         |           |       |         |
+Fixtures for data loading               |           | x     |         |
+Model inheritance                       | x         |       |         |
+Custom model fields                     | x         |       |         |
+Class-Based-Viewsd and Mixins           | x         |       |         |
+Formsets                                |           | x     |         |
+User groups and permissions             |           | x     |         |
+***Chapter 11***                        |           |       |         |
+User self registration                  | x         |       |         |
+User-provided content                   | x         |       |         |
+User uploads                            |           | x     |         |
+Django caching                          |           | x     |         |
+Memcached for caching                   |           |       | x       |
+***Chapter 12***                        |           |       |         | 
+Django REST Framework                   |           |       |         | x
+  - API authentication                  |           |       |         | (x)
+  - Serliaziation                       |           |       |         | (x)
+  - API Permissions/Authorization       |           |       |         | (x)
+  - Viewsets and Routing                |           |       |         | (x)
+Requests to consume APIs                |           | x     |         |               
+***Chapter13***                         |           |       |         |
+Django Channels                         |           |       |         | x
+WebSockets (frontend)                   |           |       |         | x
+REDIS for Channels implementation       |           |       |         | x
+***Chapter14***                         |           |       |         |
+VPS for deployment                      | x         |       |         |
+Postgres (duplicate)                    | x         |       |         |
+nginx, uWSGI, gunicorn                  | x         |       |         |
+Static assets with nginx and whitenoise | x         |       |         |
+Securing with SSL                       | x         |       |         |
+Daphne for Channels                     |           |       |         | x
+Custom middlewre                        |           |       | x       |
+Task scheduling with cron               |           | x     |         |
+***Extra***                             |           |       |         |
+Deployment to a PaaS (Heroku)           |           |       | x       | 
+
+
+
+
+
+
 
 ## EXTRAS
 
