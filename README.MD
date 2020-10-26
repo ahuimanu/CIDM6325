@@ -1,3 +1,7 @@
+# Code Repository for CIDM6325
+
+Working with Django for web application and eCommerce development.
+
 - [Code Repository for CIDM6325](#code-repository-for-cidm6325)
   * [Fall 2020](#fall-2020)
   * [Guide to Book Topics for Final Project (Baseline, Good, Better, Best)](#guide-to-book-topics-for-final-project--baseline--good--better--best-)
@@ -80,10 +84,6 @@
 - [Deployment (Chapter 14)](#deployment--chapter-14-)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
-# Code Repository for CIDM6325
-
-Working with Django for web application and eCommerce development.
 
 ## Fall 2020
 
