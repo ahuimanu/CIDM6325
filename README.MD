@@ -178,10 +178,10 @@ Django caching                          |           | x     |         |
 Memcached for caching                   |           |       | x       |
 ***Chapter 12***                        |           |       |         | 
 Django REST Framework                   |           |       |         | x
-  - API authentication                  |           |       |         | (x)
-  - Serliaziation                       |           |       |         | (x)
-  - API Permissions/Authorization       |           |       |         | (x)
-  - Viewsets and Routing                |           |       |         | (x)
+API authentication                      |           |       |         | (x)
+Serliaziation                           |           |       |         | (x)
+API Permissions/Authorization           |           |       |         | (x)
+Viewsets and Routing                    |           |       |         | (x)
 Requests to consume APIs                |           | x     |         |               
 ***Chapter13***                         |           |       |         |
 Django Channels                         |           |       |         | x
