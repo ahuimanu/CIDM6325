@@ -1,0 +1,20 @@
+<!-- Pagination -->
+<div>
+  <ul class="pagination justify-content-center mb-4">
+    <span class="current">
+      Page {{ page.number }} of {{ page.paginator.num_pages }}.
+    </span>        
+    <li class="page-item">
+    {% if page.has_previous %}
+      <a href="?page={{ page.previous_page_number }}">Previous</a>
+    {% endif %}
+      {% comment %} <a class="page-link" href="#">&larr; Older</a> {% endcomment %}
+    </li>
+    <li class="page-item disabled">
+    {% if page.has_next %}
+      <a href="?page={{ page.next_page_number }}">Next</a>
+    {% endif %}          
+      {% comment %} <a class="page-link" href="#">Newer &rarr;</a> {% endcomment %}
+    </li>
+  </ul>
+</div>
