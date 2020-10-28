@@ -1234,6 +1234,15 @@ The complexity of this task requires that we manage multiple form objects on the
 
 I respect Antonio's decision to use both jQuery and jQueryUI in his examples as they are tried-and-true technologies.  That said, [modern JavaScript](https://developer.mozilla.org/en-US/docs/Glossary/JavaScript), [JavaScript frameworks](https://medium.com/javarevisited/10-of-the-most-popular-javascript-frameworks-libraries-for-web-development-in-2019-a2c8cea68094) and [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) have relegated this approach to some degree.  
 
+
+## Chapter 11 - Rendering and Caching
+
+Caching is an important performance component of any web application as we use the Python language, runtime, and library to build our pages using Django.  As such, if the same the same "rendered" question is asked repeatedly, then building that page programmatically becomes a redundant waste of resources.  Thus, a caching strategy, where the already-rendered HTML/CSS/JS combo (which is ALL we ever send to the client/browser) is stored for delivery, is essential for performance.
+
+Notice also in this chapter that Antonio points how to use [annotate()](https://docs.djangoproject.com/en/3.1/ref/models/querysets/#annotate) to approximate SQL's [GROUP BY](https://www.w3schools.com/sql/sql_groupby.asp) as well as aggregate operations like [Count()](https://docs.djangoproject.com/en/3.1/ref/models/querysets/#count). You've seen both of thes in the T-100 project.
+
+Also in this chapter, Antonio more fully embraces and utilizes Django's [Class-Based Views](https://docs.djangoproject.com/en/3.1/topics/class-based-views/).
+
 # Deployment (Chapter 14)
 
 Finally, Antonio covers deployment, which is vital to getting your project onto the web and into the "hands" of your users.
