@@ -1237,7 +1237,7 @@ Notice also in this chapter that Antonio points how to use [annotate()](https://
 
 Also in this chapter, Antonio more fully embraces and utilizes Django's [Class-Based Views](https://docs.djangoproject.com/en/3.1/topics/class-based-views/).
 
-BTW, it is possible to use memcached on Windows by simply downloading it from what one the links in this [blog post](http://ecotrust-canada.github.io/markdown-toc/). Once downloaded, simply run it without the extra parts that Antonio mentions (no need to type `memcached -l 127.0.0.1:11211`): so, in a separate CMD or PS window, type `memcached.exe` and that's it.
+BTW, it is possible to use memcached on Windows by simply downloading it from what one the links in this [blog post](https://commaster.net/posts/installing-memcached-windows/). Once downloaded, simply run it without the extra parts that Antonio mentions (no need to type `memcached -l 127.0.0.1:11211`): so, in a separate CMD or PS window, type `memcached.exe` and that's it.
 
 With that, you can run the rest of the code.
 
