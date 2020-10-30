@@ -8,17 +8,17 @@ Working with Django for web application and eCommerce development.
   * [EXTRAS](#extras)
   * [Python Tips and Guidance](#python-tips-and-guidance)
   * [Build a Blog Notes](#build-a-blog-notes)
-    + [Chapter 1 - Build a Blog](#chapter-1---build-a-blog)
-      - [Models](#models)
-      - [Admin](#admin)
-      - [Queries](#queries)
-      - [Views](#views)
-      - [Secret Key](#secret-key)
-      - [Templates](#templates)
-    + [Chapter 2 - Enhancing Your Blog with Advanced Features](#chapter-2---enhancing-your-blog-with-advanced-features)
-      - [Forms and Email](#forms-and-email)
-      - [Comments and Tags](#comments-and-tags)
-    + [Chapter 3 - Extending the Blog Application](#chapter-3---extending-the-blog-application)
+  * [Chapter 1 - Build a Blog](#chapter-1---build-a-blog)
+    + [Models](#models)
+    + [Admin](#admin)
+    + [Queries](#queries)
+    + [Views](#views)
+    + [Secret Key](#secret-key)
+    + [Templates](#templates)
+  * [Chapter 2 - Enhancing Your Blog with Advanced Features](#chapter-2---enhancing-your-blog-with-advanced-features)
+    + [Forms and Email](#forms-and-email)
+    + [Comments and Tags](#comments-and-tags)
+  * [Chapter 3 - Extending the Blog Application](#chapter-3---extending-the-blog-application)
 - [Bookmarks Social Site](#bookmarks-social-site)
   * [Chapter 4 - Bookmarks](#chapter-4---bookmarks)
   * [Chapter 5 - Images](#chapter-5---images)
@@ -81,6 +81,7 @@ Working with Django for web application and eCommerce development.
     + [Creating custom model fields](#creating-custom-model-fields)
     + [Creating a CMS](#creating-a-cms)
     + [Managing course modules and their contents](#managing-course-modules-and-their-contents)
+  * [Chapter 11 - Rendering and Caching](#chapter-11---rendering-and-caching)
 - [Deployment (Chapter 14)](#deployment--chapter-14-)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
@@ -199,12 +200,6 @@ Task scheduling with cron               |           | x     |         |
 ***Extra***                             |           |       |         |
 Deployment to a PaaS (Heroku)           |           |       | x       | 
 
-
-
-
-
-
-
 ## EXTRAS
 
 There are also a few extra modules and/or applications in this repository that are shared in support of the course.
@@ -222,7 +217,7 @@ I will keep some general Python notes here:
 
 Here are observations and notes from the chapters
 
-### Chapter 1 - Build a Blog
+## Chapter 1 - Build a Blog
 
 ---
 
@@ -240,25 +235,25 @@ Here are observations and notes from the chapters
         * _Mac_: The built-in `terminal` App will work
         * **VS Code**: In all cases, try to do your terminal work from within VSCode's built-in terminal.
 
-#### Models
+### Models
 
 With `Django` you are persisting business data using [Object/Relational Mapping](https://en.wikipedia.org/wiki/Object-relational_mapping), which is a fairly standard approach to web application development.
 
 This is there to structure your database.  Django Models are classes.  Review the basic structures and provisions of the [Python language](https://www.w3schools.com/python/default.asp).
 
-#### Admin
+### Admin
 
 A great feature of Django is the built-in admin interface - you can perform CRUD operations here.
 
-#### Queries
+### Queries
 
 There is a built-in query expression structure that saves time and avoids the need to write SQL directly in most cases.
 
-#### Views
+### Views
 
 We will try to use Class-Based-Views as much as possible.  However, Function-Based-Views are also possible.
 
-#### Secret Key
+### Secret Key
 
 Django uses a SECRET_KEY for many security purposes in your project.  Since I will be encouraging the use of Github, publishing your secret key is a problem to avoid.  In fact, if you look at this repository, the initial commit contains a secret key (since changed).
 
@@ -266,14 +261,14 @@ Relevant part of the documentation: [The secret key must be a large random value
 
 Also, since we'll use Git and Github, placing an effective GITIGNORE file into our repository is important: [Gitignore for a Django project](https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/)
 
-#### Templates
+### Templates
 
 Templates are HTML files with escapes to contain minimal display and presentation logic.  The _beauty_ of your pages will completely rely on one of a few options:
 * Your skill with CSS
 * Use of a robust component library
 * Some template you find/purchase
 
-### Chapter 2 - Enhancing Your Blog with Advanced Features
+## Chapter 2 - Enhancing Your Blog with Advanced Features
 
 ---
 
@@ -283,7 +278,7 @@ Antonio really adds in some useful features here and provides a fairly advanced 
 * Tags and metadata
 * Recommendations
 
-#### Forms and Email
+### Forms and Email
 
 Django provides a few classes for working with Forms:
 * [Form](https://docs.djangoproject.com/en/3.0/ref/forms/api/)
@@ -310,7 +305,7 @@ Or, try one of the approaches Antonio mentions.
 
 We will also explore using the free tier of services like [SendGrid](https://sendgrid.com/) or [MailChimp](https://mailchimp.com/)
 
-#### Comments and Tags
+### Comments and Tags
 
 We see another application of foreign key, which reminds us that the Django ORM is there to help shape the tables in an RDBMS.
 
@@ -344,7 +339,7 @@ Although Antonio specifies a version, if you install `django-taggit` without a v
 
 You will notice that a significant amout of power comes from the [taggit app](https://django-taggit.readthedocs.io/en/latest/getting_started.html)
 
-### Chapter 3 - Extending the Blog Application
+## Chapter 3 - Extending the Blog Application
 
 ---
 
@@ -1233,7 +1228,6 @@ Antonio moves on to specifying what should go into the contents of a course by w
 The complexity of this task requires that we manage multiple form objects on the same page using groupings called [formsets](https://docs.djangoproject.com/en/3.1/topics/forms/formsets/).  Since Django also has the ability to shape a form based on a model using [ModelForm](https://docs.djangoproject.com/en/3.1/topics/forms/modelforms/), there is also a provision for creating [Model formsets](https://docs.djangoproject.com/en/3.1/topics/forms/modelforms/#model-formsets).
 
 I respect Antonio's decision to use both jQuery and jQueryUI in his examples as they are tried-and-true technologies.  That said, [modern JavaScript](https://developer.mozilla.org/en-US/docs/Glossary/JavaScript), [JavaScript frameworks](https://medium.com/javarevisited/10-of-the-most-popular-javascript-frameworks-libraries-for-web-development-in-2019-a2c8cea68094) and [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) have relegated this approach to some degree.  
-
 
 ## Chapter 11 - Rendering and Caching
 
