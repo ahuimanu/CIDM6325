@@ -50,7 +50,7 @@ Working with Django for web application and eCommerce development.
       - [Context Processors](#context-processors)
     + [Registering customer orders](#registering-customer-orders)
       - [Creating a Customer Order](#creating-a-customer-order)
-  * [Launching asynchronous tasks with Celery](#launching-asynchronous-tasks-with-celery)
+    + [Launching asynchronous tasks with Celery](#launching-asynchronous-tasks-with-celery)
     + [Celery Installation](#celery-installation)
       - [RabbitMQ](#rabbitmq)
       - [Celery and Django](#celery-and-django)
@@ -766,7 +766,7 @@ The general steps for placing an order include:
 * Create a new `Order` instance with the data entered, and create an associated `OrderItem` instance for each item in the cart
 * Clear all the cart's contents and redirect the user to a success page
 
-## Launching asynchronous tasks with Celery
+### Launching asynchronous tasks with Celery
 
 When we discussed how the web is stateless, another limitation to overcome is the inherent latency of using networking protocols.  The [Open Systems Interconnection (OSI )Model](https://en.wikipedia.org/wiki/OSI_model) describes how network protocols interoperated at various "layers" required to initiate and receive networked data communications.
 
