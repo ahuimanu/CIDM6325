@@ -82,7 +82,12 @@ Working with Django for web application and eCommerce development.
     + [Creating a CMS](#creating-a-cms)
     + [Managing course modules and their contents](#managing-course-modules-and-their-contents)
   * [Chapter 11 - Rendering and Caching](#chapter-11---rendering-and-caching)
+- [Django REST Framework - Chapter 12](#django-rest-framework---chapter-12)
+- [Chapter 13 - Channels and ASGI](#chapter-13---channels-and-asgi)
 - [Deployment (Chapter 14)](#deployment--chapter-14-)
+  * [Managing settings](#managing-settings)
+    + [uWSGI vs Gunicorn](#uwsgi-vs-gunicorn)
+    + [nginx](#nginx)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
