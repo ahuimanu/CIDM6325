@@ -82,9 +82,10 @@ Working with Django for web application and eCommerce development.
     + [Creating a CMS](#creating-a-cms)
     + [Managing course modules and their contents](#managing-course-modules-and-their-contents)
   * [Chapter 11 - Rendering and Caching](#chapter-11---rendering-and-caching)
-- [Django REST Framework - Chapter 12](#django-rest-framework---chapter-12)
-- [Chapter 13 - Channels and ASGI](#chapter-13---channels-and-asgi)
-- [Deployment (Chapter 14)](#deployment--chapter-14-)
+  * [Chapter 12 - Django REST Framework](#chapter-12---django-rest-framework)
+  * [Chapter 13 - Channels and ASGI](#chapter-13---channels-and-asgi)
+- [Deployment - Antonio's Strategy and Mine](#deployment---antonio-s-strategy-and-mine)
+  * [Chapter 14 - Deployment](#chapter-14---deployment)
   * [Managing settings](#managing-settings)
     + [uWSGI vs Gunicorn](#uwsgi-vs-gunicorn)
     + [nginx](#nginx)
@@ -1246,7 +1247,7 @@ BTW, it is possible to use memcached on Windows by simply downloading it from wh
 
 With that, you can run the rest of the code.
 
-# Django REST Framework - Chapter 12
+## Chapter 12 - Django REST Framework
 
 Although this is bonus territory, I am very pleased that Antonio is covering DRF in this chapter and Channels in the next.  Both are 3rd party tools but enable very modern and up-to-date approaches.
 
@@ -1265,7 +1266,7 @@ As such, this is an outstanding tour of features:
 
 The DRF chapter is very straight-forward and perhaps makes less sense unless we "consume" this API with another client, which is what Antonio demonstrates.  This can be commonly encountered in other backend programs or with AJAX calls from a frontend.
 
-# Chapter 13 - Channels and ASGI
+## Chapter 13 - Channels and ASGI
 
 We conclude with the very advanced topic of Asynchronous programming with [Django Channels](https://channels.readthedocs.io/en/stable/), which, like [DRF](https://www.django-rest-framework.org/), is a third-party package for Django.
 
@@ -1309,7 +1310,9 @@ Also, again, this is easiest in the following cases:
 
 Redis is a very common memory key-value store used for caching, so it is eventually worth working with.
 
-# Deployment (Chapter 14)
+# Deployment - Antonio's Strategy and Mine
+
+## Chapter 14 - Deployment
 
 Finally, Antonio covers deployment, which is vital to getting your project onto the web and into the "hands" of your users.
 
