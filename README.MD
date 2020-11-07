@@ -1241,6 +1241,69 @@ BTW, it is possible to use memcached on Windows by simply downloading it from wh
 
 With that, you can run the rest of the code.
 
+# Django REST Framework - Chapter 12
+
+Although this is bonus territory, I am very pleased that Antonio is covering DRF in this chapter and Channels in the next.  Both are 3rd party tools but enable very modern and up-to-date approaches.
+
+As such, this is an outstanding tour of features:
+
+* Install Django REST framework
+* Create serializers for your models
+* Build a RESTful API
+* Create nested serializers
+* Build custom API views
+* Handle API authentication
+* Add permissions to API views
+* Create a custom permission
+* Implement viewsets and routers
+* Use the Requests library to consume the API 
+
+The DRF chapter is very straight-forward and perhaps makes less sense unless we "consume" this API with another client, which is what Antonio demonstrates.  This can be commonly encountered in other backend programs or with AJAX calls from a frontend.
+
+# Chapter 13 - Channels and ASGI
+
+We conclude with the very advanced topic of Asynchronous programming with [Django Channels](https://channels.readthedocs.io/en/stable/), which, like [DRF](https://www.django-rest-framework.org/), is a third-party package for Django.
+
+The chat server shows how you can start to extend beyond simply rendering templates and making db calls.
+
+There are changes from the Django Channels 2.4 that Antonio uses and the 3.x that is current: https://channels.readthedocs.io/en/stable/releases/3.0.0.html#update-to-asgi-3
+
+One place you'll see this is here:
+
+Antonio's 2.4 code:
+
+``` python
+from django.urls import re_path
+from . import consumers
+websocket_urlpatterns = [
+    re_path(r'ws/chat/room/(?P<course_id>\d+)/$', consumers.ChatConsumer),
+]
+```
+
+Updated for 3.x:
+
+``` python
+from django.urls import re_path
+from . import consumers
+websocket_urlpatterns = [
+    # if using the django channels 3.x, the below code has to be changed: 
+    # https://channels.readthedocs.io/en/stable/releases/3.0.0.html#update-to-asgi-3
+    re_path(r'ws/chat/room/(?P<course_id>\d+)/$', consumers.ChatConsumer.as_asgi()),
+]
+```
+Recall also that the last mile for this app requires [Redis](https://redis.io/).
+
+Also, again, this is easiest in the following cases:
+* when the app is deployed to the VPS
+* when your desktop/development machine uses a Mac or Linux OS
+* when you are using Windows 10 and WSL
+
+[Running on Windows is not impossible](https://github.com/microsoftarchive/redis), but [Redis isn't really supported by Microsoft](https://github.com/microsoftarchive/redis) in any case.
+
+[Memurai](https://www.memurai.com/) is an alternative as well, but may not work with Antonio's code. That said, the Memurai team [does discuss windows installations](https://www.memurai.com/blog/install-redis-windows-alternatives-such-as-memurai).
+
+Redis is a very common memory key-value store used for caching, so it is eventually worth working with.
+
 # Deployment (Chapter 14)
 
 Finally, Antonio covers deployment, which is vital to getting your project onto the web and into the "hands" of your users.
@@ -1251,3 +1314,30 @@ Topics include:
 * Understanding [PaaS](https://en.wikipedia.org/wiki/Platform_as_a_service) options.
 * Creating custom middleware
 * Creating custom management controls for deployment
+
+## Managing settings
+
+Antonio covers the need to manage settings differently depending on what stage of development your application is at.  As such, we establish different settings files to be used conditionally depending on the current environment:
+
+* Development/Local
+* Production (deployed to VPS)
+
+take note that when you use this settings approach, you can always use the `--settings` switch for the `manage.py` command:
+
+`manage.py runserver --settings=educa.settings.local`
+
+### uWSGI vs Gunicorn
+
+While I believe Antonio has provided us with a very strong guide, Windows is an afterthough in most of his instructions.  While [uWSGI](https://uwsgi-docs.readthedocs.io/en/latest/) is likely more performant, we'll stick to [Gunicorn](https://gunicorn.org/) as it is implemented in Python.
+
+### nginx
+
+Arguably the most performant HTTP server available, we'll use [nginx](https://nginx.org/en/docs/) soley on the VPS in deployment.
+
+At this stage, while we will do all of the things Antonio shows in this chapter, we'll do them differently and with a VPS orientation:
+
+1. We'll use Gunicorn
+2. We'll configure Nginx on our server (VPS)
+3. We'll configure Nginx using the "sites-available" system rather than directly into `nginx.conf`
+4. We'll demonstrate both using nginx for static content and [WhiteNoise](https://pypi.org/project/whitenoise/)
+5. We'll use [Lets Encrypt](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04) for our SSL work directly on the VPS.
