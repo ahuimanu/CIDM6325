@@ -3,7 +3,7 @@
 Working with Django for web application and eCommerce development.
 
 - [Code Repository for CIDM6325](#code-repository-for-cidm6325)
-  * [Fall 2020](#fall-2020)
+  * [Fall 2021](#fall-2020)
   * [Guide to Book Topics for Final Project (Baseline, Good, Better, Best)](#guide-to-book-topics-for-final-project--baseline--good--better--best-)
   * [EXTRAS](#extras)
   * [Python Tips and Guidance](#python-tips-and-guidance)
@@ -92,14 +92,14 @@ Working with Django for web application and eCommerce development.
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
-## Fall 2020
+## Fall 2021
 
 We will work through Antonio Melé's [Django By Example - Third Edition](https://www.packtpub.com/web-development/django-3-by-example-third-edition) Applications Together:
 
-* [Part 1 - Building a Blog](https://github.com/ahuimanu/CIDM6325/tree/master/blog)
-* [Part 2 - Building a Social Website](https://github.com/ahuimanu/CIDM6325/tree/master/bookmarks)
-* [Part 3 - Building an Online Shop (eCommerce)](https://github.com/ahuimanu/CIDM6325/tree/master/myshop)
-* [Part 4 - Building an E-Learning App and Chat Server using an API](https://github.com/ahuimanu/CIDM6325/tree/master/educa/educa)
+* [Part 1 - Building a Blog](https://github.com/ahuimanu/CIDM6325/tree/FALL2021/blog)
+* [Part 2 - Building a Social Website](https://github.com/ahuimanu/CIDM6325/tree/FALL2021/bookmarks)
+* [Part 3 - Building an Online Shop (eCommerce)](https://github.com/ahuimanu/CIDM6325/tree/FALL2021/myshop)
+* [Part 4 - Building an E-Learning App and Chat Server using an API](https://github.com/ahuimanu/CIDM6325/FALL2021/master/educa/educa)
 
 I encourage you to hand-code from the book and resist the temptation to just copy and paste from the source files.
 
