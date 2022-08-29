@@ -1,5 +1,5 @@
 # CIDM6325 - Fall 2022
-## Django for Beginners
+## Django for Beginners - [Book Website](https://djangoforbeginners.com/)
 ### Chapter 1 Steps
 1. Create virtual environment on windows: `python -m venv .venv`
 2. Create new project
