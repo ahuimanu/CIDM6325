@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 # def homePageView(request):
 #     return HttpResponse("Hi, we are learning Django and Python")
 
+
 class HomePageView(TemplateView):
     template_name = "pages/home.html"
 
