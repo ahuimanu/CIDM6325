@@ -1,9 +1,11 @@
 {% load static %}
-<html>
+<html lang="en">
   <head>
     <title>Django blog</title>
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <meta name="description" content="django blog" />
+    <meta name="keywords" content="django, blog" />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
   </head>
   <body>
     <header>
@@ -14,6 +16,14 @@
         <a href="{% url 'post_new' %}">+ New Blog Post</a>
       </div>
     </header>
+    {% if user.is_authenticated %}
+    <p>Hi {{ user.username }}!</p>
+    <p><a href="{% url 'logout' %}">Log out</a></p>
+    {% else %}
+    <p>You are not logged in.</p>
+    <a href="{% url 'login' %}">Log In</a>
+    |<a href="{% url 'signup' %}">Sign Up</a>
+    {% endif %}    
     <div>
       {% block content %}
       {% endblock content %}
