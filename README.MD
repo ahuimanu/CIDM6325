@@ -48,8 +48,8 @@ I have classified the learning objectives from Antonio's book according to the f
 * You must implement *all* **Baseline** components - Gets you to 70% of the value
 * You must implement the required/demonstrated SEO tools - Gets you to 75% of the value (***FORTHCOMING***)
 * You will implement *at least* six **Good** components - Gets you to 80% of the vaue
-* You will implement *at least* three **Better** components - Gets you to 85% of the value
-* You will implement *at least* one **Best** components - Gets you to 90% of the value
+* You will implement *at least* two **Better** components - Gets you to 85% of the value
+* You will implement *at least* two **Best** components - Gets you to 90% of the value
 
 Where is the remaining 10%? It comes from the synthesis and service to your idea (implementation).
 
