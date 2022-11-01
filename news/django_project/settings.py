@@ -139,3 +139,14 @@ LOGOUT_REDIRECT_URL = "home"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+# email configuration for SendGrid
+DEFAULT_FROM_EMAIL = environ.get("DEFAULT_FROM_EMAIL")
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_HOST_USER = "apikey"
+EMAIL_HOST_PASSWORD = environ.get("SENDGRID_PASSWORD")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
