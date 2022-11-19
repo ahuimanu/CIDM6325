@@ -60,9 +60,9 @@ Where is the remaining 10%? It comes from the synthesis and service to your idea
 Topic                                   | Baseline  | Good  | Better  | Best
 ---                                     | ---       | ---   | ---     | ---
 ***Chapter 3***                         |           |       |         |
-Templates                               | X         |       |         |
+Templates                               | x         |       |         |
 Template Inheritance                    | x         |       |         |
-Views                                   | X         |       |         |
+Views                                   | x         |       |         |
 Class-Based Views                       | x         |       |         |
 URLs                                    | x         |       |         |
 Routing                                 | x         |       |         |
