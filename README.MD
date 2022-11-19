@@ -46,7 +46,6 @@ This README file is constructed using [MarkDown](https://www.markdownguide.org/b
 I have classified the learning objectives from Antonio's book according to the following scheme.  Each category is relative to the following requirements for your final project:
 
 * You must implement *all* **Baseline** components - Gets you to 70% of the value
-* You must implement the required/demonstrated SEO tools - Gets you to 75% of the value (***FORTHCOMING***)
 * You will implement *at least* six **Good** components - Gets you to 80% of the vaue
 * You will implement *at least* two **Better** components - Gets you to 85% of the value
 * You will implement *at least* two **Best** components - Gets you to 90% of the value
