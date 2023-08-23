@@ -8,6 +8,28 @@
     * check for outdated packages `python -m pip --outdated`
     * update package(s) as appropriate `python -m pip install --upgrade <name-of-package>`
 
+# An Introduction to Django (Chapter 1)
+* Django is a web application framework that leverages the Python programming language.
+* Django Features:
+    * Object-Relational Mapper for database querying
+    * URL mapping
+    * template rendering 
+
+Key learning objectives:
+* project scaffolding with the `django-admin` CLI tool and the `manage.py` script
+* MVC (MVT) application pattern paradigm
+* Default Django project structure and apps
+* Views for logic and template renders
+* URL mapping to match requests to views
+* Detecting and using HTTP Requests
+* How to configure your project in `settings.py`
+* Using HTML templates
+* Working with Django errors and debugging
+
+Activities:
+* 1.01
+* 1.02
+
 ## Candidate Heroku Replacements
 * render.io
 * python anywhere
