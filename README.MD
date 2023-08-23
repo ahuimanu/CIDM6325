@@ -22,7 +22,7 @@ Key learning objectives:
 * Views for logic and template renders
 * URL mapping to match requests to views
 * Detecting and using HTTP Requests
-    * GET and POST Django [QueryDict](https://docs.djangoproject.com/en/4.2/ref/request-response/#querydict-objects) objects to obtain HTTP request parameter values
+    * [GET](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET) and [POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) [Django](https://www.djangoproject.com/) [QueryDict](https://docs.djangoproject.com/en/4.2/ref/request-response/#querydict-objects) objects to obtain HTTP request parameter values
 * How to configure your project in `settings.py`
 * Using HTML templates
 * Working with Django errors and debugging
