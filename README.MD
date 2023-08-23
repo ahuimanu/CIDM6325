@@ -37,7 +37,7 @@ Activities:
 
 I will strongly recommend that you use and develop familiarity with [Bootstrap](https://getbootstrap.com/) as a CSS framework for all of your work in this class.
 
-## Candidate Heroku Replacements
+# Candidate Heroku Replacements
 * render.io
 * python anywhere
 * Fly.io
