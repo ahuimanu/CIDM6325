@@ -6,4 +6,6 @@ from django.http import HttpResponse
 def index(request):
     item = ''.join(request.GET.values())
     # item = request.GET["dude"]
-    return HttpResponse(f"DUDE, You're Gettin' a DELL - {item}")
+    # return HttpResponse(f"DUDE, You're Gettin' a DELL - {item}")
+    reason = "it's fun"
+    return render(request, "base.html", {"reason": reason})

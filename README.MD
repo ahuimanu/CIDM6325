@@ -8,6 +8,8 @@
     * check for outdated packages `python -m pip --outdated`
     * update package(s) as appropriate `python -m pip install --upgrade <name-of-package>`
 
+In addition to the book, this is a good resource: [W3Schools Django](https://www.w3schools.com/django/index.php)
+
 # An Introduction to Django (Chapter 1)
 * Django is a web application framework that leverages the Python programming language.
 * Django Features:
@@ -23,13 +25,17 @@ Key learning objectives:
 * URL mapping to match requests to views
 * Detecting and using HTTP Requests
     * [GET](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET) and [POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) [Django](https://www.djangoproject.com/) [QueryDict](https://docs.djangoproject.com/en/4.2/ref/request-response/#querydict-objects) objects to obtain HTTP request parameter values
-* How to configure your project in `settings.py`
+* How to configure your project in `settings.py` and check settings using `django.conf`
 * Using HTML templates
 * Working with Django errors and debugging
 
 Activities:
 * 1.01
 * 1.02
+
+## CH01 - Templates and Bootstrap
+
+I will strongly recommend that you use and develop familiarity with [Bootstrap](https://getbootstrap.com/) as a CSS framework for all of your work in this class.
 
 ## Candidate Heroku Replacements
 * render.io
