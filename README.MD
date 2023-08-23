@@ -1,6 +1,6 @@
 # CIDM6325 - Fall 2023
 
-## General Notes
+_*General Notes*_
 * [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator)
 
 * Commands to run when checking for outdated packages in your Virtual Environment
