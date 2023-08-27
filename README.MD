@@ -2,6 +2,7 @@
 README Outline:
 * [Professional Django Skills vs Book Order](#professional-django-skills-vs-book-order) 
 * [An Introduction to Django (Chapter 1)](#an-introduction-to-django-chapter-1)
+* [Miscellaneous Notes](#miscellaneous-notes)
 
 # Professional Django Skills vs Book Order
 
@@ -53,8 +54,6 @@ Key learning objectives:
 Try Activities:
 * 1.01
 * 1.02
-
-
 
 [back to outline](#cidm6325---fall-2023)
 
