@@ -1,4 +1,25 @@
 # CIDM6325 - Fall 2023
+README Outline:
+* [Professional Django Skills vs Book Order](#professional-django-skills-vs-book-order) 
+* [An Introduction to Django (Chapter 1)](#an-introduction-to-django-chapter-1)
+
+# Professional Django Skills vs Book Order
+
+[Pro Django Skills topics](https://www.better-simple.com/django/2023/08/18/pro-djangonaut-skills/) come from the [BetterSimple](https://www.better-simple.com/portfolio/) website.
+
+Book Topic                  | Pro Django Skills Topic
+---                         | ---
+***Chapter 1***             | ***Dev tools***
+Django Project Structure    | [Git](https://training.github.com/downloads/github-git-cheat-sheet/) and [GitHub](https://docs.github.com/en/get-started)  
+`django-admin` CLI          | [Black](https://pypi.org/project/black/), [PEP8](https://pep8.org/), [Flake8](https://pypi.org/project/flake8/)
+Basic Views and URLs        | [Django Debug Toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/)
+Basic Templates             | [Django Extensions](https://pypi.org/project/django-extensions/)
+&nbsp;                      | [Awesome Django](https://awesomedjango.org/)
+***Chapter 2***             | ***Data modeling and Database***
+Basic Database              | [Databases and RDBMS](https://database.guide/what-is-a-database/)
+asdf                        | [Relationships (1:1, 1:M, M:M)](https://database.guide/database-relationships-explained/)
+
+[back to outline](#cidm6325---fall-2023)
 
 **General Notes**
 * [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator)
@@ -29,93 +50,22 @@ Key learning objectives:
 * Using HTML templates
 * Working with Django errors and debugging
 
-Activities:
+Try Activities:
 * 1.01
 * 1.02
 
-## CH01 - Templates and Bootstrap
 
-I will strongly recommend that you use and develop familiarity with [Bootstrap](https://getbootstrap.com/) as a CSS framework for all of your work in this class.
 
-# Candidate Heroku Replacements
-* render.io
-* python anywhere
-* Fly.io
-* [Railway](https://railway.app/)
+[back to outline](#cidm6325---fall-2023)
+
+# Miscellaneous Notes
+* **Templates and Bootstrap** - I will strongly recommend that you use and develop familiarity with [Bootstrap](https://getbootstrap.com/) as a CSS framework for all of your work in this class.
+* **Candidate Heroku Replacements** - Heroku used to be the best free Django deployment platform - it is no longer free.  Here are some replacement services.
+    * render.io
+    * python anywhere
+    * Fly.io
+    * [Railway](https://railway.app/)
 
 This README file is constructed using [MarkDown](https://www.markdownguide.org/basic-syntax).  Here is another good [Markdown reference](https://commonmark.org/help/).
 
-## Guide to Book Topics for Final Project (Baseline, Good, Better, Best)
-
-I have classified the learning objectives from Antonio's book according to the following scheme.  Each category is relative to the following requirements for your final project:
-
-* You must implement *all* **Baseline** components - Gets you to 70% of the value
-* You will implement *at least* six **Good** components - Gets you to 80% of the vaue
-* You will implement *at least* two **Better** components - Gets you to 85% of the value
-* You will implement *at least* two **Best** components - Gets you to 90% of the value
-
-Where is the remaining 10%? It comes from the synthesis and service to your idea (implementation).
-
-* **Baseline**: Essential Django knowledge that must be demonstrated in your final project
-* **Good**: Fundamental knowledge that sets up a more useful app
-* **Better**: Approaching a higher degree of robustness
-* **Best**: Approaching professional-grade features and tools
-
-Topic                                   | Baseline  | Good  | Better  | Best
----                                     | ---       | ---   | ---     | ---
-***Chapter 3***                         |           |       |         |
-Templates                               | x         |       |         |
-Template Inheritance                    | x         |       |         |
-Views                                   | x         |       |         |
-Class-Based Views                       | x         |       |         |
-URLs                                    | x         |       |         |
-Routing                                 | x         |       |         |
-***Chapter 4***                         |           |       |         |
-Model Classes                           | x         |       |         |
-Django Admin configuration              | x         |       |         |
-Tests                                   |           | x     |         |
-***Chapter 5***                         |           |       |         | 
-Static Files                            | x         |       |         |
-Queries                                 | x         |       |         |
-***Chapter 6***                         |           |       |         |
-Class-Based Forms                       | x         |       |         |
-***Chapter 7***                         |           |       |         |
-Authentication                          | x         |       |         |
-Social auth integration                 |           | x     |         |
-Postgres                                |           | x     |         |
-***Chapter 8***                         |           |       |         |
-Custom user models                      |           | x     |         |
-Ad hoc forms                            |           | x     |         |
-***Chapter 10***                        |           |       |         |
-Bootstrap                               | x         |       |         |
-***Chapter 11***                        |           |       |         |
-Custom templates                        |           | x     |         |
-Account management                      |           | x     |         |
-***Chapter12***                         |           |       |         |
-Email                                   |           | x     |         |
-***Chapter 13***                        |           |       |         |
-django_crispy_forms                     |           | x     |         |
-***Chapter 14***                        |           |       |         | 
-authorization                           |           | x     |         |
-CBV mixins                              |           | x     |         |
-***Chapter15***                         |           |       |         |
-ManytoMany relationships                |           | x     |         |
-***Chapter16***                         |           |       |         |
-heroku deployment                       |           |       | x       |
-vps deployment (nginx, gunicorn)        |           |       | x       |
-Static assets with nginx and whitenoise |           | x     |         |
-Securing with SSL                       | x         |       |         |
-Custom middlewre                        |           |       | x       |
-Task scheduling with cron               |           | x     | x       |
-CI/CD with Github                       |           |       |         | x
-***3rd Party***                         |           |       |         |
-[Django admin](https://github.com/wsvincent/awesome-django#admin) | | | | x
-[APIs](https://github.com/wsvincent/awesome-django#apis) | |  |         | x
-[Async](https://github.com/wsvincent/awesome-django#async) |           |       |         | x
-[ECommerce](https://github.com/wsvincent/awesome-django#ecommerce) |    |   |   | x
-[Files and Images](https://github.com/wsvincent/awesome-django#filesimages) |    |   |   | x
-[Model enhancements](https://github.com/wsvincent/awesome-django#models) |   |   |   | x
-[Search](https://github.com/wsvincent/awesome-django#search) |   |   |   | x
-[Tasks and Job Scheduling](https://github.com/wsvincent/awesome-django#task-queues) |   |   |   | x
-[Users and SSO](https://github.com/wsvincent/awesome-django#users) |   |   |   | x
-[Views](https://github.com/wsvincent/awesome-django#views) |   |   |   | x
+[back to outline](#cidm6325---fall-2023)
