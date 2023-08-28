@@ -18,7 +18,7 @@ Basic Templates             | [Django Extensions](https://pypi.org/project/djang
 &nbsp;                      | [Awesome Django](https://awesomedjango.org/)
 ***Chapter 2***             | ***Data modeling and Database***
 Basic Database              | [Databases and RDBMS](https://database.guide/what-is-a-database/)
-asdf                        | [Relationships (1:1, 1:M, M:M)](https://database.guide/database-relationships-explained/)
+&nbsp;                      | [Relationships (1:1, 1:M, M:M)](https://database.guide/database-relationships-explained/)
 
 [back to outline](#cidm6325---fall-2023)
 
