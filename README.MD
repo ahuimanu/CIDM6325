@@ -17,8 +17,24 @@ Basic Views and URLs        | [Django Debug Toolbar](https://django-debug-toolba
 Basic Templates             | [Django Extensions](https://pypi.org/project/django-extensions/)
 &nbsp;                      | [Awesome Django](https://awesomedjango.org/)
 ***Chapter 2***             | ***Data modeling and Database***
-Basic Database              | [Databases and RDBMS](https://database.guide/what-is-a-database/)
-&nbsp;                      | [Relationships (1:1, 1:M, M:M)](https://database.guide/database-relationships-explained/)
+Basic Database Concepts     | [Databases and RDBMS](https://database.guide/what-is-a-database/)
+CRUD in SQL and ORM         | [DDL and DML in SQL](https://database.guide/sql-tutorial-for-beginners/)
+Django ORM                  | [Relationships (1:1, 1:M, M:M)](https://database.guide/database-relationships-explained/)
+Models and Migrations       | [Foreign Keys and Joins](https://database.guide/sql-joins-tutorial/)
+Django ModelManagers        | [Normalization and Denormalization](https://database.guide/what-is-normalization/)
+Q objects and queries       | [SQL Data Types](https://database.guide/database-tutorial-part-1-about-databases-creating-databases-tables/)
+bulk_create and fixtures    | &nbsp;
+&nbsp;                      | ***Data modeling and Database***
+&nbsp;                      | [Select related](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#select-related)
+&nbsp;                      | [Prefetch related](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#prefetch-related)
+&nbsp;                      | [Annotations](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#django.db.models.query.QuerySet.annotate)
+&nbsp;                      | [Subqueries](https://docs.djangoproject.com/en/4.2/ref/models/expressions/#subquery-expressions)
+&nbsp;                      | [Update or create](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#update-or-create)
+&nbsp;                      | [bulk_create](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#bulk-create)
+***Chapter 3***             | ***Templates, Views and URLs***
+Basic Database Concepts     | [Databases and RDBMS](https://database.guide/what-is-a-database/)
+
+
 
 [back to outline](#cidm6325---fall-2023)
 
