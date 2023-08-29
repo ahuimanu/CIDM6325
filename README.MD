@@ -31,7 +31,13 @@ bulk_create and fixtures    | &nbsp;
 &nbsp;                      | [Subqueries](https://docs.djangoproject.com/en/4.2/ref/models/expressions/#subquery-expressions)
 &nbsp;                      | [Update or create](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#update-or-create)
 &nbsp;                      | [bulk_create](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#bulk-create)
+&nbsp;                      | [bulk_update](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#bulk-update)
+&nbsp;                      | [atomic transactions](https://docs.djangoproject.com/en/4.2/topics/db/transactions/#django.db.transaction.atomic)
+&nbsp;                      | [select for update](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#select-for-update)
+&nbsp;                      | [The Query Expression API](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#select-for-update)
 ***Chapter 3***             | ***Templates, Views and URLs***
+Basic Database Concepts     | [Databases and RDBMS](https://database.guide/what-is-a-database/)
+Basic Database Concepts     | [Databases and RDBMS](https://database.guide/what-is-a-database/)
 Basic Database Concepts     | [Databases and RDBMS](https://database.guide/what-is-a-database/)
 
 
