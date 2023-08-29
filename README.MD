@@ -8,37 +8,46 @@ README Outline:
 
 [Pro Django Skills topics](https://www.better-simple.com/django/2023/08/18/pro-djangonaut-skills/) come from the [BetterSimple](https://www.better-simple.com/portfolio/) website.
 
-Book Topic                  | Pro Django Skills Topic
----                         | ---
-***Chapter 1***             | ***Dev tools***
-Django Project Structure    | [Git](https://training.github.com/downloads/github-git-cheat-sheet/) and [GitHub](https://docs.github.com/en/get-started)  
-`django-admin` CLI          | [Black](https://pypi.org/project/black/), [PEP8](https://pep8.org/), [Flake8](https://pypi.org/project/flake8/)
-Basic Views and URLs        | [Django Debug Toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/)
-Basic Templates             | [Django Extensions](https://pypi.org/project/django-extensions/)
-&nbsp;                      | [Awesome Django](https://awesomedjango.org/)
-***Chapter 2***             | ***Data modeling and Database***
-Basic Database Concepts     | [Databases and RDBMS](https://database.guide/what-is-a-database/)
-CRUD in SQL and ORM         | [DDL and DML in SQL](https://database.guide/sql-tutorial-for-beginners/)
-Django ORM                  | [Relationships (1:1, 1:M, M:M)](https://database.guide/database-relationships-explained/)
-Models and Migrations       | [Foreign Keys and Joins](https://database.guide/sql-joins-tutorial/)
-Django ModelManagers        | [Normalization and Denormalization](https://database.guide/what-is-normalization/)
-Q objects and queries       | [SQL Data Types](https://database.guide/database-tutorial-part-1-about-databases-creating-databases-tables/)
-bulk_create and fixtures    | &nbsp;
-&nbsp;                      | ***Data modeling and Database***
-&nbsp;                      | [Select related](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#select-related)
-&nbsp;                      | [Prefetch related](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#prefetch-related)
-&nbsp;                      | [Annotations](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#django.db.models.query.QuerySet.annotate)
-&nbsp;                      | [Subqueries](https://docs.djangoproject.com/en/4.2/ref/models/expressions/#subquery-expressions)
-&nbsp;                      | [Update or create](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#update-or-create)
-&nbsp;                      | [bulk_create](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#bulk-create)
-&nbsp;                      | [bulk_update](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#bulk-update)
-&nbsp;                      | [atomic transactions](https://docs.djangoproject.com/en/4.2/topics/db/transactions/#django.db.transaction.atomic)
-&nbsp;                      | [select for update](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#select-for-update)
-&nbsp;                      | [The Query Expression API](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#select-for-update)
-***Chapter 3***             | ***Templates, Views and URLs***
-Basic Database Concepts     | [Databases and RDBMS](https://database.guide/what-is-a-database/)
-Basic Database Concepts     | [Databases and RDBMS](https://database.guide/what-is-a-database/)
-Basic Database Concepts     | [Databases and RDBMS](https://database.guide/what-is-a-database/)
+Book Topic                      | Pro Django Skills Topic
+---                             | ---
+***Chapter 1***                 | ***Dev tools***
+Django Project Structure        | [Git](https://training.github.com/downloads/github-git-cheat-sheet/) and [GitHub](https://docs.github.com/en/get-started)  
+`django-admin` CLI              | [Black](https://pypi.org/project/black/), [PEP8](https://pep8.org/), [Flake8](https://pypi.org/project/flake8/)
+Basic Views and URLs            | [Django Debug Toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/)
+Basic Templates                 | [Django Extensions](https://pypi.org/project/django-extensions/)
+&nbsp;                          | [Awesome Django](https://awesomedjango.org/)
+***Chapter 2***                 | ***Data modeling and Database***
+Basic Database Concepts         | [Databases and RDBMS](https://database.guide/what-is-a-database/)
+CRUD in SQL and ORM             | [DDL and DML in SQL](https://database.guide/sql-tutorial-for-beginners/)
+Django ORM                      | [Relationships (1:1, 1:M, M:M)](https://database.guide/database-relationships-explained/)
+Models and Migrations           | [Foreign Keys and Joins](https://database.guide/sql-joins-tutorial/)
+Django ModelManagers            | [Normalization and Denormalization](https://database.guide/what-is-normalization/)
+Q objects and queries           | [SQL Data Types](https://database.guide/database-tutorial-part-1-about-databases-creating-databases-tables/)
+bulk_create and fixtures        | &nbsp;
+&nbsp;                          | ***Data modeling and Database***
+&nbsp;                          | [Select related](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#select-related)
+&nbsp;                          | [Prefetch related](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#prefetch-related)
+&nbsp;                          | [Annotations](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#django.db.models.query.QuerySet.annotate)
+&nbsp;                          | [Subqueries](https://docs.djangoproject.com/en/4.2/ref/models/expressions/#subquery-expressions)
+&nbsp;                          | [Update or create](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#update-or-create)
+&nbsp;                          | [bulk_create](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#bulk-create)
+&nbsp;                          | [bulk_update](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#bulk-update)
+&nbsp;                          | [atomic transactions](https://docs.djangoproject.com/en/4.2/topics/db/transactions/#django.db.transaction.atomic)
+&nbsp;                          | [select for update](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#select-for-update)
+&nbsp;                          | [The Query Expression API](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#select-for-update)
+***Chapter 3***                 | ***Templates, Views and URLs***
+Function-based views            | [Template inheritance](https://docs.djangoproject.com/en/4.2/ref/templates/language/#template-inheritance)
+Class-based views               | [Includes](https://docs.djangoproject.com/en/4.2/ref/templates/builtins/#include)
+ULR configuration               | [Template tags and filters](https://docs.djangoproject.com/en/4.2/ref/templates/builtins/#)
+Django templates and language   | &nbsp;
+Django template language        | &nbsp;
+***Chapter 4***                 | ***Django Admin***
+Superuser/admin account         | &nbsp;
+CRUD in admin                   | &nbsp;
+User management                 | &nbsp;
+Model registration              | &nbsp;
+Admin customization             | &nbsp;         
+Adding new admin views          | &nbsp;
 
 
 
