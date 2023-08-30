@@ -24,7 +24,7 @@ Models and Migrations           | [Foreign Keys and Joins](https://database.guid
 Django ModelManagers            | [Normalization and Denormalization](https://database.guide/what-is-normalization/)
 Q objects and queries           | [SQL Data Types](https://database.guide/database-tutorial-part-1-about-databases-creating-databases-tables/)
 bulk_create and fixtures        | &nbsp;
-&nbsp;                          | ***Data modeling and Database***
+&nbsp;                          | ***Django ORM***
 &nbsp;                          | [Select related](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#select-related)
 &nbsp;                          | [Prefetch related](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#prefetch-related)
 &nbsp;                          | [Annotations](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#django.db.models.query.QuerySet.annotate)
@@ -49,12 +49,12 @@ Model registration              | &nbsp;
 Admin customization             | &nbsp;         
 Adding new admin views          | &nbsp;
 ***Chapter 5***                 | ***Deployment***
-Serving Static Files            | [Static files](https://docs.djangoproject.com/en/4.2/ref/templates/language/#template-inheritance)
-collectstatic command           | [Media files](https://docs.djangoproject.com/en/4.2/ref/templates/builtins/#include)
+Serving Static Files            | [Static files](https://docs.djangoproject.com/en/4.2/ref/contrib/staticfiles/)
+`collectstatic` command           | [Media files](https://docs.djangoproject.com/en/4.2/topics/files/)
 STATICFILES_FINDERS             | [Whitenoise](https://whitenoise.readthedocs.io/en/latest/)
 static URLs                     | &nbsp;
 STATICFILES_DIRS                | &nbsp;
-findstatic command              | &nbsp;
+`findstatic` command            | &nbsp;
 
 
 [back to outline](#cidm6325---fall-2023)
