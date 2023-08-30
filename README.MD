@@ -41,14 +41,20 @@ Class-based views               | [Includes](https://docs.djangoproject.com/en/4
 ULR configuration               | [Template tags and filters](https://docs.djangoproject.com/en/4.2/ref/templates/builtins/#)
 Django templates and language   | &nbsp;
 Django template language        | &nbsp;
-***Chapter 4***                 | ***Django Admin***
+***Chapter 4 and 11***          | ***Django Admin***
 Superuser/admin account         | &nbsp;
 CRUD in admin                   | &nbsp;
 User management                 | &nbsp;
 Model registration              | &nbsp;
 Admin customization             | &nbsp;         
 Adding new admin views          | &nbsp;
-
+***Chapter 5***                 | ***Deployment***
+Serving Static Files            | [Static files](https://docs.djangoproject.com/en/4.2/ref/templates/language/#template-inheritance)
+collectstatic command           | [Media files](https://docs.djangoproject.com/en/4.2/ref/templates/builtins/#include)
+STATICFILES_FINDERS             | [Whitenoise](https://whitenoise.readthedocs.io/en/latest/)
+static URLs                     | &nbsp;
+STATICFILES_DIRS                | &nbsp;
+findstatic command              | &nbsp;
 
 
 [back to outline](#cidm6325---fall-2023)
