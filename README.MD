@@ -48,14 +48,20 @@ User management                 | &nbsp;
 Model registration              | &nbsp;
 Admin customization             | &nbsp;         
 Adding new admin views          | &nbsp;
-***Chapter 5***                 | ***Deployment***
+***Chapter 5***                 | ***Files Deployment***
 Serving Static Files            | [Static files](https://docs.djangoproject.com/en/4.2/ref/contrib/staticfiles/)
-`collectstatic` command           | [Media files](https://docs.djangoproject.com/en/4.2/topics/files/)
+`collectstatic` command         | [Media files](https://docs.djangoproject.com/en/4.2/topics/files/)
 STATICFILES_FINDERS             | [Whitenoise](https://whitenoise.readthedocs.io/en/latest/)
 static URLs                     | &nbsp;
 STATICFILES_DIRS                | &nbsp;
 `findstatic` command            | &nbsp;
-
+***Chapter 6***                 | ***Forms***
+Forms and HTTP POST             | [Form vs ModelForm](https://docs.djangoproject.com/en/4.2/topics/forms/modelforms/)
+Django Forms Library            | [Custon - Server Side - Validation](https://docs.djangoproject.com/en/4.2/ref/forms/validation/)
+Form validation                 | [Creating Custom Form Templates](https://docs.djangoproject.com/en/4.2/ref/forms/renderers/#overriding-built-in-form-templates)
+Custom Form Field Validation    | [Django Crispy Forms](https://github.com/django-crispy-forms/django-crispy-forms)
+Placeholders and initial values | [Formsets - Multi-part forms](https://docs.djangoproject.com/en/4.2/topics/forms/formsets/)
+ModelForm                       | &nbsp;
 
 [back to outline](#cidm6325---fall-2023)
 
