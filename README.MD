@@ -35,13 +35,17 @@ bulk_create and fixtures        | &nbsp;
 &nbsp;                          | [atomic transactions](https://docs.djangoproject.com/en/4.2/topics/db/transactions/#django.db.transaction.atomic)
 &nbsp;                          | [select for update](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#select-for-update)
 &nbsp;                          | [The Query Expression API](https://docs.djangoproject.com/en/4.2/ref/models/querysets/#select-for-update)
-***Chapter 3***                 | ***Templates, Views and URLs***
+***Chapter 3 and 11***          | ***Templates, Views and URLs***
 Function-based views            | [Template inheritance](https://docs.djangoproject.com/en/4.2/ref/templates/language/#template-inheritance)
 Class-based views               | [Includes](https://docs.djangoproject.com/en/4.2/ref/templates/builtins/#include)
 ULR configuration               | [Template tags and filters](https://docs.djangoproject.com/en/4.2/ref/templates/builtins/#)
 Django templates and language   | &nbsp;
 Django template language        | &nbsp;
-***Chapter 4 and 11***          | ***Django Admin***
+Template filters                | &nbsp;
+Custom template filters         | &nbsp;
+string filters                  | &nbsp;
+template tags                   | &nbsp;
+***Chapter 4 and 10***          | ***Django Admin***
 Superuser/admin account         | &nbsp;
 CRUD in admin                   | &nbsp;
 User management                 | &nbsp;
@@ -75,6 +79,35 @@ Sessions                        | [Cross-Origin Resource Sharing](https://develo
 &nbsp;                          | [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
 &nbsp;                          | [HTTP Session](https://developer.mozilla.org/en-US/docs/Web/HTTP/Session)
 &nbsp;                          | [Lifecycle of a HTTP request](https://firefox-source-docs.mozilla.org/networking/http/lifecycle.html)
+&nbsp;                          | [Authentication and Authorization](https://docs.djangoproject.com/en/4.2/topics/auth/)
+&nbsp;                          | [Granting permissions](https://docs.djangoproject.com/en/4.2/topics/auth/default/#permissions-and-authorization)
+&nbsp;                          | [Managing Groups](https://docs.djangoproject.com/en/4.2/topics/auth/default/#groups)
+&nbsp;                          | [Django Single Signon - CAS](https://djangocas.dev/)
+&nbsp;                          | [Custom Authentication Backend](https://docs.djangoproject.com/en/4.2/topics/auth/customizing/#writing-an-authentication-backend)
+***Chapter 12***                | ***Django REST Framework for APIs***
+Understanding REST APIs         | [Respresentational State Transfer](https://www.service-architecture.com/articles/web-services/representational-state-transfer-rest.html)
+Serliaizers                     | [Rest Tutorial](https://www.restapitutorial.com/)
+ViewSets                        | [JavaScript fetch method](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+&nbsp;                          | [HTMX](https://htmx.org/)
+&nbsp;                          | [GraphQL](https://htmx.org/)
+&nbsp;                          | [OAuth - authentication as a service](https://oauth.net/2/)
+***Chapter 13***                | ***File Output Generation - PDF, CSV, Excel, graphs, etc.***
+Working with CSV files          | [How to create CSV output](https://docs.djangoproject.com/en/4.2/howto/outputting-csv/)
+Working with PDF files          | [how to create PDF files](https://docs.djangoproject.com/en/4.2/howto/outputting-pdf/)
+Working with Excel files        | [Django and Excel](https://pypi.org/project/django-excel/)
+Working with graphs             | [mathplotlib](https://matplotlib.org/)
+Integrating visualizations      | &nbsp;
+***Chapter 14***                | ***Testing Django and Python***
+Testing fundamentals            | [Data setup - fixture loading](https://docs.djangoproject.com/en/4.2/topics/testing/tools/#fixture-loading)
+Automated testing               | [Testing in Django](https://docs.djangoproject.com/en/4.2/topics/testing/)
+Testing in Django               | [Unit Test vs. Integration Test](https://www.testim.io/blog/unit-test-vs-integration-test/)
+Testing Django models           | [Test-Driven Development](https://www.obeythetestinggoat.com/)
+Testing Django views            | [Django Test Coverage](https://docs.djangoproject.com/en/4.2/topics/testing/advanced/#integration-with-coverage-py)
+Django RequestFactory           | [Request Factory](https://docs.djangoproject.com/en/4.2/topics/testing/advanced/#the-request-factory)
+Testcase Classes                | [Test automation with `tox`](https://tox.wiki/en/4.9.0/)
+***Chapter 15***                | ***Django Third Party Libraries***
+Testing fundamentals            | [Awesome Django](https://awesomedjango.org/)
+
 
 
 [back to outline](#cidm6325---fall-2023)
