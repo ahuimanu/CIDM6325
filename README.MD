@@ -55,13 +55,27 @@ STATICFILES_FINDERS             | [Whitenoise](https://whitenoise.readthedocs.io
 static URLs                     | &nbsp;
 STATICFILES_DIRS                | &nbsp;
 `findstatic` command            | &nbsp;
-***Chapter 6***                 | ***Forms***
+***Chapter 6 and 7***           | ***Forms***
 Forms and HTTP POST             | [Form vs ModelForm](https://docs.djangoproject.com/en/4.2/topics/forms/modelforms/)
 Django Forms Library            | [Custon - Server Side - Validation](https://docs.djangoproject.com/en/4.2/ref/forms/validation/)
 Form validation                 | [Creating Custom Form Templates](https://docs.djangoproject.com/en/4.2/ref/forms/renderers/#overriding-built-in-form-templates)
 Custom Form Field Validation    | [Django Crispy Forms](https://github.com/django-crispy-forms/django-crispy-forms)
 Placeholders and initial values | [Formsets - Multi-part forms](https://docs.djangoproject.com/en/4.2/topics/forms/formsets/)
 ModelForm                       | &nbsp;
+***Chapter 8***                 | ***Forms***
+File Uploads                    | [File Uploads](https://docs.djangoproject.com/en/4.2/topics/http/file-uploads/)
+Image Uploads                   | [Upload Handlers](https://docs.djangoproject.com/en/4.2/ref/files/uploads/)
+ModelForms and Uploads          | [Images](https://djangocentral.com/uploading-images-with-django/)
+***Chapter 9***                 | ***Sessions and Authorization***
+Middleware                      | [Sessions](https://docs.djangoproject.com/en/4.2/topics/http/sessions/)
+Password Handling               | [Cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)
+Authentication decorators       | [Middleware](https://docs.djangoproject.com/en/4.2/topics/http/middleware/)
+Template enhancements           | [CSRF](https://docs.djangoproject.com/en/4.2/ref/csrf/)
+Sessions                        | [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+&nbsp;                          | [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+&nbsp;                          | [HTTP Session](https://developer.mozilla.org/en-US/docs/Web/HTTP/Session)
+&nbsp;                          | [Lifecycle of a HTTP request](https://firefox-source-docs.mozilla.org/networking/http/lifecycle.html)
+
 
 [back to outline](#cidm6325---fall-2023)
 
