@@ -145,6 +145,8 @@ Try Activities:
 * 1.01
 * 1.02
 
+[back to outline](#cidm6325---fall-2023)
+
 # Models and Migrations (Chapter 2)
 * SQLite is the default RDBMS system used by Django, it is a very capable solution, but also does not compare to something like [MySQL](https://www.mysql.com/) or [PostgreSQL](https://www.postgresql.org/). PostgreSQL is more preferred for many Django projects.
 * The tool recommended in the chapter [DB Browser for SQLite](https://sqlitebrowser.org/) is very handy to get an understanding of what the DjangoORM is doing behind the scenes when the DjangoORM creates and executes SQL statements in the background.
@@ -166,6 +168,8 @@ Object/Relational Mappers are among the more poignant and impactful developments
 Do this activity:
 * 2.01
 
+[back to outline](#cidm6325---fall-2023)
+
 # URLs, Views, and Templates (Chapter 3)
 * Views are language derived from a application design pattern called the [Model View Controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller). However, in Django, this is commonly referred to as Model View Template. The discintions are too important
 * What is generally happening is that we need a way to translate an incoming URL request to represent a specified request of the Django applicaiton and then render the correct response
@@ -181,7 +185,9 @@ Do this activity:
 * I concur with the authors' approach to include Bootrstrap as a CSS/presentation framework as a part of your templates.  You will not likely win a design award with Bootstrap, but you will have a functional and highly-tested approach to creating very usable and presentable pages in your web application.
 * I also strongly recommend the exercises in this chapter.
 
-# Django Admin (Chapter 4 and 11)
+[back to outline](#cidm6325---fall-2023)
+
+# Django Admin (Chapter 4 and 10)
 * The Django admin is a secret weapon that many frameworks don't quite have - Perhaps CMSs like WordPress are an exception.
 * Basically, you use the Django admin to manage the models and data in your application.
 * The Django admin is a full web application within a web application designed to permit privileged access for the purposes of managing data in your project and its apps.
@@ -192,7 +198,13 @@ Do this activity:
 * Registering your models for admin use is an explicit act specified by including an `admin.py` file in your app.
 * You can also customize how the admin works with your models using and extending the [ModelAdmin](https://docs.djangoproject.com/en/4.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin) class.
 * Django admin interface customization is also possible via the [AdminSite](https://docs.djangoproject.com/en/4.2/ref/contrib/admin/#adminsite-objects) class.
-* 
+* The Django admin is implemented as an available app that comes with a default scaffolded Django project.
+* You can override the properties and behaviors of the default `AdminSite` object (that is available as long as the `admin` app is registered, which it is by default) in `settings.py`
+* You can also customize the built-in adminsite templates to adjust other aspects of presentation and look-and-feel.
+* AdminSite customization can be extended to adding/modifying the views that ship with the admin app.
+* As ever, the exercises in chapter 4 are worth trying out.
+
+# Django Admin (Chapter 4 and 10)
 
 
 [back to outline](#cidm6325---fall-2023)
