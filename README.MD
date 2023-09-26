@@ -181,10 +181,19 @@ Do this activity:
 * I concur with the authors' approach to include Bootrstrap as a CSS/presentation framework as a part of your templates.  You will not likely win a design award with Bootstrap, but you will have a functional and highly-tested approach to creating very usable and presentable pages in your web application.
 * I also strongly recommend the exercises in this chapter.
 
-# Django Admin (Chapter 4)
+# Django Admin (Chapter 4 and 11)
 * The Django admin is a secret weapon that many frameworks don't quite have - Perhaps CMSs like WordPress are an exception.
 * Basically, you use the Django admin to manage the models and data in your application.
+* The Django admin is a full web application within a web application designed to permit privileged access for the purposes of managing data in your project and its apps.
+* The Django admin affords the opportunity to effect CRUD operations but is only admin focused and does not substitute for user-facing interfaces.
+* The nice thing about the admin is that you can place a few test records into the databse and then use the `manage.py` or `django-admin` tools to export that data.  
+* You can then import this data whenever you need to reset the project/application.
+* The Django admin is also designed to manage users/groups and permissions (authentication and authorization).
+* Registering your models for admin use is an explicit act specified by including an `admin.py` file in your app.
+* You can also customize how the admin works with your models using and extending the [ModelAdmin](https://docs.djangoproject.com/en/4.2/ref/contrib/admin/#django.contrib.admin.ModelAdmin) class.
+* Django admin interface customization is also possible via the [AdminSite](https://docs.djangoproject.com/en/4.2/ref/contrib/admin/#adminsite-objects) class.
 * 
+
 
 [back to outline](#cidm6325---fall-2023)
 
