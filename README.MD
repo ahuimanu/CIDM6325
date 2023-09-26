@@ -145,6 +145,13 @@ Try Activities:
 * 1.01
 * 1.02
 
+# Models and Migrations (Chapter 2)
+* SQLite is the default RDBMS system used by Django, it is a very capable solution, but also does not compare to something like [MySQL](https://www.mysql.com/) or [PostgreSQL](https://www.postgresql.org/). PostgreSQL is more preferred for many Django projects.
+* The tool recommended in the chapter [DB Browser for SQLite](https://sqlitebrowser.org/) is very handy to get an understanding of what the DjangoORM is doing behind the scenes when the DjangoORM creates and executes SQL statements in the background.
+* The Structured Query Language makes it possible to express a number of commands and intents to the RDBMS you are using, the book refers to the essential operations as CRUD (Create, Read, Update, and Delete), these are mostly [DQL/DML](https://www.geeksforgeeks.org/sql-ddl-dql-dml-dcl-tcl-commands/#) statements.
+* The material in the book on using SQL is good for your reference, but we will mostly rely on the [DjangoORM](https://docs.djangoproject.com/en/4.2/#the-model-layer).
+
+
 [back to outline](#cidm6325---fall-2023)
 
 # Miscellaneous Notes
