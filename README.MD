@@ -204,7 +204,11 @@ Do this activity:
 * AdminSite customization can be extended to adding/modifying the views that ship with the admin app.
 * As ever, the exercises in chapter 4 are worth trying out.
 
-# Django Admin (Chapter 4 and 10)
+# Static Files (Chapter 5 and 11)
+* It is important to remember that Django is a web application framework and not an HTTP server.  
+* Django is meant to work with an HTTP server in most cases, but Django also makes it easier to test your apps through its built-in webserver.
+* In all cases, most web applications rely on static files, particularly CSS and JS files.
+* Apps are ideally independent of each other, so a system of allowing static files to be located within an app, and yet made widely available once your project is deployed is why the `manage.py collectstatic` command exists.
 
 
 [back to outline](#cidm6325---fall-2023)
