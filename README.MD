@@ -156,7 +156,35 @@ Try Activities:
 * There is a tight integration between the apps you declare in `settings.py` and how the DjangoORM looks for and manages the database, the models declared in your app's `models.py` file are detected due to identifying your apps in `settings.py`.
 * Migrations are important as the prime translation between the models you specify and the SQL that is written for communication with the underlying database.
 * Although they are rooted in database fundamentals of relational models, getting the hang of [relationships](https://docs.djangoproject.com/en/4.2/topics/db/models/#relationships) in the DjagoORM and the models you create will take practice.
+* Keep in mind that the purpose of an ORM is allow you to only work with in-memory objects in your code without having to deal with the particulars of SQL. Most of the chapter emphasizes this point.
+* Q objects will seem odd at first, but they exist to facilitate complex queries that would require intermediate to advanced SQL techniques.
+* Don't skip the exercises in this chapter, they will help and the authors have provided solutions.
 
+## Observations
+Object/Relational Mappers are among the more poignant and impactful developments along the way to writing web applications.  In most cases, any software's true efficacy is to apply logic and business rules to both incoming and outgoing data.  It can be said that it is the application of these rules that creates the value that allows the elevation of data to information.  Some understanding of the fundamentals of databases and database design is a helpful pre-requisite to working with this information.  I commend the authors (and I am grateful to them for writing a useful book) for providing some basic treatment. 
+
+Do this activity:
+* 2.01
+
+# URLs, Views, and Templates (Chapter 3)
+* Views are language derived from a application design pattern called the [Model View Controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller). However, in Django, this is commonly referred to as Model View Template. The discintions are too important
+* What is generally happening is that we need a way to translate an incoming URL request to represent a specified request of the Django applicaiton and then render the correct response
+* This is all pursuant to the [HTTP request cycle](https://developer.mozilla.org/en-US/docs/Web/HTTP/Session) (usually a GET followed by a response).
+* The common approach is to create an app-level `urls.py` file that integrates with a project-level `urls.py` file.  The purpose of this file is to map incoming URL patterns to the Python/Django code that will do something about the incoming request.
+* This is the essence of a web application.
+* Views represent the connection between an incoming URL-driven request and the response you will use accommodate that request.  Views will mediate and moderate that transaction.
+* The two common approaches to this are function-based views and class-based views.
+* Both generally make it possible to receive an [HTTP Request object](https://docs.djangoproject.com/en/4.2/topics/http/) and handle any [response](https://docs.djangoproject.com/en/4.2/ref/request-response/), which is typically rendered HTML.
+* The entire purpose of a template is to intersperse and combine HTML/CSS markup with Python/Django code that directs either logic or data - sometimes both.
+* For this reason, there is a Django Template Language available to us, but it not so much a language, but a method for combining the HTML/CSS, code, and data needed to create the "Web" part of the web application.
+* Template inheritance and includes are very handy as they facilitate reuse by providing "chunks" and parts to reusbaly structure the pages delivered in HTML responses.
+* I concur with the authors' approach to include Bootrstrap as a CSS/presentation framework as a part of your templates.  You will not likely win a design award with Bootstrap, but you will have a functional and highly-tested approach to creating very usable and presentable pages in your web application.
+* I also strongly recommend the exercises in this chapter.
+
+# Django Admin (Chapter 4)
+* The Django admin is a secret weapon that many frameworks don't quite have - Perhaps CMSs like WordPress are an exception.
+* Basically, you use the Django admin to manage the models and data in your application.
+* 
 
 [back to outline](#cidm6325---fall-2023)
 
