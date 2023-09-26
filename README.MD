@@ -150,6 +150,12 @@ Try Activities:
 * The tool recommended in the chapter [DB Browser for SQLite](https://sqlitebrowser.org/) is very handy to get an understanding of what the DjangoORM is doing behind the scenes when the DjangoORM creates and executes SQL statements in the background.
 * The Structured Query Language makes it possible to express a number of commands and intents to the RDBMS you are using, the book refers to the essential operations as CRUD (Create, Read, Update, and Delete), these are mostly [DQL/DML](https://www.geeksforgeeks.org/sql-ddl-dql-dml-dcl-tcl-commands/#) statements.
 * The material in the book on using SQL is good for your reference, but we will mostly rely on the [DjangoORM](https://docs.djangoproject.com/en/4.2/#the-model-layer).
+* However, it is possible to execute [Raw SQL](https://docs.djangoproject.com/en/4.2/topics/db/sql/) against a database via the DjangoORM.
+* In nearly all cases, when starting out, SQLite will be sufficient - remember that SQLite creates a database file in your project.
+* Databases, like most things, are governed by entries in the `settings.py` file used to [configure your Django project and apps](https://docs.djangoproject.com/en/4.2/topics/settings/).
+* There is a tight integration between the apps you declare in `settings.py` and how the DjangoORM looks for and manages the database, the models declared in your app's `models.py` file are detected due to identifying your apps in `settings.py`.
+* Migrations are important as the prime translation between the models you specify and the SQL that is written for communication with the underlying database.
+* Although they are rooted in database fundamentals of relational models, getting the hang of [relationships](https://docs.djangoproject.com/en/4.2/topics/db/models/#relationships) in the DjagoORM and the models you create will take practice.
 
 
 [back to outline](#cidm6325---fall-2023)
