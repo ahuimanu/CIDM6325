@@ -117,7 +117,7 @@ Django Allauth                  | [Django Allauth](https://pypi.org/project/djan
 ReactJS                         | [ReactJS](https://legacy.reactjs.org/docs/getting-started.html)
 HTMX                            | [HTMX](https://htmx.org/) - I prefer this
 AlpineJS                        | [AlpineJS](https://alpinejs.dev/) - "lighter" than ReactJS
-jQuery                          | [jQuery](https://jquery.com/) - old (and unfairly unpopular)
+jQuery                          | [jQuery](https://jquery.com/) - old and unfairly unpopular
 
 
 
