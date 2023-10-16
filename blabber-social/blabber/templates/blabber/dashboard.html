@@ -24,6 +24,16 @@
                 {% endfor %}
             {% endfor %}
         </div>
+        <div class="col">
+            <form method="post">
+                {{ form.as_p }}
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-success" type="submit">
+                        Blab!
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

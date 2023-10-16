@@ -1,10 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import BlabForm
 from .models import Profile
 
 
 # Create your views here.
 def dashboard(request):
-    return render(request, "blabber/dashboard.html")
+    if request.method == "POST":
+        form = BlabForm(request.POST or None)
+        if form.is_valid():
+            blab = form.save(commit=False)
+            blab.user = request.user
+            blab.save()
+            return redirect("blabber:dashboard")
+    form = BlabForm()
+    return render(request, "blabber/dashboard.html", {"form": form})
 
 
 def profile_list(request):
