@@ -106,7 +106,24 @@ Testing Django views            | [Django Test Coverage](https://docs.djangoproj
 Django RequestFactory           | [Request Factory](https://docs.djangoproject.com/en/4.2/topics/testing/advanced/#the-request-factory)
 Testcase Classes                | [Test automation with `tox`](https://tox.wiki/en/4.9.0/)
 ***Chapter 15***                | ***Django Third Party Libraries***
-Testing fundamentals            | [Awesome Django](https://awesomedjango.org/)
+Finding 3rd party               | [Awesome Django](https://awesomedjango.org/)
+Environment variables           | [Python Dotenv](https://pypi.org/project/python-dotenv/)
+Django configurations           | [Django configurations](https://pypi.org/project/django-configurations/)
+Handing database connections    | [DJ Database URL](https://pypi.org/project/dj-database-url/)
+Django Debug Toolbar            | [Django Debug Toolbar](https://pypi.org/project/django-debug-toolbar/)
+Django Crispy Forms             | [Django Crispy Forms](https://pypi.org/project/django-crispy-forms/)
+Django Allauth                  | [Django Allauth](https://pypi.org/project/django-allauth/)
+***Chapter 16***                | ***JavaScript Frontends***
+ReactJS                         | [ReactJS](https://legacy.reactjs.org/docs/getting-started.html)
+HTMX                            | [HTMX](https://htmx.org/) - I prefer this
+AlpineJS                        | [AlpineJS](https://alpinejs.dev/) - "lighter" than ReactJS
+jQuery                          | [jQuery](https://jquery.com/) - old and unfairly unpopular
+
+
+
+
+
+
 
 
 [back to outline](#cidm6325---fall-2023)
