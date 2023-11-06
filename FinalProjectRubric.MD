@@ -56,7 +56,7 @@ Custom field validation                     |           | x     |         |
 Serving Media Files                         |           | x     |         |
 File Upload                                 | x         |       |         |
 ModelForm and File Uploads                  |           |       | x       |
-Serving Uploaded Files                      |           |       | x       |
+Serving Uploaded Files                      |           |       |         | x
 ***Chapter 9***                             |           |       |         |
 Passwords and Auth                          |           | x     |         |
 Authentication decorators                   |           | x     |         |
