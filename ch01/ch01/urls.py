@@ -21,5 +21,5 @@ import checklist.views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', checklist.views.index),
+    path("", checklist.views.index),
 ]
