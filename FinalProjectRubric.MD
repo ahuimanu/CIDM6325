@@ -38,8 +38,8 @@ Template tags                               | x         |       |         |
 ***Chapter 4 and 10***                      |           |       |         |
 Django Admin                                | x         |       |         |
 Django Admin manage users                   |           |       |         | x
-Customize Admin interface                   |           |       | x       | 
-Customize ModelAdmin classes                |           |       | x       |
+Customize Admin interface                   |           | x     |         | 
+Customize ModelAdmin classes                |           | x     |        |
 Add custom view to admin interface          |           |       | x       |
 ***Chapter 5***                             |           |       |         |
 Static files                                | x         |       |         |
