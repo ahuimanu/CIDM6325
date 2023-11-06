@@ -7,7 +7,7 @@ I have classified the learning objectives from Antonio's book according to the f
 * You will implement *at least* two **Better** components - Gets you to 85% of the value
 * You will implement *at least* two **Best** components - Gets you to 90% of the value
 
-Where is the remaining 10%? It comes from the synthesis and service to your idea (implementation).
+Where is the remaining 10%? It comes from the synthesis and service to your implementation approach.
 
 * **Baseline**: Essential Django knowledge that must be demonstrated in your final project
 * **Good**: Fundamental knowledge that sets up a more useful app
