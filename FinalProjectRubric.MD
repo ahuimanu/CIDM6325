@@ -75,13 +75,13 @@ Graphs and Visualizations                   | x         |       |         |
 Testing Models                              | x         |       |         |
 Testing Views                               |           | x     |         |
 Django RequestFactory                       |           | x     |         |
-***Chapter15***                             |           |       |         |
+***Chapter 15***                            |           |       |         |
 `python-dotenv` or `django-configurations`  | x         |       |         |
 `dj-database-url`                           |           | x     |         |
 `django-crispy-forms`                       | x         |       |         |
 `django-allauth`                            |           |       | x       |
 Django Debug Toolbar                        |           | x     |         |
-***Chapter16***                             |           |       |         |
+***Chapter 16***                            |           |       |         |
 use any JS front-end framework              |           |       | x       |
 
 ### Optional 3rd Party Tools to consider***
