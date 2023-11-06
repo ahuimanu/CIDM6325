@@ -62,7 +62,7 @@ Passwords and Auth                          |           | x     |         |
 Authentication decorators                   |           | x     |         |
 Conditional template access                 |           | x     |         |
 Sessions                                    | x         |       |         |
-***Chapter12***                             |           |       |         |
+***Chapter 12***                             |           |       |         |
 Django REST Framework                       |           |       |         | x
 Object Serializers                          |           |       |         | x
 ModelViewSet                                |           |       |         | x
