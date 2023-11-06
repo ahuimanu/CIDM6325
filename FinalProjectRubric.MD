@@ -84,7 +84,6 @@ Django Debug Toolbar                        |           | x     |         |
 ***Chapter16***                             |           |       |         |
 use any JS front-end framework              |           |       | x       |
 
-
 ### Optional 3rd Party Tools to consider***
 * [Django admin](https://github.com/wsvincent/awesome-django#admin)
 * [APIs](https://github.com/wsvincent/awesome-django#apis)
