@@ -1,5 +1,7 @@
 # Guide to Book Topics for Final Project (Baseline, Good, Better, Best)
 
+NOTE: Not necessarily valid for 2024, will update and notify.
+
 I have classified the learning objectives from Antonio's book according to the following scheme.  Each category is relative to the following requirements for your final project:
 
 * You must implement *all* **Baseline** components - Gets you to 70% of the value
