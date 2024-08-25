@@ -1,6 +1,7 @@
 # CIDM6325 - Fall 2024
 README Outline:
 
+- A [Git Cheat Sheet](https://training.github.com/downloads/github-git-cheat-sheet/) is available as a quick reference for common `git` commands.
 
 # Professional Django Skills vs Book Order
 
