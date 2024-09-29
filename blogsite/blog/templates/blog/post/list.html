@@ -4,14 +4,16 @@
   <h1>My Blog</h1>
   {% for post in posts %}
     <h2>
-      {% comment %} http://127.0.0.1:8000/blog/3/ {% endcomment %}
-      <a href="{% url 'blog:post_detail' post.id %}">
+      {% comment %} call to model method for canonical url {% endcomment %}
+      {% comment %} <a href="{% url 'blog:post_detail' post.id %}"> {% endcomment %}
+        <a href="{{ post.get_absolute_url }}">
         {{ post.title }}
       </a>
     </h2>
     <p class="date">
       Published {{ post.publish }} by {{ post.author }}
     </p>
+    {% comment %} filters help with content display {% endcomment %}
     {{ post.body|truncatewords:30|linebreaks }}
   {% endfor %}
 {% endblock content %}

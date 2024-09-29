@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
+
 # Create your models here.
-
-
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(status=Post.Status.PUBLISHED)
@@ -17,7 +17,10 @@ class Post(models.Model):
         PUBLISHED = "PB", "Published"
 
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250)
+
+    # a unique for date slug will increase the SEO disctinctiveness of the URL
+    # Using unique_for_date, Django will ensure that new posts are unique for the publication date
+    slug = models.SlugField(max_length=250, unique_for_date="publish")
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="blog_posts"
     )
@@ -32,6 +35,7 @@ class Post(models.Model):
     published = PublishedManager()  # The custom manager
 
     class Meta:
+        # creates a descending order by publish field for display
         ordering = ["-publish"]
         indexes = [
             models.Index(fields=["-publish"]),
@@ -39,3 +43,17 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        # this will allow us to build the canonical URL for the model
+        # The canonical URL is the preferred URL that is the definitive for specific content.
+        # https://docs.djangoproject.com/en/5.0/ref/urlresolvers/
+        return reverse(
+            "blog:post_detail",
+            args=[
+                self.publish.year,
+                self.publish.month,
+                self.publish.day,
+                self.slug,
+            ],
+        )
