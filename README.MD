@@ -21,6 +21,12 @@ Steps from https://anymail.dev/en/v12.0/esps/sendgrid/
 WSL2 is probably the best option for Windows.
 ![WSL2](./img/docker_install_dialog.png)
 
+You can use the shell from within the Docker Interface
+![Docker Interface](./img/docker_interface.png)
+
+Or, if on Windows, use PowerShell. If on Mac, Terminal is fine.
+![PowerShell](./img/PowerShell.png)
+
 ## General Notes ##
 * [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator)
 
