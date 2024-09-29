@@ -49,6 +49,16 @@ Google Cloud:
 1. The URL for the overall cloud developer console is: [Google Cloud Console](https://console.cloud.google.com/)
 2. A new project screen: ![New Project](./img/GC_new_project.png)
 3. Select your project: ![Select Project](./img/GC_Select_Project.png)
+4. Select OAuth Consent screen: ![Select OAUTH](./img/CG_Select_OAuth.png)
+5. Enter App Info (name and Authorized Domains): ![Enter OAuth Info](./img/GC_App_Info.png)
+6. Add Test User (must be the email you want to social auth with): ![Add Test User](./img/GC_Add_Test_User.png)
+7. Create Credentials (dropdown shown and different from book): ![Select Credentials](./img/GC_Create_Credentials.png)
+8. Create OAuth Cliend ID - Application Type "Web Application"; Add Authorized JavaScript Origings: Add Authorized redirect URIs: ![Client ID Settings](./img/GC_Client_ID_Settings.png)
+9. Results Dialog - all info needed are on results diaglog: ![OAuth Dialog](./img/GC_OAuth_Client_Created.png)
+10. Credentials Dashboard - ![OAuth Credentials Dashboard](./img/GC_Credentials_Dashboard.png)
+11. Credentials Summary - ![OAuth Credentials Summary](./img/GC_Credials_Summary.png)
+
+
 
 
 ## General Notes ##
