@@ -4,7 +4,12 @@ README Outline:
 - A [Git Cheat Sheet](https://training.github.com/downloads/github-git-cheat-sheet/) is available as a quick reference for common `git` commands.
 - Boostrap Crash Course (freecodecamp): [Full Bootstrap 5 Tutorial for Beginners](https://www.freecodecamp.org/news/full-bootstrap-5-tutorial-for-beginners/)
 
-**General Notes**
+## Video Notes
+- Overall tools and techniques - Video 1
+- Social SSO - Video 2
+- Docker and Postgres - Video 3
+
+## General Notes ##
 * [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator)
 
 * Commands to run when checking for outdated packages in your Virtual Environment
