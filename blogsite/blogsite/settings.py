@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+
 load_dotenv()  # take environment variables from .env.
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -136,7 +137,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
 
 ANYMAIL = {
-     "SENDGRID_API_KEY": os.getenv("SENDGRID_API_KEY"),
+    "SENDGRID_API_KEY": os.getenv("SENDGRID_API_KEY"),
 }
-SENDGRID_API_URL="https://api.sendgrid.com/v3/"
+SENDGRID_API_URL = "https://api.sendgrid.com/v3/"
 DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")

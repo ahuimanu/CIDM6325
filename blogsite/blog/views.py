@@ -3,13 +3,38 @@ import os
 from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_POST
 from django.http import Http404
 from django.views.generic import ListView
-from .forms import EmailPostForm
+from .forms import CommentForm, EmailPostForm
 from .models import Post
 
 
 # Create your views here.
+def post_comment(request, post_id):
+    post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
+    comment = None
+    # A comment was posted
+    form = CommentForm(data=request.POST)
+    if form.is_valid():
+        # Create a Comment object without saving it to the database
+        # needed to make the child object association with the comment
+        comment = form.save(commit=False)
+        # Assign the post to the comment
+        comment.post = post
+        # Save the comment to the database
+        comment.save()
+    return render(
+        request,
+        'blog/post/comment.html',
+        {
+            'post': post,
+            'form': form,
+            'comment': comment
+        }
+    )    
+
+
 def post_list(request):
     """
     A view that returns a list of published posts
@@ -48,13 +73,9 @@ def post_detail(request, year, month, day, post_slug):
 
 def post_share(request, post_id):
     # Retrieve post by id
-    post = get_object_or_404(
-        Post,
-        id=post_id,
-        status=Post.Status.PUBLISHED
-    )
+    post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
     sent = False
-    if request.method == 'POST':
+    if request.method == "POST":
         # Form was submitted
         form = EmailPostForm(request.POST)
         if form.is_valid():
@@ -63,27 +84,22 @@ def post_share(request, post_id):
             # ... send email - this should be separated into a service soon
             post_url = request.build_absolute_uri(post.get_absolute_url())
             subject = f"{cd['name']} {cd['email']} thinks you would like {post.title}"
-            message = f"Hi, have a look at {post.title} at {post_url}\n\n{cd['name']}\'s comments: {cd['comments']}"
+            message = f"Hi, have a look at {post.title} at {post_url}\n\n{cd['name']}'s comments: {cd['comments']}"
             send_mail(
-                subject=subject, 
+                subject=subject,
                 message=message,
                 from_email=None,
-                recipient_list=[cd['to']]
+                recipient_list=[cd["to"]],
             )
             sent = True
-            
+
     else:
         form = EmailPostForm()
     return render(
         request,
-        'blog/post/share.html',
-        {
-            'post': post,
-            'form': form
-        }
+        "blog/post/share.html",
+        {"post": post, "form": form, "sent": sent},
     )
-
-
 
 
 # CBV versions
@@ -93,8 +109,9 @@ def post_share(request, post_id):
 class PostListView(ListView):
     """
     Alternative post list view
-    """    
+    """
+
     queryset = Post.published.all()
     context_object_name = "posts"
-    paginate_by = 5 # 5 posts per page - CoPilot detected this, nicely done
+    paginate_by = 5  # 5 posts per page - CoPilot detected this, nicely done
     template_name = "blog/post/list.html"
