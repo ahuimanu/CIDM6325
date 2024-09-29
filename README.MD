@@ -9,6 +9,8 @@ README Outline:
 - Social SSO - Video 2
 - Docker and Postgres - Video 3
 
+[back to outline](#cidm6325---fall-2024)
+
 ## General Notes ##
 * [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator)
 
