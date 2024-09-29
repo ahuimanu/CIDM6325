@@ -1,7 +1,11 @@
 {% extends "blog/base.html" %}
 {% block title %}My Blog{% endblock title %}
 {% block content %}
-  <h1>My Blog</h1>
+  <h1>
+    <a href="{% url 'blog:post_list' %}">
+      My Blog
+    </a>
+  </h1>
   {% for post in posts %}
     <h2>
       {% comment %} call to model method for canonical url {% endcomment %}
@@ -16,4 +20,5 @@
     {% comment %} filters help with content display {% endcomment %}
     {{ post.body|truncatewords:30|linebreaks }}
   {% endfor %}
+  {% include "pagination.html" with page=posts %}
 {% endblock content %}
