@@ -1,3 +1,6 @@
+import os
+
+from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404
@@ -56,7 +59,18 @@ def post_share(request, post_id):
         if form.is_valid():
             # Form fields passed validation - cleaned and sanitized data are essential
             cd = form.cleaned_data
-            # ... send email
+            # ... send email - this should be separated into a service soon
+            post_url = request.build_absolute_uri(post.get_absolute_url())
+            subject = f"{cd['name']} {cd['email']} thinks you would like {post.title}"
+            message = f"Hi, have a look at {post.title} at {post_url}\n\n{cd['name']}\'s comments: {cd['comments']}"
+            send_mail(
+                subject, 
+                message,
+                from_email=None,
+                recipient_list=[cd['to']]
+            )
+            sent = True
+            
     else:
         form = EmailPostForm()
     return render(

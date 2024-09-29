@@ -139,3 +139,4 @@ ANYMAIL = {
      "SENDGRID_API_KEY": os.getenv("SENDGRID_API_KEY"),
 }
 SENDGRID_API_URL="https://api.sendgrid.com/v3/"
+DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")
