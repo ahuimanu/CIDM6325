@@ -14,7 +14,7 @@ README Outline:
 ## General Notes ##
 * [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator)
 
-* Commands to run when checking for outdated packages in your Virtual Environment
+* Commands to run when checking for outdated packages in your Virtual Environment (VE):
     * Be sure that your VE is activated (`source .venv/Scripts/activate`)
     * check for outdated packages `python -m pip --outdated`
     * update package(s) as appropriate `python -m pip install --upgrade <name-of-package>`
