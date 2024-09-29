@@ -22,7 +22,7 @@ WSL2 is probably the best option for Windows.
 ![WSL2](./img/docker_install_dialog.png)
 
 You can use the shell from within the Docker Interface
-![Docker Interface](./img/docker_interface.png)
+![Docker Interface](./img/docker_interface2.png)
 
 Or, if on Windows, use PowerShell. If on Mac, Terminal is fine.
 ![PowerShell](./img/PowerShell.png)
