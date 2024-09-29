@@ -30,7 +30,7 @@ Or, if on Windows, use PowerShell. If on Mac, Terminal is fine.
 steps:
 1. `docker pull postgres` - I left the version off, so it gets the latest
 2. `docker run --name=blog_db -e POSRGRES_DB=blog -e POSTGRES_USER=blog -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres:latest`
-3. Although running `pip install psycopg` is a safe approach, it may not work entirely when doing a Docker container with Postgres, this mainly due to Postgres being virtualized where none of the resources used by Postgres are actually on your local system (Docker is).
+3. Although running `pip install psycopg` is a safe approach, it may not work entirely when doing a Docker container with Postgres, this mainly due to Postgres being virtualized where none of the resources used by Postgres are actually on your local system (Docker is). Your likely error message here will be "psycopg or psycopg2 not installed/found."
 4. So, in case of issues with step 3 above, try this: `pip install "psycopg[binary]"` - this is recommended in the [psycopg documentation](https://www.psycopg.org/psycopg3/docs/basic/install.html#binary-installation).
 5. The best way to see if all of this goes well is to run `python manage.py check` - this checks to see if Django will properly "bootstrap" itself to life. A good resposne is "System check identified no issues (0 silenced)."
 
