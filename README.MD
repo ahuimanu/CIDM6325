@@ -1,10 +1,10 @@
-# CIDM6325 - Fall 2024
+# CIDM6325 - Fall 2024 #
 README Outline:
 
 - A [Git Cheat Sheet](https://training.github.com/downloads/github-git-cheat-sheet/) is available as a quick reference for common `git` commands.
 - Boostrap Crash Course (freecodecamp): [Full Bootstrap 5 Tutorial for Beginners](https://www.freecodecamp.org/news/full-bootstrap-5-tutorial-for-beginners/)
 
-## Video Notes
+## Video Notes ##
 - Overall tools and techniques - Video 1
 - Social SSO - Video 2
 - Docker and Postgres - Video 3
@@ -21,7 +21,7 @@ In addition to the book, this is a good resource: [W3Schools Django](https://www
 
 [back to outline](#cidm6325---fall-2024)
 
-# Miscellaneous Notes
+## Miscellaneous Notes ##
 * **Templates and Bootstrap** - I will strongly recommend that you use and develop familiarity with [Bootstrap](https://getbootstrap.com/) as a CSS framework for all of your work in this class.
 * **Candidate Heroku Replacements** - Heroku used to be the best free Django deployment platform - it is no longer free.  Here are some replacement services.
     * render.io
