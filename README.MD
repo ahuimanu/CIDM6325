@@ -45,6 +45,12 @@ Other notes:
 3. the Client secrete from from the "Client ID for Web Application" is the GOOGLE_OAUTH2_SECRET
 4. django social auth is doing the rest of the "magic"
 
+Google Cloud:
+1. The URL for the overall cloud developer console is: [Google Cloud Console](https://console.cloud.google.com/)
+2. A new project screen: ![New Project](./img/GC_new_project.png)
+3. Select your project: ![Select Project](./img/GC_Select_Project.png)
+
+
 ## General Notes ##
 - [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator) - you need this because the default secret key is not meant for deployment.
 - Commands to run when checking for outdated packages in your Virtual Environment (VE):
