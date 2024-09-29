@@ -3,7 +3,6 @@ README Outline:
 - Chapters 1-3 build the blog
 - Chapters 4-7 build the bookmarks social website
 
-
 ## Video Notes ##
 - Overall tools and techniques - Video 1
 - Emails and Email Backends - Video 2
@@ -35,9 +34,10 @@ steps:
 5. Its also possible to rent a Postgres server from a number of places such as Digital Ocean.
 6. The best way to see if all of this goes well is to run `python manage.py check` - this checks to see if Django will properly "bootstrap" itself to life. A good resposne is "System check identified no issues (0 silenced)."
 7. `dumpdata` and `loaddata` may have failed depending on whether you followed the book exactly. Not a huge deal in development.
+8. You can run/pause/stop the Postgres Docker container using the desktop application.
 
 ## General Notes ##
-- [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator)
+- [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator) - you need this because the default secret key is not meant for deployment.
 - Commands to run when checking for outdated packages in your Virtual Environment (VE):
     * Be sure that your VE is activated (`source .venv/Scripts/activate`)
     * check for outdated packages `python -m pip --outdated`
