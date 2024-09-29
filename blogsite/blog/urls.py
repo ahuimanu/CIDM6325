@@ -6,7 +6,8 @@ app_name = "blog"
 urlpatterns = [
     # post views
     # https://myblog.com/blog/
-    path("", views.post_list, name="post_list"),
+    # path("", views.post_list, name="post_list"),
+    path("", views.PostListView.as_view(), name="post_list"),
     # https://myblog.com/blog/5/
     # path("<int:id>/", views.post_detail, name="post_detail"),
     path(

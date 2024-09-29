@@ -11,8 +11,8 @@
       {% comment %} call to model method for canonical url {% endcomment %}
       {% comment %} <a href="{% url 'blog:post_detail' post.id %}"> {% endcomment %}
         <a href="{{ post.get_absolute_url }}">
-        {{ post.title }}
-      </a>
+          {{ post.title }}
+        </a>
     </h2>
     <p class="date">
       Published {{ post.publish }} by {{ post.author }}
@@ -20,5 +20,5 @@
     {% comment %} filters help with content display {% endcomment %}
     {{ post.body|truncatewords:30|linebreaks }}
   {% endfor %}
-  {% include "pagination.html" with page=posts %}
+  {% include "pagination.html" with page=page_obj %}
 {% endblock content %}
