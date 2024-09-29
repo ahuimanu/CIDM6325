@@ -36,6 +36,15 @@ steps:
 7. `dumpdata` and `loaddata` may have failed depending on whether you followed the book exactly. Not a huge deal in development.
 8. You can run/pause/stop the Postgres Docker container using the desktop application.
 
+## Social Auth Notes ##
+Clearly, the screens at the Developer Console for Google's Cloud Services are slightly different than the book.  However, the screens are similar.
+
+Other notes:
+1. It is CRITICAL that, in Windows, the hosts file is edited with a text editor that is started with evelated permissions  (right click and "Run as Administrator")
+2. the Client ID from the "Client ID for Web Application" screen is the GOOGLE_OAUTH2_KEY
+3. the Client secrete from from the "Client ID for Web Application" is the GOOGLE_OAUTH2_SECRET
+4. django social auth is doing the rest of the "magic"
+
 ## General Notes ##
 - [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator) - you need this because the default secret key is not meant for deployment.
 - Commands to run when checking for outdated packages in your Virtual Environment (VE):

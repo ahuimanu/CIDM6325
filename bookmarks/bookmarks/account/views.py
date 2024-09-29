@@ -1,4 +1,5 @@
 # Django
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -19,6 +20,11 @@ def edit(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            # the messages framework is used to display one-time notifications to the user
+            # https://docs.djangoproject.com/en/5.0/ref/contrib/messages/
+            messages.success(request, "Profile updated successfully")
+        else:
+            messages.error(request, "Error updating your profile")
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
