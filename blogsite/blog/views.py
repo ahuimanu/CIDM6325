@@ -53,6 +53,7 @@ def post_share(request, post_id):
         id=post_id,
         status=Post.Status.PUBLISHED
     )
+    sent = False
     if request.method == 'POST':
         # Form was submitted
         form = EmailPostForm(request.POST)
@@ -64,8 +65,8 @@ def post_share(request, post_id):
             subject = f"{cd['name']} {cd['email']} thinks you would like {post.title}"
             message = f"Hi, have a look at {post.title} at {post_url}\n\n{cd['name']}\'s comments: {cd['comments']}"
             send_mail(
-                subject, 
-                message,
+                subject=subject, 
+                message=message,
                 from_email=None,
                 recipient_list=[cd['to']]
             )
