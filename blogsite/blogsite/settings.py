@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()  # take environment variables from .env.
@@ -135,5 +136,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
 
 ANYMAIL = {
-     "SENDGRID_API_KEY": "<your API key>",
+     "SENDGRID_API_KEY": os.getenv("SENDGRID_API_KEY"),
 }
+SENDGRID_API_URL="https://api.sendgrid.com/v3/"
