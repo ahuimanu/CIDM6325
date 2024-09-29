@@ -7,8 +7,8 @@ README Outline:
 ## Video Notes ##
 - Overall tools and techniques - Video 1
 - Emails and Email Backends - Video 2
-- Social SSO - Video 3
-- Docker and Postgres - Video 4
+- Docker and Postgres - Video 3
+- Social SSO - Video 4
 
 ## SendGrid and Anymail
 Steps from https://anymail.dev/en/v12.0/esps/sendgrid/
@@ -16,6 +16,10 @@ Steps from https://anymail.dev/en/v12.0/esps/sendgrid/
 2. add `anymail` to INSTALLED_APPS
 
 [back to outline](#cidm6325---fall-2024)
+
+# Docker Stuff
+WSL2 is probably the best option for Windows.
+![WSL2](./img/docker_install_dialog.png)
 
 ## General Notes ##
 * [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator)

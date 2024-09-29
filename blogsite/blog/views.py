@@ -1,11 +1,19 @@
+# Python
 import os
 
+# Django
 from django.core.mail import send_mail
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import Count
+from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST
-from django.http import Http404
 from django.views.generic import ListView
+
+# 3rd Party
+from taggit.models import Tag
+
+# Local
 from .forms import CommentForm, EmailPostForm
 from .models import Post
 
@@ -26,20 +34,23 @@ def post_comment(request, post_id):
         comment.save()
     return render(
         request,
-        'blog/post/comment.html',
-        {
-            'post': post,
-            'form': form,
-            'comment': comment
-        }
-    )    
+        "blog/post/comment.html",
+        {"post": post, "form": form, "comment": comment},
+    )
 
 
-def post_list(request):
+def post_list(request, tag_slug=None):
     """
     A view that returns a list of published posts
     """
     post_list = Post.published.all()
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        # note: filter the list of posts suing the __in field lookup for those that contain the given tag.
+        # A post can have multiple tags and a tag can be related to multiple posts.
+        post_list = post_list.filter(tags__in=[tag])
+
     # using the Django paginator - takes the list of objects and the number of objects per page
     paginator = Paginator(post_list, 5)  # 5 posts in each page
 
@@ -68,7 +79,26 @@ def post_detail(request, year, month, day, post_slug):
         publish__month=month,
         publish__day=day,
     )
-    return render(request, "blog/post/detail.html", {"post": post})
+    # List of active comments for this post
+    comments = post.comments.filter(active=True)
+    # Form for users to comment
+    form = CommentForm()
+    # List of similar posts
+    post_tags_ids = post.tags.values_list("id", flat=True)
+    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
+    similar_posts = similar_posts.annotate(same_tags=Count("tags")).order_by(
+        "-same_tags", "-publish"
+    )[:4]
+    return render(
+        request,
+        "blog/post/detail.html",
+        {
+            "post": post,
+            "comments": comments,
+            "form": form,
+            "similar_posts": similar_posts,
+        },
+    )
 
 
 def post_share(request, post_id):
