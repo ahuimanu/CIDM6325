@@ -1,8 +1,8 @@
 # CIDM6325 - Fall 2024 #
 README Outline:
+- Chapters 1-3 build the blog
+- Chapters 4-7 build the bookmarks social website
 
-- A [Git Cheat Sheet](https://training.github.com/downloads/github-git-cheat-sheet/) is available as a quick reference for common `git` commands.
-- Boostrap Crash Course (freecodecamp): [Full Bootstrap 5 Tutorial for Beginners](https://www.freecodecamp.org/news/full-bootstrap-5-tutorial-for-beginners/)
 
 ## Video Notes ##
 - Overall tools and techniques - Video 1
@@ -10,14 +10,14 @@ README Outline:
 - Docker and Postgres - Video 3
 - Social SSO - Video 4
 
-## SendGrid and Anymail
+## SendGrid and Anymail ##
 Steps from https://anymail.dev/en/v12.0/esps/sendgrid/
 1. `pip install "django-anymail[sendgrid]"
 2. add `anymail` to INSTALLED_APPS
 
 [back to outline](#cidm6325---fall-2024)
 
-# Docker Stuff
+## Docker Stuff ##
 WSL2 is probably the best option for Windows.
 ![WSL2](./img/docker_install_dialog.png)
 
@@ -37,14 +37,15 @@ steps:
 7. `dumpdata` and `loaddata` may have failed depending on whether you followed the book exactly. Not a huge deal in development.
 
 ## General Notes ##
-* [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator)
-
-* Commands to run when checking for outdated packages in your Virtual Environment (VE):
+- [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator)
+- Commands to run when checking for outdated packages in your Virtual Environment (VE):
     * Be sure that your VE is activated (`source .venv/Scripts/activate`)
     * check for outdated packages `python -m pip --outdated`
     * update package(s) as appropriate `python -m pip install --upgrade <name-of-package>`
 
-In addition to the book, this is a good resource: [W3Schools Django](https://www.w3schools.com/django/index.php)
+- In addition to the book, this is a good resource: [W3Schools Django](https://www.w3schools.com/django/index.php)
+- A [Git Cheat Sheet](https://training.github.com/downloads/github-git-cheat-sheet/) is available as a quick reference for common `git` commands.
+- Boostrap Crash Course (freecodecamp): [Full Bootstrap 5 Tutorial for Beginners](https://www.freecodecamp.org/news/full-bootstrap-5-tutorial-for-beginners/)
 
 [back to outline](#cidm6325---fall-2024)
 
