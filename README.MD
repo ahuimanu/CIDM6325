@@ -11,7 +11,7 @@ README Outline:
 
 ## SendGrid and Anymail ##
 Steps from https://anymail.dev/en/v12.0/esps/sendgrid/
-1. `pip install "django-anymail[sendgrid]"
+1. `pip install "django-anymail[sendgrid]"`
 2. add `anymail` to INSTALLED_APPS
 
 [back to outline](#cidm6325---fall-2024)
