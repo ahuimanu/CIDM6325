@@ -4,10 +4,13 @@ README Outline:
 - Chapters 4-7 build the bookmarks social website
 
 ## Video Notes ##
-- Overall tools and techniques - Video 1
-- Emails and Email Backends - Video 2
-- Docker and Postgres - Video 3
-- Social SSO - Video 4
+- Technical Notes CH 2 - 7
+    - Docker - Part 1
+    - Emails and Email Backends - Part 2
+    - Docker and Postgres - Part 3
+    - Social SSO - Part 4
+- Methods to implement Recipe (ch 1 - 3)
+- Working with Bootstrap
 
 ## SendGrid and Anymail ##
 Steps from https://anymail.dev/en/v12.0/esps/sendgrid/
@@ -25,6 +28,9 @@ You can use the shell from within the Docker Interface
 
 Or, if on Windows, use PowerShell. If on Mac, Terminal is fine.
 ![PowerShell](./img/PowerShell.png)
+
+docker run --name=blog_db2 -e POSRGRES_DB=blog -e POSTGRES_USER=blog -e POSTGRES_PASSWORD=xxxxx -p 5432:5432 -d postgres:latest
+
 
 steps:
 1. `docker pull postgres` - I left the version off, so it gets the latest
