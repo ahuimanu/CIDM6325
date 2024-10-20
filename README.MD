@@ -87,7 +87,9 @@ celery -A myproject worker --loglevel=info -P gevent
 In the end, sending an email via a message queue like celery and RabbitMQ is going to be a "nice to have" feature in the project.
 
 ## General Notes ##
-- we eventually start running the Django debug server wit this command: `python manage.py runserver_plus --cert-file cert.crt`
+- DO NOT SKIP READING THE BOOK! Most of the tips, and links at the back of the chapter, provide VITAL clues.
+- DO use Antonio's [GitHub Repostitory](https://github.com/PacktPublishing/Django-5-By-Example) for book code.
+- We eventually start running the Django debug server wit this command: `python manage.py runserver_plus --cert-file cert.crt`
 - [The Django Secret Key Generator](https://django-secret-key-generator.netlify.app/) - [Source Code for the curious](https://github.com/RealOrangeOne/django-secret-key-generator) - you need this because the default secret key is not meant for deployment.
 - Commands to run when checking for outdated packages in your Virtual Environment (VE):
     * Be sure that your VE is activated (`source .venv/Scripts/activate`)
