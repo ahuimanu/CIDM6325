@@ -74,13 +74,17 @@ Let's look further into this:
 3. You will also want to limit the number of concurrent worker to something small for our testing purposes.  
 4. Lastly, Windows has a hard time spawning new subprocesses and will utilizately thrlow the Access Denied error.
 5. Although not mentioned in the book (because Antonio is likely developing on a Mac), we can use a Python "coroutine" trick using the [gevent](https://pypi.org/project/gevent/) package `pip install gevent` which utilizes greenlet to "fake" Python into using a single process as threads or coroutines. After installing `gevent` we can move on (as far as I can tell, this is Windows stuff).
-6. So, try adjusting the command to the following: `celery -A myshop worker --loglevel=INFO --concurrency=4 -P gevent` and you should achieve success where the errors disappear
+6. So, try adjusting the command to the following: `celery -A myshop worker --loglevel=INFO --concurrency=4 -P gevent` and you should achieve success where the errors disappear.
+
+You will be left with output that looks like the book, but the outlet is on the SEPARATE "Run As Admin" window.
 
 ```
 pip install gevent
 
 celery -A myproject worker --loglevel=info -P gevent
 ```
+
+In the end, sending an email via a message queue like celery and RabbitMQ is going to be a "nice to have" feature in the project.
 
 ## General Notes ##
 - we eventually start running the Django debug server wit this command: `python manage.py runserver_plus --cert-file cert.crt`
