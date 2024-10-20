@@ -90,6 +90,19 @@ celery -A myproject worker --loglevel=info -P gevent
 
 In the end, sending an email via a message queue like celery and RabbitMQ is going to be a "nice to have" feature in the project.
 
+## WeasyPrint and Windows
+Again, in many cases, getting things to work on Windows can be, different.  This is because most web deployment environments are not Windows based but rather *nix (Linux/Unix/OSX) based.
+
+Doing the `pip install WeasyPrint` from the book is not going to work for Windows folks.
+
+The truth is that the steps at the [WeasyPrint website's documentation](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#windows) are the way to go.
+
+Again, we are faced with the following question: so, is WeasyPrint and the ability to print to PDF wor it worth it? It depends, but I'm putting it as a "nice to have" feature.  The trick here is to skip those parts.
+
+I think those on OSX will have an easier time.
+
+Do not BOG DOWN.
+
 ## General Notes ##
 - DO NOT SKIP READING THE BOOK! Most of the tips, and links at the back of the chapter, provide VITAL clues.
 - DO use Antonio's [GitHub Repostitory](https://github.com/PacktPublishing/Django-5-By-Example) for book code.
