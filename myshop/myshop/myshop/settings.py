@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # 3rd Party
     # Project
     "cart.apps.CartConfig",
+    "orders.apps.OrdersConfig",
     "shop.apps.ShopConfig",
 ]
 
@@ -134,3 +135,6 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 # Session stuff
 CART_SESSION_ID = "cart"
+
+# Email stuff
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

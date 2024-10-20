@@ -4,7 +4,9 @@
     <head>
         <meta charset="utf-8" />
         <title>
-            {% block title %}My shop{% endblock title %}
+            {% block title %}
+                My shop
+            {% endblock title %}
         </title>
         <link href="{% static "css/base.css" %}" rel="stylesheet">
     </head>
@@ -21,7 +23,7 @@
                             {{ total_items }} item{{ total_items|pluralize }},
                             ${{ cart.get_total_price }}
                         </a>
-                    {% else %}
+                    {% elif not order %}
                         Your cart is empty.
                     {% endif %}
                 {% endwith %}

@@ -64,6 +64,23 @@ Other notes:
 10. Credentials Dashboard - ![OAuth Credentials Dashboard](./img/GC_Credentials_Dashboard.png)
 11. Credentials Summary - ![OAuth Credentials Summary](./img/GC_Credials_Summary.png)
 
+## Celery Command in Python ##
+1. On Windows, you will likely need to run a separate Git-Bash session with administrative rights (right-click and "Run as Administrator")
+2. If not you will likely get this error `[WinError 5] Access Is Denied`, however, that is not the only source of this error on windows.
+
+Let's look further into this:
+1. For now, don't run Celery within VS Code (on windows) until I find a VS Code setting for you.
+2. You WILL need to activiate the virtual environment in this new (separate) Git-Bash or PowerShell terminal
+3. You will also want to limit the number of concurrent worker to something small for our testing purposes.  
+4. Lastly, Windows has a hard time spawning new subprocesses and will utilizately thrlow the Access Denied error.
+5. Although not mentioned in the book (because Antonio is likely developing on a Mac), we can use a Python "coroutine" trick using the [gevent](https://pypi.org/project/gevent/) package `pip install gevent` which utilizes greenlet to "fake" Python into using a single process as threads or coroutines. After installing `gevent` we can move on (as far as I can tell, this is Windows stuff).
+6. So, try adjusting the command to the following: `celery -A myshop worker --loglevel=INFO --concurrency=4 -P gevent` and you should achieve success where the errors disappear
+
+```
+pip install gevent
+
+celery -A myproject worker --loglevel=info -P gevent
+```
 
 ## General Notes ##
 - we eventually start running the Django debug server wit this command: `python manage.py runserver_plus --cert-file cert.crt`
