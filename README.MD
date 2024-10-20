@@ -2,15 +2,19 @@
 README Outline:
 - Chapters 1-3 build the blog
 - Chapters 4-7 build the bookmarks social website
+- Chapters 8-11 build an ecommerce application
+- Chapters 12-18 build a CMS for an online elearning platform
 
 ## Video Notes ##
-- Technical Notes CH 2 - 7
+- Technical Notes CH 2 - 7 - Published October 2024
     - Docker - Part 1
     - Emails and Email Backends - Part 2
     - Docker and Postgres - Part 3
     - Social SSO - Part 4
-- Methods to implement Recipe (ch 1 - 3)
-- Working with Bootstrap
+- Methods to implement Recipe (ch 1 - 3) - Not published yet
+- Working with Bootstrap - Not published yet
+- Technical Notes CH 8 - 11
+    - Celery and Rabbit MQ - Part 1
 
 ## SendGrid and Anymail ##
 Steps from https://anymail.dev/en/v12.0/esps/sendgrid/
