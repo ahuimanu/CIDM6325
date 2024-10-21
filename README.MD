@@ -95,7 +95,14 @@ Again, in many cases, getting things to work on Windows can be, different.  This
 
 Doing the `pip install WeasyPrint` from the book is not going to work for Windows folks.
 
-The truth is that the steps at the [WeasyPrint website's documentation](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#windows) are the way to go. However, as of 3.13, this is still not straightforward.
+The truth is that the steps at the [WeasyPrint website's documentation](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#windows) are the way to go. 
+
+At issue with these instructions is a vital additional set of steps discussed here: [https://stackoverflow.com/a/78715011](https://stackoverflow.com/a/78715011)
+
+1. Install MSYS2 https://www.msys2.org/#installation
+2. After installation MSYS2 execute the following command in MSYS2 shell:
+`pacman -S mingw-w64-x86_64-pango`
+3. Then add path "C:\msys64\mingw64\bin" to enviroment variables and of course add weasyprint to your project.  Of course, if you don't have experience with this, there are ["how to" resouces](https://www.c-sharpcorner.com/article/how-to-addedit-path-environment-variable-in-windows-11/).
 
 Again, we are faced with the following question: so, is WeasyPrint and the ability to print to PDF wor it worth it? It depends, but I'm putting it as a "nice to have" feature.  The trick here is to skip those parts.
 
