@@ -102,8 +102,9 @@ At issue with these instructions is a vital additional set of steps discussed he
 1. Install MSYS2 https://www.msys2.org/#installation
 2. After installation MSYS2 execute the following command in MSYS2 shell:
 `pacman -S mingw-w64-x86_64-pango`
-3. Then add path `C:\msys64\mingw64\bin` to enviroment variables and of course add weasyprint to your project.  Of course, if you don't have experience with this, there are ["how to" resouces](https://www.c-sharpcorner.com/article/how-to-addedit-path-environment-variable-in-windows-11/).
+3. Then add path `C:\msys64\mingw64\bin` to enviroment variables and of course add weasyprint to your project.  If you don't have experience with this, there are ["how to" resouces](https://www.c-sharpcorner.com/article/how-to-addedit-path-environment-variable-in-windows-11/).
 4. You will find this now works and the easy way to check is (with your virtual environment activated): `python manage.py check`
+
 Again, we are faced with the following question: so, is WeasyPrint and the ability to print to PDF wor it worth it? It depends, but I'm putting it as a "nice to have" feature.  The trick here is to skip those parts.
 
 I think those on OSX will have an easier time.
