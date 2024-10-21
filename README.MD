@@ -68,7 +68,15 @@ Other notes:
 10. Credentials Dashboard - ![OAuth Credentials Dashboard](./img/GC_Credentials_Dashboard.png)
 11. Credentials Summary - ![OAuth Credentials Summary](./img/GC_Credials_Summary.png)
 
-## Celery Command in Python ##
+## RabbitMQ and Celery in Python ##
+
+**RabbitMQ**
+RabbitMQ will run via Docker.  The commands in the book are straightforward:
+1. Make sure Docker Desktop is running
+2. grab the latest rabbitmq-management image: `docker pull rabbitmq:management`
+3. run the image in a container: `docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:management`
+
+**Celery**
 1. On Windows, you will likely need to run a separate Git-Bash session with administrative rights (right-click and "Run as Administrator")
 2. If not you will likely get this error `[WinError 5] Access Is Denied`, however, that is not the only source of this error on windows.
 
@@ -85,7 +93,7 @@ You will be left with output that looks like the book, but the outlet is on the 
 ```
 pip install gevent
 
-celery -A myproject worker --loglevel=info -P gevent
+celery -A myshop worker --loglevel=info -P gevent
 ```
 
 In the end, sending an email via a message queue like celery and RabbitMQ is going to be a "nice to have" feature in the project.
