@@ -119,6 +119,15 @@ I think those on OSX will have an easier time.
 
 Do not BOG DOWN.
 
+**FINAL NOTE**
+For all of the functions in the online shop example, it is expected that the following are always running:
+1. Docker Desktop
+2. RabbitMQ
+3. Celery
+4. A proper Stripe API connection
+
+The shop won't run without these
+
 ## General Notes ##
 - DO NOT SKIP READING THE BOOK! Most of the tips, and links at the back of the chapter, provide VITAL clues.
 - DO use Antonio's [GitHub Repostitory](https://github.com/PacktPublishing/Django-5-By-Example) for book code.
