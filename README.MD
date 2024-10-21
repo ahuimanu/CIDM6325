@@ -95,7 +95,7 @@ Again, in many cases, getting things to work on Windows can be, different.  This
 
 Doing the `pip install WeasyPrint` from the book is not going to work for Windows folks.
 
-The truth is that the steps at the [WeasyPrint website's documentation](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#windows) are the way to go.
+The truth is that the steps at the [WeasyPrint website's documentation](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#windows) are the way to go. However, as of 3.13, this is still not straightforward.
 
 Again, we are faced with the following question: so, is WeasyPrint and the ability to print to PDF wor it worth it? It depends, but I'm putting it as a "nice to have" feature.  The trick here is to skip those parts.
 
