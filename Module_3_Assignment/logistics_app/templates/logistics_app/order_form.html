@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{# 
+    --------------------------------------------------------------------
+    Key Improvements – Module 3 (Part A: Forms & Validation)
+    --------------------------------------------------------------------
+    ✓ Shows field-level validation errors below each input
+    ✓ Displays cross-field errors from form.clean() via form.non_field_errors
+    ✓ Uses Bootstrap 5 styling for spacing and error display
+    ✓ Adds WCAG 2.2 accessibility attributes (aria-live, for/id linkage)
+    ✓ Preserves is_update logic for reusability across create/edit views
+    ✓ Order ID is now auto-generated in the model (no longer user input)
+#}
+
+{% block content %}
+<div class="container mt-5" id="form-container">
+    <h2 class="mb-4">
+        {% if is_update %} Edit Order {% else %} Create New Order {% endif %}
+    </h2>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                    <div>{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {# Removed editable Order ID input, since it’s auto-generated #}
+        {% if is_update %}
+            <div class="mb-3">
+                <label class="form-label">Order ID</label>
+                <p class="form-control-plaintext">{{ form.instance.order_id }}</p>
+            </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <label for="{{ form.customer.id_for_label }}" class="form-label">Customer</label>
+            {{ form.customer }}
+            {% if form.customer.errors %}
+                <div class="text-danger" role="alert" aria-live="polite">
+                    {% for error in form.customer.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            <label for="{{ form.order_date.id_for_label }}" class="form-label">Order Date</label>
+            {{ form.order_date }}
+            {% if form.order_date.errors %}
+                <div class="text-danger" role="alert" aria-live="polite">
+                    {% for error in form.order_date.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.delivery_location.id_for_label }}" class="form-label">Delivery Location</label>
+            {{ form.delivery_location }}
+            {% if form.delivery_location.errors %}
+                <div class="text-danger" role="alert" aria-live="polite">
+                    {% for error in form.delivery_location.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.client_type.id_for_label }}" class="form-label">Client Type</label>
+            {{ form.client_type }}
+            {% if form.client_type.errors %}
+                <div class="text-danger" role="alert" aria-live="polite">
+                    {% for error in form.client_type.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            {% if is_update %} Update Order {% else %} Submit Order {% endif %}
+        </button>
+    </form>
+</div>
+{% endblock %}
