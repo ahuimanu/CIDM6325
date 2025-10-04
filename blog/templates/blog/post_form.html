@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+  <body>
+    <p><a href="{% url 'blog:post_list' %}">← Back</a></p>
+    <h1>{% if object %}Edit: {{ object.title }}{% else %}New Post{% endif %}</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">{% if object %}Save{% else %}Create{% endif %}</button>
+    </form>
+  </body>
+</html>

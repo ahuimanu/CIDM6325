@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <body>
+    <h1>Blog</h1>
+
+    {% if user.is_authenticated %}
+      <p><a href="{% url 'blog:post_create' %}">+ New Post</a> | <a href="{% url 'logout' %}">Logout</a></p>
+    {% else %}
+      <p><a href="{% url 'login' %}">Login</a></p>
+    {% endif %}
+
+    <ul>
+      {% for p in posts %}
+        <li>
+          <a href="{{ p.get_absolute_url }}">{{ p.title }}</a>
+           — Published date/time: {{ p.published_at|date:"Y-m-d H:i" }}
+        </li>
+      {% empty %}
+        <li>No posts yet.</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
