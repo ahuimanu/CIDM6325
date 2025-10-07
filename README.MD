@@ -33,8 +33,7 @@ The **Blog Project** is implemented in the `/blog` folder and connected through 
 **Run Instructions (for local testing):**
 ```bash
 python manage.py runserver
-
-
+```
 
 # CIDM6325 - Fall 2025 #
 
