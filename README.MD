@@ -35,6 +35,7 @@ The **Blog Project** is implemented in the `/blog` folder and connected through 
 python manage.py runserver
 
 
+
 # CIDM6325 - Fall 2025 #
 
 README Outline:
