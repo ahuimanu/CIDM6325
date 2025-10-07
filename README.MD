@@ -17,6 +17,24 @@
 
 ---
 
+---
+
+## 📝 Blog / Django Project Details
+
+The **Blog Project** is implemented in the `/blog` folder and connected through the `core` app settings.
+
+**Features:**
+- CRUD functionality for posts (Create, Read, Update, Delete)
+- Authentication (login/logout using Django’s built-in auth system)
+- Templates for post list, detail, and form views
+- Published date and time auto-fill
+- Organized URL patterns for `/blog/` and `/blog/new/`
+
+**Run Instructions (for local testing):**
+```bash
+python manage.py runserver
+
+
 # CIDM6325 - Fall 2025 #
 
 README Outline:
