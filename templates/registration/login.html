@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+  <body>
+    <h1>Login</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Log in</button>
+    </form>
+
+    <p><a href="{% url 'blog:post_list' %}">Back to blog</a></p>
+  </body>
+</html>

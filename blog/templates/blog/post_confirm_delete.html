@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+  <body>
+    <h1>Delete: {{ object.title }}</h1>
+    <p>Are you sure you want to delete this post?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit">Yes, delete</button>
+      <a href="{{ object.get_absolute_url }}">Cancel</a>
+    </form>
+  </body>
+</html>
