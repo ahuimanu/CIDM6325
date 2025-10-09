@@ -1,2 +1,2 @@
-# Alexander-Lawson
-Alexander Lawson
+# CIDM_6325_Lawson
+For WTAMU CIDM 6325
