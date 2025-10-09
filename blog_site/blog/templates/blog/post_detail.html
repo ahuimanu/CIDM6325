@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.publish_date }}</p>
+    <div>{{ post.body }}</div>
+    <p>Tags: {% for tag in post.tags.all %}{{ tag.name }} {% endfor %}</p>
+    <a href="{% url 'blog:post_update' slug=post.slug %}">Edit</a>
+    <a href="{% url 'blog:post_delete' slug=post.slug %}">Delete</a>
+    <a href="{% url 'blog:post_list' %}">Back to list</a>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if post %}Edit{% else %}New{% endif %} Post</title>
+</head>
+<body>
+    <h1>{% if post %}Edit{% else %}New{% endif %} Post</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'blog:post_list' %}">Back to list</a>
+</body>
+</html>

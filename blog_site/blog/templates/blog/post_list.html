@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog Posts</title>
+</head>
+<body>
+    <h1>All Posts</h1>
+    <a href="{% url 'blog:post_create' %}">New Post</a>
+    <ul>
+        {% for post in posts %}
+            <li>
+                <a href="{% url 'blog:post_detail' slug=post.slug %}">{{ post.title }}</a>
+                ({{ post.publish_date }})
+            </li>
+        {% empty %}
+            <li>No posts yet.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

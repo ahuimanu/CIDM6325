@@ -5,13 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "cidm6325"
 version = "0.1.0"
-description = "Minimal project declaring Django 5.2.6 as the sole dependency"
+description = "Minimal project declaring Django 5.2.7 as the sole dependency"
 readme = "README.MD"
 requires-python = ">=3.12"
 authors = [{ name = "ahuimanu" }]
 license = "MIT"
 keywords = ["django"]
-dependencies = ["Django==5.2.6"]
+dependencies = ["Django==5.2.7"]
 
 [project.urls]
 Homepage = "https://example.com/"
