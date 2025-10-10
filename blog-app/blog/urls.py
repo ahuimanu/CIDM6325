@@ -20,5 +20,5 @@ urlpatterns = [
     # Development-only helper to create/login a dev user when DEBUG=True
     path("dev-login/", views.dev_login, name="dev_login"),
     path("accounts/register/", views.register, name="register"),
-    path("posts/review/", views.review_list, name="review_list"),
+    # review_list already declared above as a static route; no duplicate needed
 ]
