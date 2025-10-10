@@ -58,8 +58,3 @@ Grader quick verification steps
 2. Run `python manage.py migrate` and `python manage.py test` — tests should pass.
 3. Start the server and exercise the app: register, create a post, move to review, and publish with an account that has `can_publish`.
 
-Optional extras I can add on request
-- Rendered SVG of the Mermaid diagram (for viewers without Mermaid support).
-- Per-field ARIA error IDs across forms (accessibility hardening).
-- A one-page grading checklist for submission.
-
