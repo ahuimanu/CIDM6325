@@ -1,0 +1,15 @@
+<tr>
+  <td colspan="5">
+    <form hx-post="{% url 'hx_post_inline_edit' post.pk %}" hx-target="#row-{{ post.pk }}" hx-swap="outerHTML">
+      {{ form.non_field_errors }}
+      <div class="row g-2">
+        <div class="col-md-4">{{ form.title.label_tag }} {{ form.title }}</div>
+        <div class="col-md-2">{{ form.status.label_tag }} {{ form.status }}</div>
+        <div class="col-md-4">{{ form.tags_csv.label_tag }} {{ form.tags_csv }}</div>
+        <div class="col-md-2 d-grid">
+          <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+      </div>
+    </form>
+  </td>
+</tr>

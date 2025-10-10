@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Posts{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3">Posts</h1>
+  <a class="btn btn-primary disabled" aria-disabled="true" title="Create coming next">New Post (soon)</a>
+</div>
+
+<table class="table table-hover" role="table" aria-describedby="posts-caption">
+  <caption id="posts-caption">Latest posts</caption>
+  <thead class="table-light">
+    <tr>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Author</th>
+      <th>Updated</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for post in posts %}
+      <tr>
+        <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
+        <td>{{ post.get_status_display }}</td>
+        <td>{{ post.author.username }}</td>
+        <td>{{ post.updated_at|date:"Y-m-d H:i" }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="4" class="text-muted">No posts yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if is_paginated %}
+<nav aria-label="Posts pagination">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Previous</span></li>
+    {% endif %}
+    <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Next</span></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}

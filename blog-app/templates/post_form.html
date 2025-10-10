@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ post|default:"New Post" }}{% endblock %}
+{% block content %}
+<h1 class="h3">{{ post|default:"New Post" }}</h1>
+<form method="post" novalidate>{% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="mb-3">{{ form.title.label_tag }} {{ form.title }} {{ form.title.errors }}</div>
+  <div class="mb-3">{{ form.status.label_tag }} {{ form.status }} {{ form.status.errors }}</div>
+  <div class="mb-3">{{ form.tags_csv.label_tag }} {{ form.tags_csv }} {{ form.tags_csv.errors }}</div>
+  <div class="mb-3">{{ form.body.label_tag }} {{ form.body }} {{ form.body.errors }}</div>
+  <div id="body-help" class="visually-hidden">Post body content</div>
+  <button class="btn btn-primary">Save</button>
+</form>
+{% endblock %}

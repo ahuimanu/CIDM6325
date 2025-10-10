@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ object.title }}{% endblock %}
+{% block content %}
+<article>
+  <header class="mb-2">
+    <h1 class="h2">{{ object.title }}</h1>
+    <p class="text-muted">By {{ object.author.username }} · {{ object.created_at|date:"Y-m-d" }} · {{ object.get_status_display }}</p>
+    <p>
+      {% for t in object.tags.all %}
+        <span class="badge text-bg-secondary">{{ t.name }}</span>
+      {% empty %}
+        <span class="text-muted">No tags</span>
+      {% endfor %}
+    </p>
+  </header>
+  <div class="fs-5">{{ object.body|linebreaks }}</div>
+</article>
+<hr/>
+<section aria-labelledby="comments-heading">
+  <h2 id="comments-heading" class="h4">Comments</h2>
+  <ul class="list-unstyled">
+    {% for c in object.comments.all %}
+      <li class="mb-2"><strong>{{ c.user.username }}</strong> · <small class="text-muted">{{ c.created_at|date:"Y-m-d H:i" }}</small><br/>{{ c.body|linebreaks }}</li>
+    {% empty %}
+      <li class="text-muted">No comments yet.</li>
+    {% endfor %}
+  </ul>
+
+  {% if user.is_authenticated %}
+    <form method="post" class="mt-3">{% csrf_token %}
+      {{ comment_form.non_field_errors }}
+      <div class="mb-2">{{ comment_form.body.label_tag }} {{ comment_form.body }}</div>
+      <button class="btn btn-outline-primary">Add Comment</button>
+    </form>
+  {% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to comment.</p>
+  {% endif %}
+</section>
+{% endblock %}
