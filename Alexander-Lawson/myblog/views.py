@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import BlogPost  # Assuming a BlogPost model exists
+from .models import BlogPost
 
 def blog_list(request):
-    posts = BlogPost.objects.all().order_by('-published_date')  # Fetch posts ordered by date
-    return render(request, 'myblog/blog_list.html', {'posts': posts})
+    posts = BlogPost.objects.all().order_by("-published_date")  # Double quotes used here
+    return render(request, "myblog/blog_list.html", {"posts": posts})  # Double quotes used here
