@@ -30,12 +30,10 @@ Part C — Reflection on AI-assisted Modeling (15 pts)
 - Implemented: `REFLECTION.md` contains a ~500-word reflection describing how AI supported model/form design, including prompt examples and critiques.
 
 ### Part D. Peer Review (15 points)
-tdb
-
+peer-review-zanehill.md
 
 ### Part E. DjangoVMS Journey Critique (10 points)
 tbd
-
 
 HTMX and Accessibility
 - HTMX: live search and inline edit endpoints implemented (`hx_post_search`, `hx_post_inline_edit`) and covered by tests in `blog/tests.py`.
