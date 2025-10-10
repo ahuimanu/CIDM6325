@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog Posts - MyBlog{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <header class="mb-4">
+            <h1 class="display-4">Latest Blog Posts</h1>
+            <p class="lead text-muted">Discover our latest thoughts and insights</p>
+        </header>
+
+        {% if posts %}
+            <section aria-label="Blog posts">
+                {% for post in posts %}
+                    <article class="card mb-4 shadow-sm" aria-labelledby="post-{{ post.id }}-title">
+                        <div class="card-body">
+                            <header>
+                                <h2 class="card-title h4" id="post-{{ post.id }}-title">
+                                    <a href="{{ post.get_absolute_url }}" class="text-decoration-none">
+                                        {{ post.title }}
+                                    </a>
+                                </h2>
+                                <div class="text-muted small mb-3">
+                                    <i class="bi bi-person" aria-hidden="true"></i>
+                                    <span>By {{ post.author.get_full_name|default:post.author.username }}</span>
+                                    <span class="mx-2">•</span>
+                                    <i class="bi bi-calendar" aria-hidden="true"></i>
+                                    <time datetime="{{ post.created_at|date:'c' }}">
+                                        {{ post.created_at|date:"F d, Y" }}
+                                    </time>
+                                </div>
+                            </header>
+                            
+                            <div class="card-text">
+                                <p>{{ post.content|truncatewords:30 }}</p>
+                            </div>
+                            
+                            <footer>
+                                <a href="{{ post.get_absolute_url }}" class="btn btn-primary btn-sm">
+                                    Read More
+                                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                                </a>
+                                <span class="text-muted small ms-3">
+                                    <i class="bi bi-chat" aria-hidden="true"></i>
+                                    {{ post.comments.count }} comment{{ post.comments.count|pluralize }}
+                                </span>
+                            </footer>
+                        </div>
+                    </article>
+                {% endfor %}
+            </section>
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+                <nav aria-label="Blog posts pagination">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1" aria-label="Go to first page">
+                                    <i class="bi bi-chevron-double-left" aria-hidden="true"></i>
+                                    First
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Go to previous page">
+                                    <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                                    Previous
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                            </span>
+                        </li>
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Go to next page">
+                                    Next
+                                    <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Go to last page">
+                                    Last
+                                    <i class="bi bi-chevron-double-right" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-journal-x display-1 text-muted"></i>
+                <h2 class="mt-3">No posts yet</h2>
+                <p class="text-muted">Check back later for new content!</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <aside class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title h5 mb-0">About This Blog</h3>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Welcome to our blog! Here you'll find interesting articles and insights on various topics.</p>
+            </div>
+        </div>
+    </aside>
+</div>
+{% endblock content %}

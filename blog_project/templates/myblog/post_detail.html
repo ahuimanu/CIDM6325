@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} - MyBlog{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'myblog:post_list' %}">
+                        <i class="bi bi-house" aria-hidden="true"></i>
+                        Home
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">{{ post.title|truncatechars:50 }}</li>
+            </ol>
+        </nav>
+
+        <article class="card shadow-sm" aria-labelledby="post-title">
+            <div class="card-body">
+                <header class="mb-4">
+                    <h1 class="card-title display-5" id="post-title">{{ post.title }}</h1>
+                    <div class="text-muted">
+                        <i class="bi bi-person" aria-hidden="true"></i>
+                        <span>By {{ post.author.get_full_name|default:post.author.username }}</span>
+                        <span class="mx-2">•</span>
+                        <i class="bi bi-calendar" aria-hidden="true"></i>
+                        <time datetime="{{ post.created_at|date:'c' }}">
+                            {{ post.created_at|date:"F d, Y \a\\t g:i A" }}
+                        </time>
+                        {% if post.updated_at != post.created_at %}
+                            <span class="mx-2">•</span>
+                            <i class="bi bi-pencil" aria-hidden="true"></i>
+                            <span>Updated 
+                                <time datetime="{{ post.updated_at|date:'c' }}">
+                                    {{ post.updated_at|date:"F d, Y" }}
+                                </time>
+                            </span>
+                        {% endif %}
+                    </div>
+                </header>
+
+                <div class="post-content">
+                    {{ post.content|linebreaks }}
+                </div>
+
+                <footer class="mt-4 pt-3 border-top">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="text-muted">
+                                <i class="bi bi-chat" aria-hidden="true"></i>
+                                {{ comments.count }} comment{{ comments.count|pluralize }}
+                            </span>
+                        </div>
+                        <div>
+                            <a href="{% url 'myblog:post_list' %}" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                                Back to Posts
+                            </a>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </article>
+
+        <!-- Comments Section -->
+        <section class="mt-4" aria-labelledby="comments-heading">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="h4 mb-0" id="comments-heading">
+                        <i class="bi bi-chat-dots" aria-hidden="true"></i>
+                        Comments ({{ comments.count }})
+                    </h2>
+                </div>
+                <div class="card-body">
+                    {% if comments %}
+                        <div class="comments-list">
+                            {% for comment in comments %}
+                                <article class="comment mb-3 {% if not forloop.last %}border-bottom pb-3{% endif %}" aria-labelledby="comment-{{ comment.id }}-author">
+                                    <header class="d-flex align-items-center mb-2">
+                                        <h3 class="h6 mb-0" id="comment-{{ comment.id }}-author">
+                                            <i class="bi bi-person-circle" aria-hidden="true"></i>
+                                            {{ comment.author.get_full_name|default:comment.author.username }}
+                                        </h3>
+                                        <time class="text-muted small ms-auto" datetime="{{ comment.created_at|date:'c' }}">
+                                            {{ comment.created_at|date:"F d, Y \a\\t g:i A" }}
+                                        </time>
+                                    </header>
+                                    <div class="comment-content">
+                                        {{ comment.content|linebreaks }}
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-chat-square-text display-4 text-muted"></i>
+                            <p class="text-muted mt-2">No comments yet. Be the first to share your thoughts!</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <aside class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title h5 mb-0">Post Information</h3>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Author:</dt>
+                    <dd class="col-sm-8">{{ post.author.get_full_name|default:post.author.username }}</dd>
+                    
+                    <dt class="col-sm-4">Published:</dt>
+                    <dd class="col-sm-8">
+                        <time datetime="{{ post.created_at|date:'c' }}">
+                            {{ post.created_at|date:"F d, Y" }}
+                        </time>
+                    </dd>
+                    
+                    <dt class="col-sm-4">Comments:</dt>
+                    <dd class="col-sm-8">{{ comments.count }}</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <h3 class="card-title h5 mb-0">Navigation</h3>
+            </div>
+            <div class="card-body">
+                <a href="{% url 'myblog:post_list' %}" class="btn btn-primary btn-sm w-100">
+                    <i class="bi bi-list" aria-hidden="true"></i>
+                    View All Posts
+                </a>
+            </div>
+        </div>
+    </aside>
+</div>
+{% endblock content %}
