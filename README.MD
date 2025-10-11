@@ -8,11 +8,13 @@
 
 ## 📂 Project Deliverables
 
-| Deliverable | File | Description |
-|--------------|------|-------------|
+| **Deliverable** | **File** | **Description** |
+|:---------------:|:--------:|----------------|
+
 | 🎯 **Project Pitch** | [Module 1 - Project Pitch.pdf](./Module%201%20-%20Project%20Pitch.pdf) | One-page pitch describing the Smart Scheduler app concept |
 | 🧭 **Product Requirements Document (PRD)** | [PRD.md](./PRD.md) | Detailed system requirements and functional description |
 | 💾 **AI Tooling Lab Log** | [docs/AI_LOG.md](./docs/AI_LOG.md) | Record of AI-assisted sessions and reflections |
+| 📔  **AI Log (Weeks 5–6)** | [docs/AI_LOG_SmartScheduler.pdf](./docs/AI_LOG_SmartScheduler.pdf) | Graduate-level disclosure of prompts, outputs, and ethical reflection |
 | 📰 **Blog / Django Project** | *(to be added after deployment)* | Reflection and CRUD demonstration for the Django Blog assignment |
 
 ---
