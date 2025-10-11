@@ -32,9 +32,6 @@ Part C — Reflection on AI-assisted Modeling (15 pts)
 ### Part D. Peer Review (15 points)
 peer-review-zanehill.md
 
-### Part E. DjangoVMS Journey Critique (10 points)
-tbd
-
 HTMX and Accessibility
 - HTMX: live search and inline edit endpoints implemented (`hx_post_search`, `hx_post_inline_edit`) and covered by tests in `blog/tests.py`.
 - Accessibility: `ACCESSIBILITY.md` documents checks and improvements; the login template was updated to expose error containers and help text ids. Additional per-field ARIA and contrast checks are recommended as follow-ups.
