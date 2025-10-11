@@ -83,7 +83,7 @@ Overall, it’s solid Django and easy to follow. That alone earns you a lot of p
 
 ---
 
-## Business Fit (Yes, Even for a Blog)
+## Business Fit
 
 Even a small blog has a “why.” A couple of lightweight ideas turn this into a project with a purpose:
 
@@ -101,7 +101,7 @@ These don’t take long to document and they make evaluators feel confident abou
 
 ---
 
-## Suggested README Upgrades (Copy/Paste Friendly)
+## Suggested README Upgrades
 
 **Quickstart**
 
