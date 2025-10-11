@@ -8,16 +8,21 @@
 
 ## 📂 Project Deliverables
 
-| **Deliverable** | **File** | **Description** |
-|:---------------:|:--------:|----------------|
-
-| 🎯 **Project Pitch** | [Module 1 - Project Pitch.pdf](./Module%201%20-%20Project%20Pitch.pdf) | One-page pitch describing the Smart Scheduler app concept |
-| 🧭 **Product Requirements Document (PRD)** | [PRD.md](./PRD.md) | Detailed system requirements and functional description |
-| 💾 **AI Tooling Lab Log** | [docs/AI_LOG.md](./docs/AI_LOG.md) | Record of AI-assisted sessions and reflections |
-| 📔  **AI Log (Weeks 5–6)** | [docs/AI_LOG_SmartScheduler.pdf](./docs/AI_LOG_SmartScheduler.pdf) | Graduate-level disclosure of prompts, outputs, and ethical reflection |
-| 📰 **Blog / Django Project** | *(to be added after deployment)* | Reflection and CRUD demonstration for the Django Blog assignment |
+| Deliverable | File | Description |
+|---|---|---|
+| 🎯 **Project Pitch** | [Pitch.pdf](./docs/Pitch.pdf) | One-page pitch describing the Smart Scheduler app concept |
+| 🥇 **Product Requirements Document (PRD)** | [Product Requirements Document (PRD).pdf](./docs/Product%20Requirements%20Document%20(PRD).pdf) | Detailed system requirements and functional description |
+| 💾 **AI Tooling Lab Log** | [AI_LOG.md](./docs/AI_LOG.md) | Record of AI-assisted sessions and reflections |
+| 🧠 **AI Log (Weeks 5–6)** | [AI_LOG_SmartScheduler.pdf](./docs/AI_LOG_SmartScheduler.pdf) | Graduate-level disclosure of prompts, outputs, and ethical reflection |
+| 📝 **Blog / Django Project** | _(to be added after deployment)_ | Reflection and CRUD demonstration for the Django Blog assignment |
 
 ---
+### 📑 Document Overview
+
+- **Pitch.pdf** — Introduces the Smart Scheduler concept, outlining dispatcher workload pain points and digital transformation goals.  
+- **Product Requirements Document (PRD).pdf** — Defines functional requirements, data models, risks, and system features.  
+- **AI_LOG.md** — Running record of AI-assisted design steps, coding help, and prompt-response tracking.  
+- **AI_LOG_SmartScheduler.pdf** — Formal reflection on AI-assisted modeling, including prompts, accepted/rejected outputs, and ethical analysis.  
 
 ---
 
