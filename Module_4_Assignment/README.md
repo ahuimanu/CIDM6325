@@ -1,5 +1,5 @@
 
-# Module 3 – CIDM 6325: Form Validation + Multi-Model Design
+# Module 4 – CIDM 6325: Class-Based Views + Application Architecture
 
 **Author:** Mafruha Chowdhury  
 **Course:** CIDM 6325 – Electronic Commerce (Fall 2025)  
