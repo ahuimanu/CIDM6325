@@ -1,7 +1,7 @@
 # logistics_app/forms.py 
 
 from django import forms
-from .models import Order
+from .models import Order, Customer
 from django.utils import timezone
 
 
@@ -46,3 +46,12 @@ class OrderForm(forms.ModelForm):
         if location and client and client.lower() in location.lower():
             raise forms.ValidationError("Client type should not appear in the delivery location.")
         return cleaned_data
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['name', 'email', 'phone']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+        }

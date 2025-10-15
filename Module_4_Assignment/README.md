@@ -33,16 +33,27 @@ The goals are to:
 ## 🧩 Part A – CBV Implementation
 
 ### 🎯 Objective
-Refactor one CRUD feature from the previous module into a **CBV** structure.
+Refactored all CRUD features from Module 3 using Class-Based Views, including create, read, update, and delete operations.
 
 ### 🧱 Implementation Summary
 - **App:** `logistics_app`
 - **Model:** `Order` (related to `Customer`)
+- Added `Customer` creation view and template (`create_customer.html`)
+- URL: `/customer/create/`
 - **Refactored Views:**  
-  - `OrderListView` → extends `ListView`  
-  - `OrderCreateView` → extends `CreateView` + `SuccessMessageMixin`  
-- **Templates:** `order_list.html`, `order_form.html`
+- `OrderListView` → extends `ListView`  
+- `OrderCreateView` → extends `CreateView` + `SuccessMessageMixin`  
+- `OrderUpdateView` → extends `UpdateView` + `SuccessMessageMixin`  
+- `OrderDeleteView` → extends `DeleteView` + `SuccessMessageMixin`  
+- **Templates:** `order_list.html`, `order_form.html`, `order_confirm_delete.html`, `index.html`, `base.html`, `logged_out.html`, `registration/login.html`
+
 - **Mixins Used:** `LoginRequiredMixin`, `SuccessMessageMixin`
+---
+- **Authentication:**
+- Implemented login/logout using Django’s authentication system
+- `LoginRequiredMixin` enforces access control for all CRUD views
+- Templates added: `registration/login.html`, `logged_out.html`
+
 
 ### ⚖️ FBV vs CBV Trade-Off Analysis
 | Criteria | Function-Based Views (FBVs) | Class-Based Views (CBVs) |
@@ -52,6 +63,12 @@ Refactor one CRUD feature from the previous module into a **CBV** structure.
 | **Extensibility** | Manual decorators | Built-in inheritance system |
 | **Learning Curve** | Lower | Moderate – conceptual abstraction |
 | **Use Case** | Quick prototypes | Scalable modular apps |
+
+---
+
+- **Navbar Enhancement**
+- Dynamic navbar includes conditional display of “Login” / “Logout” and highlights active routes.
+- Admin portal now includes link back to root app view.
 
 **Conclusion:**  
 CBVs abstract repetitive CRUD operations, enabling modular, scalable design while maintaining Django’s “Don’t Repeat Yourself” philosophy.
@@ -111,3 +128,9 @@ All AI-assisted outputs were manually verified, revised, and documented in [`doc
 - All tests executed using `python manage.py test`.  
 - PR includes combined Module 3 + 4 deliverables.  
 - Accessibility and WCAG 2.2 standards maintained throughout forms and templates.
+### 🧪 Final Validation
+- All CBV routes tested manually:
+  - `/orders/`, `/order/create/`, `/order/<pk>/update/`, `/order/<pk>/delete/`
+- Login/logout flow verified
+- Customer creation working via `/customer/create/`
+- Templates use Bootstrap 5 and WCAG 2.2 standards
