@@ -6,5 +6,5 @@ from .models import Post
 
 class BlogPostDetailView(DetailView):
     model = Post
-    template_name = 'blog/post_detail.html'
+    template_name = 'blog/blog_view.html'
     context_object_name = 'post'

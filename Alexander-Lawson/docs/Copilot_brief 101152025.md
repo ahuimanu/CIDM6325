@@ -11,7 +11,7 @@ Scope (single PR)
   - `blog/models.py` - Create Post model with required fields
   - `blog/views.py` - Create BlogPostDetailView
   - `blog/urls.py` - Add URL pattern for post detail
-  - `templates/blog/post_detail.html` - Create detail template
+  - `templates/blog/blog_view.html` - Create detail template
 - Non-goals: 
   - Comments functionality
   - Social sharing buttons

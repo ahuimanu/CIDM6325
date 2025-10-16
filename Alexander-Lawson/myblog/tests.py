@@ -116,7 +116,7 @@ class BlogPostDetailViewTests(TestCase):
         url = reverse('blog:post_detail', kwargs={'pk': self.post.pk})
         response = self.client.get(url)
         
-        self.assertTemplateUsed(response, 'blog/post_detail.html')
+        self.assertTemplateUsed(response, 'blog/blog_view.html')
     
     def test_post_detail_view_displays_dates(self):
         """Test that the view displays creation and update dates"""
