@@ -1,3 +1,5 @@
+cd Alexander-Lawson
+py -m venv .venv
 .\.venv\Scripts\activate
 django-admin startproject blog_project .
 cd Alexander-Lawson

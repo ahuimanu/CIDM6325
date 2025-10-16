@@ -1,82 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ post.title }} - Blog</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .post-title {
-            color: #333;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #007bff;
-            padding-bottom: 10px;
-        }
-        .post-meta {
-            color: #666;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-        .post-meta span {
-            margin-right: 15px;
-        }
-        .post-content {
-            color: #444;
-            line-height: 1.8;
-            font-size: 16px;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 30px;
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-            .container {
-                padding: 20px;
-            }
-            .post-title {
-                font-size: 24px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <article class="post">
-            <h1 class="post-title">{{ post.title }}</h1>
-            <div class="post-meta">
-                <span><strong>Author:</strong> {{ post.author.username }}</span>
-                <span><strong>Published:</strong> {{ post.date_created|date:"F j, Y" }}</span>
-                {% if post.date_updated != post.date_created %}
-                    <span><strong>Updated:</strong> {{ post.date_updated|date:"F j, Y" }}</span>
-                {% endif %}
-            </div>
-            <div class="post-content">
-                {{ post.content|linebreaks }}
-            </div>
-        </article>
-        <!-- Back link will be added when post list view is implemented -->
-    </div>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} - Blog{% endblock %}
+
+{% block content %}
+    <article>
+        <h2>{{ post.title }}</h2>
+        
+        <p>
+            <strong>By:</strong> {{ post.author.username }} |
+            <strong>Published:</strong> {{ post.date_created|date:"F j, Y" }}
+            {% if post.date_updated != post.date_created %}
+                | <strong>Updated:</strong> {{ post.date_updated|date:"F j, Y" }}
+            {% endif %}
+        </p>
+        
+        <hr>
+        
+        <div>
+            {{ post.content|linebreaks }}
+        </div>
+        
+        <hr>
+        
+        <p>
+            <a href="{% url 'blog:post_list' %}">← Back to all posts</a> |
+            <a href="{% url 'blog:post_update' post.pk %}">Edit Post</a> |
+            <a href="{% url 'blog:post_delete' post.pk %}">Delete Post</a>
+        </p>
+    </article>
+{% endblock %}
