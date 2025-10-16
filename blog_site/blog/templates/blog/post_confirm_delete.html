@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Delete Post</title>
-</head>
-<body>
+{% extends "blog/base.html" %}
+{% block title %}Delete Post{% endblock %}
+{% block content %}
     <h1>Delete Post</h1>
     <p>Are you sure you want to delete "{{ post.title }}"?</p>
     <form method="post">
         {% csrf_token %}
-        <button type="submit">Confirm Delete</button>
+        <button class="btn btn-danger" type="submit">Confirm Delete</button>
     </form>
-    <a href="{% url 'blog:post_detail' slug=post.slug %}">Cancel</a>
-</body>
-</html>
+    <a class="btn btn-link" href="{% url 'blog:post_detail' slug=post.slug %}">Cancel</a>
+{% endblock %}

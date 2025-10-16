@@ -3,10 +3,12 @@ from django.utils import timezone
 from django.utils.text import slugify
 from taggit.managers import TaggableManager
 
+
 class Post(models.Model):
     """
     Blog post model for CIDM 6325 example.
     """
+
     title: str = models.CharField(max_length=200, unique=True)
     slug: str = models.SlugField(max_length=220, unique=True, editable=False)
     body: str = models.TextField(help_text="Markdown content")
@@ -37,4 +39,3 @@ class Post(models.Model):
         String representation of the post.
         """
         return self.title
-

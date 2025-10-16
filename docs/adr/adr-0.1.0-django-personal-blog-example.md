@@ -24,6 +24,7 @@ Status: Proposed
 ## Decision
 
 We choose **A) Django 5.x** because:
+
 - Django is the course focus and aligns with student learning goals.
 - Built-in admin, ORM, and CBVs support rapid development and clean architecture.
 - Ecosystem supports Markdown, syntax highlighting, tagging, feeds, and static deployment.
@@ -34,11 +35,13 @@ We choose **A) Django 5.x** because:
 ## Consequences
 
 **Positive:**
+
 - Students learn idiomatic Django project/app structure.
 - Easy to extend with tags, feeds, and static pages.
 - Leverages Django admin for authoring, reducing custom code.
 
 **Negative/Risks:**
+
 - Django’s learning curve for CBVs and settings management.
 - Markdown sanitization must be handled securely.
 - Static deployment (Whitenoise, collectstatic) may require extra setup.

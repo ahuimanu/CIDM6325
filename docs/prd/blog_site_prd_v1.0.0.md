@@ -23,6 +23,7 @@ too small (polls) or too complex. This project fills the gap with a clean, real-
 uses current Django conventions and a disciplined structure suitable for teaching.
 
 Goals & Objectives:
+
 - Deliver a working Django site with production-quality structure.
 - Showcase reusable app patterns, settings organization, and content models.
 - Provide a clear migration and deployment example (SQLite to Postgres).
@@ -30,6 +31,7 @@ Goals & Objectives:
 - Serve as an anchor project for Django pedagogy.
 
 Non-Goals:
+
 - Multi-user editorial workflows and permissions beyond a single author.
 - Rich WYSIWYG editors or heavy front-end frameworks.
 - Multi-tenant, API-first, or headless CMS behavior.
@@ -46,6 +48,7 @@ Students often grasp Django in theory but struggle with project structure. This 
 a lean, comprehensible pattern modeled after Carlton Gibson’s site to bridge theory and practice.
 
 Competitive/Benchmark References:  
+
 - Carlton Gibson’s site for tone and structure: <https://noumenal.es/>
 - Provenance note for teaching reference: Matt Layman’s independently authored
   *Understand Django* at <https://www.mattlayman.com/understand-django/>
@@ -56,17 +59,19 @@ Competitive/Benchmark References:
 ## 4. Scope
 
 In Scope:
+
 - Post model with slug, title, body (Markdown), publish date, tags.
 - Static pages (About, Teaching, Projects).
 - RSS and Atom feeds for posts.
 - Code syntax highlighting.
 - Sitemap, canonical URLs, SEO metadata.
 - Search by title and content.
-- Responsive CSS via a minimal framework (e.g., Tailwind or PicoCSS).
+- Responsive CSS via a minimal framework (e.g., Boostrap, Tailwind or PicoCSS).
 - Minimal admin for creating and editing posts.
 - Deployment example (Docker, Gunicorn, Whitenoise).
 
 Out of Scope:
+
 - Multi-author accounts and editorial approval workflows.
 - Commenting system.
 - Personalization, recommendations, or complex analytics.
@@ -80,12 +85,14 @@ Primary User Persona(s):
 Solo technical author and students studying Django.
 
 User Stories:
+
 - As a visitor, I want to browse posts chronologically and by tag so I can find topics of interest.
 - As the author, I can write posts in Markdown and preview rendering before publishing.
 - As a student, I can clone, run, and understand the architecture quickly.
 - As a developer, I can fork this as a starter for my personal blog.
 
 Use Case Scenarios:
+
 - Happy path: Author creates a post in admin, saves, and the post appears on the home page and feeds.
 - Edge case: Slug collision is resolved automatically with a suffix while preserving canonical URL rules.
 - Edge case: Malformed Markdown is rendered safely with sanitization and graceful fallback.
@@ -127,11 +134,13 @@ Use Case Scenarios:
 ## 9. Risks & Assumptions
 
 Risks:
+
 - Unsafe Markdown or HTML could introduce XSS if sanitization is misconfigured.
 - Student deployments may omit collectstatic and whitenoise configuration.
 - Feed and SEO templates can drift as Django versions evolve.
 
 Assumptions:
+
 - Single author model is sufficient for the teaching goal.
 - Python 3.12 or newer and Django 5.x are standard in the course environment.
 - Hosting uses a simple container and object storage for static files if needed.
@@ -161,15 +170,18 @@ Assumptions:
 ## 12. Rollout & Release Plan
 
 Phasing:
+
 - MVP v0.1: Post model, admin authoring, basic templates, Markdown, pagination.
 - v0.2: Search, syntax highlighting, and tag archives.
 - v0.3: RSS and Atom feeds, sitemap, robots.txt, SEO meta, canonical links.
 - v1.0: Hardened deployment docs, accessibility review, and test coverage target met.
 
 Release Channels:
+
 - Public GitHub repository and course module bundle.
 
 Training/Documentation Needs:
+
 - README with setup, run, and deploy steps.
 - Architecture overview in docs describing apps, models, URLs, and templates.
 - Short tutorial: Build your own blog in Django 5.x.
