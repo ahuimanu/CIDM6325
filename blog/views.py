@@ -1,91 +1,94 @@
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q
-from django.views.decorators.http import require_http_methods
+from django.contrib import messages
 
-from .models import Post, Category
+from .models import Post
 from .forms import PostForm, CommentForm
 
-def post_list(request):
-    q = request.GET.get('q', '')
-    posts = Post.objects.filter(is_published=True)
-    if q:
-        posts = posts.filter(Q(title__icontains=q) | Q(body__icontains=q))
-    return render(request, 'blog/post_list.html', {'posts': posts, 'q': q})
+class HtmxQueryMixin:
+    """Adds simple 'q' filtering to ListView."""
+    q_param = 'q'
+    def get_queryset(self):
+        qs = super().get_queryset()
+        q = self.request.GET.get(self.q_param, '')
+        if q:
+            qs = qs.filter(Q(title__icontains=q) | Q(body__icontains=q))
+        return qs
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['q'] = self.request.GET.get(self.q_param, '')
+        return ctx
 
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    form = CommentForm()
-    return render(request, 'blog/post_detail.html', {'post': post, 'form': form})
+class PostListView(HtmxQueryMixin, generic.ListView):
+    model = Post
+    queryset = Post.objects.filter(is_published=True)
+    context_object_name = "posts"
+    template_name = "blog/post_list.html"
 
-@login_required
-def post_create(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
+class PostDetailView(generic.DetailView):
+    model = Post
+    template_name = "blog/post_detail.html"
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['form'] = CommentForm()
+        return ctx
+
+class AuthorRequiredMixin(LoginRequiredMixin):
+    def get_queryset(self):
+        return super().get_queryset().filter(author=self.request.user)
+
+class PostCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = "blog/post_form.html"
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        messages.success(self.request, 'Post created.')
+        return super().form_valid(form)
+    def get_success_url(self):
+        return reverse_lazy("blog:post_detail", kwargs={'pk': self.object.pk})
+
+class PostUpdateView(AuthorRequiredMixin, generic.UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = "blog/post_form.html"
+    def form_valid(self, form):
+        messages.success(self.request, 'Post updated.')
+        return super().form_valid(form)
+    def get_success_url(self):
+        return reverse_lazy("blog:post_detail", kwargs={'pk': self.object.pk})
+
+class PostDeleteView(AuthorRequiredMixin, generic.DeleteView):
+    model = Post
+    template_name = "blog/post_confirm_delete.html"
+    success_url = reverse_lazy("blog:post_list")
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Post deleted.')
+        return super().delete(request, *args, **kwargs)
+
+class PostPublishView(PermissionRequiredMixin, generic.View):
+    permission_required = "blog.can_publish"
+    raise_exception = True
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk, author=request.user)
+        post.is_published = True
+        post.save(update_fields=['is_published'])
+        messages.success(request, 'Post published.')
+        return redirect("blog:post_detail", pk=pk)
+
+class CommentCreateView(LoginRequiredMixin, generic.View):
+    def post(self, request, pk):
+        post = Post.objects.get(pk=pk)
+        form = CommentForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            form.save_m2m()
-            messages.success(request, 'Post created.')
-            return redirect('blog:post_detail', pk=post.pk)
-    else:
-        form = PostForm()
-    return render(request, 'blog/post_form.html', {'form': form})
-
-@login_required
-def post_update(request, pk):
-    post = get_object_or_404(Post, pk=pk, author=request.user)
-    if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Post updated.')
-            return redirect('blog:post_detail', pk=post.pk)
-    else:
-        form = PostForm(instance=post)
-    return render(request, 'blog/post_form.html', {'form': form})
-
-@login_required
-def post_delete(request, pk):
-    post = get_object_or_404(Post, pk=pk, author=request.user)
-    if request.method == 'POST':
-        post.delete()
-        messages.success(request, 'Post deleted.')
-        return redirect('blog:post_list')
-    return render(request, 'blog/post_confirm_delete.html', {'post': post})
-
-@login_required
-@permission_required('blog.can_publish', raise_exception=True)
-def post_publish(request, pk):
-    post = get_object_or_404(Post, pk=pk, author=request.user)
-    post.is_published = True
-    post.save(update_fields=['is_published'])
-    messages.success(request, 'Post published.')
-    return redirect('blog:post_detail', pk=pk)
-
-# HTMX live search endpoint
-@require_http_methods(['GET'])
-def post_search(request):
-    q = request.GET.get('q', '')
-    posts = Post.objects.filter(is_published=True)
-    if q:
-        posts = posts.filter(Q(title__icontains=q) | Q(body__icontains=q))
-    return render(request, 'blog/_post_list_items.html', {'posts': posts})
-
-@login_required
-@require_http_methods(['POST'])
-def comment_add(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    form = CommentForm(request.POST)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.author = request.user
-        comment.post = post
-        comment.save()
-        messages.success(request, 'Comment added.')
-        return redirect('blog:post_detail', pk=pk)
-    messages.error(request, 'Invalid comment.')
-    return redirect('blog:post_detail', pk=pk)
+            c = form.save(commit=False)
+            c.author = request.user
+            c.post = post
+            c.save()
+            messages.success(request, 'Comment added.')
+        else:
+            messages.error(request, 'Invalid comment.')
+        return redirect("blog:post_detail", pk=pk)
