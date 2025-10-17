@@ -1,11 +1,12 @@
 from django.urls import path
 from . import views
+from .views import PostCreateView
 
 urlpatterns = [
     # list & detail
     path("", views.PostListView.as_view(), name="post_list"),
     # CRUD - static routes first to avoid slug conflicts
-    path("posts/new/", views.post_create, name="post_create"),
+    path("posts/new/", PostCreateView.as_view(), name="post_create"),
     path("posts/review/", views.review_list, name="review_list"),
     path("debug/users/", views.debug_users, name="debug_users"),
     path("debug/users/reset/<str:username>/", views.debug_reset_password, name="debug_reset_password"),

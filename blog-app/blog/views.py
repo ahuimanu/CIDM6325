@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic.edit import CreateView
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
@@ -71,6 +73,35 @@ def post_create(request):
     else:
         form = PostForm()
     return render(request, "blog/post_form.html", {"form": form})
+
+
+class AuthorAssignMixin:
+    """Reusable mixin to save a form instance with the current request.user as author.
+
+    This demonstrates mixin usage and allows both function-based and class-based views
+    to share the same author-assignment behaviour.
+    """
+
+    def form_valid(self, form):
+        # Use the form's custom save(author=...) contract to attach the author.
+        self.object = form.save(author=self.request.user)
+        return redirect(self.object.get_absolute_url())
+
+
+class PostCreateView(LoginRequiredMixin, AuthorAssignMixin, CreateView):
+    """CreateView-based implementation of post creation.
+
+    Uses `AuthorAssignMixin` to attach the current user as the post author and
+    reuses the existing `PostForm` (which parses tags_csv). This refactors the
+    previous `post_create` FBV to a CBV while keeping the same template.
+    """
+
+    model = Post
+    form_class = PostForm
+    template_name = "blog/post_form.html"
+
+    # The mixin's form_valid will redirect to the post's absolute URL.
+
 
 @login_required
 def post_update(request, slug):
