@@ -1,0 +1,13 @@
+{% block content %}
+<div class="container mt-5">
+  <h1>{{ object.title }}</h1>
+  <p>{{ object.body }}</p>
+  <p><small>By {{ object.author }} on {{ object.created_at }}</small></p>
+
+  {% if user == object.author %}
+  <a href="{% url 'post_edit' object.pk %}" class="btn btn-warning">Edit</a>
+  <a href="{% url 'post_delete' object.pk %}" class="btn btn-danger">Delete</a>
+  {% endif %}
+  <a href="{% url 'post_list' %}" class="btn btn-secondary">Back</a>
+</div>
+{% endblock %} 

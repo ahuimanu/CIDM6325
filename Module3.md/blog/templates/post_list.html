@@ -1,0 +1,17 @@
+{% block content %}
+<div class="container mt-5">
+  <h1>All Posts</h1>
+  <a href="{% url 'post_new' %}" class="btn btn-primary mb-3">+ New Post</a>
+  {% for post in object_list %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h3><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3>
+        <p>{{ post.body|truncatewords:20 }}</p>
+        <small>By {{ post.author }} on {{ post.created_at }}</small>
+      </div>
+    </div>
+  {% empty %}
+    <p>No posts yet!</p>
+  {% endfor %}
+</div>
+{% endblock %}
