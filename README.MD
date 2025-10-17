@@ -30,17 +30,44 @@
 
 The **Blog Project** is implemented in the `/blog` folder and connected through the `core` app settings.
 
-**Features:**
-- CRUD functionality for posts (Create, Read, Update, Delete)
-- Authentication (login/logout using Django’s built-in auth system)
-- Templates for post list, detail, and form views
-- Published date and time auto-fill
-- Organized URL patterns for `/blog/` and `/blog/new/`
+### 🔧 Features
+- Create, Read, Update, Delete (only by author)
+- Authentication via Django’s built-in login/logout system  
+- Published/unpublished post control  
+- Slug-based URL structure for SEO-friendly post links  
+- Class-Based Views (CBVs) for cleaner, modular logic  
+- Template inheritance for reusable UI  
+- Permissions ensuring only authors can edit/delete their own posts  
+- Admin access restricted to staff/superusers  
 
-**Run Instructions (for local testing):**
-```bash
-python manage.py runserver
-```
+---
+
+## 🧪 Test URLs
+
+| Purpose | URL | Notes |
+|----------|-----|-------|
+| Blog List | `/blog/` | Published posts only |
+| Blog Detail | `/blog/<slug>/` | e.g., `/blog/testing/` |
+| Create Post | `/blog/new/` | Login required |
+| Edit Post | `/blog/<slug>/edit/` | Author only |
+| Delete Post | `/blog/<slug>/delete/` | Author only |
+| Login | `/accounts/login/` | Django auth |
+| Logout | `/accounts/logout/` | POST form required |
+| Admin | `/admin/` | Staff/superuser only |
+
+---
+
+## 🧱 Artifact Summary Table
+
+| Deliverable | File / Link | Description |
+|--------------|-------------|--------------|
+| 🎯 **Project Pitch** | [Pitch.pdf](./docs/Pitch.pdf) | One-page concept document |
+| 📘 **PRD** | [Product Requirements Document.pdf](./docs/Product%20Requirements%20Document.pdf) | System requirements and functionality |
+| 🧠 **AI Tooling Lab Log** | [AI_LOG.md](./docs/AI_LOG.md) | Record of AI-assisted sessions and reflections |
+| 💬 **AI Log (Weeks 5-6)** | [AI_LOG_SmartScheduler.pdf](./docs/AI_LOG_SmartScheduler.pdf) | Graduate-level reflection and ethical analysis |
+| 📰 **Django Blog (Module 4)** | `/blog/` | CRUD + Auth + Slugs (this module) |
+
+---
 
 # CIDM6325 - Fall 2025 #
 
