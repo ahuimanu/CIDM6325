@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h1 class="h3">Login</h1>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="mb-3">
+    <label class="form-label" for="id_username">Username</label>
+    <input class="form-control" type="text" name="username" autofocus required id="id_username">
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="id_password">Password</label>
+    <input class="form-control" type="password" name="password" required id="id_password">
+  </div>
+  <button class="btn btn-primary">Sign in</button>
+</form>
+{% endblock %}
