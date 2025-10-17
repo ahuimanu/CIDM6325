@@ -30,12 +30,7 @@ Part C — Reflection on AI-assisted Modeling (15 pts)
 - Implemented: `REFLECTION.md` contains a ~500-word reflection describing how AI supported model/form design, including prompt examples and critiques.
 
 ### Part D. Peer Review (15 points)
-tdb
-
-
-### Part E. DjangoVMS Journey Critique (10 points)
-tbd
-
+peer-review-zanehill.md
 
 HTMX and Accessibility
 - HTMX: live search and inline edit endpoints implemented (`hx_post_search`, `hx_post_inline_edit`) and covered by tests in `blog/tests.py`.
@@ -59,9 +54,4 @@ Grader quick verification steps
 1. Create a virtual env and install dependencies.
 2. Run `python manage.py migrate` and `python manage.py test` — tests should pass.
 3. Start the server and exercise the app: register, create a post, move to review, and publish with an account that has `can_publish`.
-
-Optional extras I can add on request
-- Rendered SVG of the Mermaid diagram (for viewers without Mermaid support).
-- Per-field ARIA error IDs across forms (accessibility hardening).
-- A one-page grading checklist for submission.
 

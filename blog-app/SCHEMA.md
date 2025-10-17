@@ -49,13 +49,7 @@ Migration notes (how we got here)
   - Create intermediary M2M table for `post_tags` (Django-managed), storing pairs of `post_id` and `tag_id`.
   - Create `Comment` table with FK to `Post` and FK to `User` and an `is_approved` boolean.
 
-If you add future migrations (e.g., analytics counters, indexes, or soft-delete fields), follow this pattern:
-- Add migration via `python manage.py makemigrations` and inspect the generated migration under `blog/migrations/`.
-- When adding large data migrations (e.g., backfilling tag counts), prefer a two-step migration:
-  1) schema migration to add the column (nullable or with a default), deploy, and run.
-  2) data migration (management command or RunPython) that backfills values and then a follow-up migration to make the column non-nullable if desired.
-
-Business & analytics assumptions and examples
+**Business & analytics assumptions and examples**
 
 Intended business model
 - Authors publish blog posts, which go through editorial workflow states: `draft` -> `review` -> `published`.
@@ -108,14 +102,3 @@ SELECT AVG(c.cnt) FROM (
   GROUP BY p.id
 ) c;
 ```
-
-Recommended analytics additions (if analytics are a priority)
-- Add timestamps for editorial transitions (e.g., `reviewed_at`, `published_at`) or a generic `status_history` table to compute time-in-review precisely.
-- Add `views` counters (incremental counter column) or use an event pipeline for page views if you need detailed traffic analysis (recommend using separate analytics storage for high-volume data).
-- Add an indexed `slug` column (already unique) and indexes on `status` and `created_at` for faster reporting queries.
-
-Privacy & retention notes
-- Comments are user-generated content and should be subject to retention policies if required by law/regulation. Provide an admin interface to delete or anonymize comments when necessary.
-- Consider anonymizing or aggregating user-level analytics when exporting personally-identifiable trends.
-
-If you'd like, I can also add a rendered PNG/SVG of the Mermaid diagram to the repo (I can generate a simple SVG), and wire it into `SCHEMA.md` so the diagram is visible even where Mermaid isn't supported. Would you like that? 
