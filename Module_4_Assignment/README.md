@@ -6,7 +6,7 @@
 
 ---
 
-## 📚 Table of Contents
+##  Table of Contents
 1. [Overview](#overview)
 2. [Part A – CBV Implementation](#part-a--cbv-implementation)
 3. [Part B – Application Architecture Critique](#part-b--application-architecture-critique)
@@ -18,7 +18,7 @@
 
 ---
 
-## 🔍 Overview
+##  Overview
 This module builds on the logistics delivery app from **Module 3**, transitioning from Function-Based Views (FBVs) to **Class-Based Views (CBVs)** to improve scalability, maintainability, and modular design.
 
 The goals are to:
@@ -30,12 +30,12 @@ The goals are to:
 
 ---
 
-## 🧩 Part A – CBV Implementation
+##  Part A – CBV Implementation
 
-### 🎯 Objective
+###  Objective
 Refactored all CRUD features from Module 3 using Class-Based Views, including create, read, update, and delete operations.
 
-### 🧱 Implementation Summary
+###  Implementation Summary
 - **App:** `logistics_app`
 - **Model:** `Order` (related to `Customer`)
 - Added `Customer` creation view and template (`create_customer.html`)
@@ -55,7 +55,7 @@ Refactored all CRUD features from Module 3 using Class-Based Views, including cr
 - Templates added: `registration/login.html`, `logged_out.html`
 
 
-### ⚖️ FBV vs CBV Trade-Off Analysis
+###  FBV vs CBV Trade-Off Analysis
 | Criteria | Function-Based Views (FBVs) | Class-Based Views (CBVs) |
 |-----------|-----------------------------|---------------------------|
 | **Readability** | Simple and explicit logic | Compact but requires familiarity |
@@ -75,7 +75,7 @@ CBVs abstract repetitive CRUD operations, enabling modular, scalable design whil
 
 ---
 
-## 🏗️ Part B – Application Architecture Critique
+##  Part B – Application Architecture Critique
 A 2–3 page critique (see [`docs/PartB_Critique.docx`](docs/PartB_Critique.docx)) analyzes Django’s app architecture:
 - Strengths of modular apps and reusability
 - Role of CBVs in promoting maintainability
@@ -84,7 +84,7 @@ A 2–3 page critique (see [`docs/PartB_Critique.docx`](docs/PartB_Critique.docx
 
 ---
 
-## 🤝 Part C – Peer Review
+##  Part C – Peer Review
 Peer review performed on another student’s CBV implementation:  
 - Evaluated clarity and modularity  
 - Left GitHub comments on naming and inheritance patterns  
@@ -92,7 +92,7 @@ Peer review performed on another student’s CBV implementation:
 
 ---
 
-## 💬 Part D – Discussion Summary
+##  Part D – Discussion Summary
 The discussion post (~500 words) focuses on:
 - Django’s CBV architecture and modularity  
 - How app-based organization scales enterprise apps  
@@ -100,14 +100,25 @@ The discussion post (~500 words) focuses on:
 
 ---
 
-## 🧭 Part E – TravelMathLite Critique
+##  Part E – TravelMathLite Critique
 Evaluation of the instructor’s **TravelMathLite** example (combined Modules 3 & 4 assignment).  
 See [`docs/PartE_TravelMathLite.md`](docs/PartE_TravelMathLite.md).  
 Covers modularity, scalability, and alignment with best practices for CBVs.
 
 ---
+## Dependency Management
+>  This project includes both `requirements.txt` and `pyproject.toml` for flexibility. You can install dependencies using traditional pip or migrate to modern, editable installs via `pip install --editable .` in the future.
 
-## 🤖 AI Use Disclosure
+
+| Feature                             | Benefit                                                          |
+| ----------------------------------- | ---------------------------------------------------------------- |
+|  **Standardized**                 | Works across build tools (setuptools, poetry, flit, hatch, etc.) |
+|  **Cleaner packaging**            | Consolidates all metadata and deps                               |
+|  **Tooling config**               | Supports formatter, linters, test runners, etc.                  |
+|  **Modern dependency management** | Poetry and pip (PEP 517/518) support it                          |
+
+---
+##  AI Use Disclosure
 AI tools were used for:
 - Drafting CBV logic templates and mixin examples  
 - Generating Markdown and APA-style citations  
@@ -117,18 +128,18 @@ All AI-assisted outputs were manually verified, revised, and documented in [`doc
 
 ---
 
-## 📚 References
+##  References
 - Layman, M. (2024). *Understand Django*. Ch. 7–8: Organize with Class-Based Views & Anatomy of an Application. [https://www.mattlayman.com/understand-django](https://www.mattlayman.com/understand-django)  
 - Django Documentation: Class-Based Views (https://docs.djangoproject.com/en/stable/topics/class-based-views/)  
 - WTAMU CIDM 6325 Course Announcements (Babb, J., 2025)
 
 ---
 
-### 🧩 Notes
+###  Notes
 - All tests executed using `python manage.py test`.  
 - PR includes combined Module 3 + 4 deliverables.  
 - Accessibility and WCAG 2.2 standards maintained throughout forms and templates.
-### 🧪 Final Validation
+###  Final Validation
 - All CBV routes tested manually:
   - `/orders/`, `/order/create/`, `/order/<pk>/update/`, `/order/<pk>/delete/`
 - Login/logout flow verified

@@ -14,7 +14,7 @@ Prompts, outputs, and revisions are recorded for transparency.
 
 ## Module 3 – Part A: Forms, Validation, Auto ID
 
-###  Feature Implemented
+### 🔧 Feature Implemented
 - Added custom validation in `OrderForm` using `clean_order_date`, `clean_order_id`, and `clean()`.
 - Refactored `order_id` to be auto-generated using UUID suffix (e.g., "ORD-1A2B3C") via `save()` override in `Order` model.
 - Updated `order_form.html` to remove manual `order_id` input and show errors inline with Bootstrap + WCAG-compliant design.
@@ -22,12 +22,12 @@ Prompts, outputs, and revisions are recorded for transparency.
 
 ---
 
-###  Prompt to ChatGPT
+### 🤖 Prompt to ChatGPT
 > "Can we have the order ID auto-generated alphanumeric starting with ORD?"
 
 ---
 
-###  ChatGPT Output Summary
+### ✨ ChatGPT Output Summary
 - Recommended removing `order_id` from the form fields.
 - Suggested using `uuid.uuid4().hex[:6].upper()` as a unique ID suffix.
 - Provided `save()` override logic to assign `order_id` if missing.
@@ -43,7 +43,7 @@ Prompts, outputs, and revisions are recorded for transparency.
 
 ---
 
-###  Outcome
+### ✅ Outcome
 - Streamlined form UX (no manual ID entry)
 - Improved consistency and uniqueness of `order_id`
 - Boosted accessibility and error feedback compliance (WCAG 2.2)
@@ -51,7 +51,7 @@ Prompts, outputs, and revisions are recorded for transparency.
 
 ---
 
-###  Manual Test Notes
+### 🧪 Manual Test Notes
 - Submitted valid and invalid orders — saw inline field errors as expected
 - Verified `order_id` format as `ORD-XXXXXX`
 - Confirmed success message showing `order_id` + ETA after HTMX form submission
