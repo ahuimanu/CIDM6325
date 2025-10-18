@@ -76,7 +76,7 @@ CBVs abstract repetitive CRUD operations, enabling modular, scalable design whil
 ---
 
 ##  Part B – Application Architecture Critique
-A 2–3 page critique (see [`docs/PartB_Critique.docx`](docs/PartB_Critique.docx)) analyzes Django’s app architecture:
+A 2–3 page critique (see [`docs/PartB_Critique`](docs/Part_B_Critique.md)) analyzes Django’s app architecture:
 - Strengths of modular apps and reusability
 - Role of CBVs in promoting maintainability
 - Limitations and design trade-offs
@@ -85,10 +85,14 @@ A 2–3 page critique (see [`docs/PartB_Critique.docx`](docs/PartB_Critique.docx
 ---
 
 ##  Part C – Peer Review
-Peer review performed on another student’s CBV implementation:  
-- Evaluated clarity and modularity  
-- Left GitHub comments on naming and inheritance patterns  
-- Submitted review summary in [`docs/PEER_REVIEW.md`](docs/PEER_REVIEW.md)
+As of now, I have not yet received a peer review assignment or formal GitHub Pull Request to review another student's Module 3 implementation. However, I am prepared to complete the following upon assignment:
+
+- Evaluate Class-Based View (CBV) structure for clarity and modularity
+- Review naming conventions, method overrides, and inheritance logic
+- Leave constructive GitHub comments or inline code suggestions
+- Submit a summary critique following the provided peer review template
+
+This file will be updated once the instructor assigns a peer review repo or Pull Request.
 
 ---
 

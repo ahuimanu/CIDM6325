@@ -13,16 +13,16 @@ The instructor’s evolving journey with DjangoVMS and GitHub integration offers
 
 ### 2. Strengths & Observations
 
-**✅ Authentic GitHub Workflow**  
+** Authentic GitHub Workflow**  
 The push toward GitHub Organizations and Pull Request–driven collaboration mirrors how modern software teams operate. By requiring students to move into a shared GitHub org, submit PRs, and engage through Issues and discussions, the instructor embeds muscle memory for scalable, real-world development. This approach also creates a clean audit trail for student contributions.
 
-**✅ Pedagogical Transparency**  
+** Pedagogical Transparency**  
 The instructor openly frames the course as an evolving journey—“one puzzle piece at a time.” This candid and adaptive approach fosters trust and encourages students to engage iteratively rather than rigidly. It also reflects how actual software projects evolve over time.
 
-**✅ Tooling & Reading Integration**  
+**Tooling & Reading Integration**  
 Aligning the GitHub process with readings from Matt Layman’s Chapters 5 and 6 grounds the technical setup in well-articulated theory. Additionally, using DjangoTravelCalc as a live scaffold reinforces practical application and promotes observational learning.
 
-**✅ AI Integration**  
+**AI Integration**  
 While not fully unpacked yet, there is a growing emphasis on how GitHub Copilot and AI tooling support the development rhythm. References to “prompt engineering,” planned “Four Gates,” and AI-reflective artifacts show a clear vision of AI as a partner in design rather than a shortcut.
 
 ---
