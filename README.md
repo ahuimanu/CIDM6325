@@ -85,14 +85,25 @@ A 2–3 page critique (see [`docs/PartB_Critique`](docs/Part_B_Critique.md)) ana
 ---
 
 ##  Part C – Peer Review
-As of now, I have not yet received a peer review assignment or formal GitHub Pull Request to review another student's Module 3 implementation. However, I am prepared to complete the following upon assignment:
 
-- Evaluate Class-Based View (CBV) structure for clarity and modularity
-- Review naming conventions, method overrides, and inheritance logic
-- Leave constructive GitHub comments or inline code suggestions
-- Submit a summary critique following the provided peer review template
+I have completed the peer review requirement for Module 4 by evaluating a classmate's CBV-based Django implementation. The review was based on clarity, correctness, and modularity, as per assignment guidelines. Feedback was structured and shared based on their public repository.
 
-This file will be updated once the instructor assigns a peer review repo or Pull Request.
+###  Module 4: Peer Review Summary
+
+**Reviewed Repository:** [boyhamgirl/CIDM6325_Week7_8_CBV](https://github.com/boyhamgirl/CIDM6325_Week7_8_CBV)  
+**Focus File:** `blog/views.py`
+
+**What Worked Well:**
+- Clear CBV structure using mixins like `LoginRequiredMixin`, `PermissionRequiredMixin`, and a custom `HtmxQueryMixin`.
+- `AuthorRequiredMixin` effectively restricts edits to the post owner.
+- Good use of `messages` for user feedback on CRUD and comment actions.
+
+**Suggestions:**
+- Consider adding test cases for `PostPublishView` and `CommentCreateView`.
+- A logout confirmation template could enhance UX.
+
+*Reviewed by:* Mafruha17  
+*Date:* October 18, 2025
 
 ---
 
