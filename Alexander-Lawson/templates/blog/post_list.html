@@ -1,4 +1,5 @@
-{% extends 'base.html' %}
+<!-- c:\Users\a13152\OneDrive - Cleveland-Cliffs Inc\Desktop\M3_Blog Project\CIDM_6325_Lawson\Alexander-Lawson\templates\blog\post_list.html -->
+{% extends 'blog/base.html' %}
 
 {% block title %}Blog Posts{% endblock %}
 
@@ -11,7 +12,7 @@
                 <li>
                     <article>
                         <h3>
-                            <a href="{% url 'blog:post_detail' post.pk %}">
+                            <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-primary btn-sm">
                                 {{ post.title }}
                             </a>
                         </h3>
@@ -20,7 +21,7 @@
                             <strong>Published:</strong> {{ post.date_created|date:"F j, Y" }}
                         </p>
                         <p>{{ post.content|truncatewords:50 }}</p>
-                        <a href="{% url 'blog:post_detail' post.pk %}">Read more →</a>
+                        <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-primary btn-sm">Read more →</a>
                     </article>
                     <hr>
                 </li>
@@ -30,7 +31,7 @@
         <section>
             <h3>No blog posts yet</h3>
             <p>Be the first to create a post!</p>
-            <a href="{% url 'blog:post_create' %}">Create Your First Post</a>
+            <a href="{% url 'blog:post_create' %}" class="btn btn-success">Create Your First Post</a>
         </section>
     {% endif %}
 {% endblock %}

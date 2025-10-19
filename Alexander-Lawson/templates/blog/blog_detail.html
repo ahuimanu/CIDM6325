@@ -1,0 +1,31 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ post.title }} - Blog{% endblock %}
+
+{% block content %}
+    <article>
+        <h2>{{ post.title }}</h2>
+        
+        <p>
+            <strong>By:</strong> {{ post.author.username }} |
+            <strong>Published:</strong> {{ post.date_created|date:"F j, Y" }}
+            {% if post.date_updated != post.date_created %}
+                | <strong>Updated:</strong> {{ post.date_updated|date:"F j, Y" }}
+            {% endif %}
+        </p>
+        
+        <hr>
+        
+        <div>
+            {{ post.content|linebreaks }}
+        </div>
+        
+        <hr>
+        
+        <p>
+            <a href="{% url 'blog:post_list' %}" class="btn btn-secondary btn-sm">← Back to all posts</a>
+            <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-warning btn-sm">Edit Post</a>
+            <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-danger btn-sm">Delete Post</a>
+        </p>
+    </article>
+{% endblock %}

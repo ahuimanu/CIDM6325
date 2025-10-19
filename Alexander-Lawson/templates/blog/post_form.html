@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'blog/base.html' %}
 
 {% block title %}{% if post %}Edit Post{% else %}Create New Post{% endif %}{% endblock %}
 
@@ -62,8 +62,8 @@
         </div>
         
         <div>
-            <button type="submit">{% if post %}Update Post{% else %}Create Post{% endif %}</button>
-            <a href="{% url 'blog:post_list' %}">Cancel</a>
+            <button type="submit" class="btn btn-primary">{% if post %}Update Post{% else %}Create Post{% endif %}</button>
+            <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 {% endblock %}
