@@ -7,4 +7,4 @@ cd Alexander-Lawson
 py manage.py startapp myblog
 py manage.py runserver
 
-testing conflicts
+testing conflicts; main
