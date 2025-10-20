@@ -12,24 +12,28 @@
 
 ## 2. Overview
 
-**Summary**  
+### **Summary**  
+
 A minimalist, production-quality Django blog application demonstrating modern best practices,
 clean architecture, and static-friendly deployment. Serves as a living teaching artifact for
 students learning Django fundamentals, content models, and deployment pipelines.
 
-**Problem Statement**  
+### **Problem Statement**  
+
 Students need a concrete, maintainable example beyond trivial tutorials. Many examples are either
 too small (polls) or too complex. This project fills the gap with a clean, real-world blog that
 uses current Django conventions and a disciplined structure suitable for teaching.
 
-**Goals & Objectives**
+### **Goals & Objectives**
+
 - Deliver a working Django site with production-quality structure.  
 - Showcase reusable app patterns, settings organization, and content models.  
 - Provide a clear migration and deployment example (SQLite → Postgres).  
 - Demonstrate Markdown rendering and code syntax highlighting.  
 - Serve as an anchor project for Django pedagogy.
 
-**Non-Goals**
+### **Non-Goals**
+
 - Multi-user editorial workflows and permissions beyond a single author.  
 - Rich WYSIWYG editors or heavy front-end frameworks.  
 - Multi-tenant, API-first, or headless CMS behavior.
@@ -46,6 +50,7 @@ Students often grasp Django in theory but struggle with project structure. This 
 a lean, comprehensible pattern modeled after Carlton Gibson’s site to bridge theory and practice.
 
 **Competitive/Benchmark References**  
+
 - Carlton Gibson’s site for tone and structure: <https://noumenal.es/>  
 - Provenance note for teaching reference: Matt Layman’s *Understand Django*
   <https://www.mattlayman.com/understand-django/>
@@ -58,6 +63,7 @@ a lean, comprehensible pattern modeled after Carlton Gibson’s site to bridge t
 > Each bullet must later appear in a deliverable checklist (see Section 6).
 
 ### In Scope
+
 - [ ] **F-001 Post Model** — Slug, title, body (Markdown), publish date, tags.  
   Acceptance: CRUD operations functional, slugs unique, Markdown renders safely.  
   Trace: FR-001, FR-002.
@@ -84,6 +90,7 @@ a lean, comprehensible pattern modeled after Carlton Gibson’s site to bridge t
   Trace: OPS-004.
 
 ### Out of Scope
+
 - Multi-author editorial features.  
 - Commenting, analytics, personalization.  
 - External CMS or REST API integrations.
@@ -142,12 +149,14 @@ a lean, comprehensible pattern modeled after Carlton Gibson’s site to bridge t
 
 ## 9. Risks & Assumptions
 
-**Risks**
+### **Risks**
+
 - Misconfigured sanitization may permit XSS.  
 - Students may skip collectstatic setup.  
 - Feed templates can drift with Django upgrades.
 
-**Assumptions**
+### **Assumptions**
+
 - Single-author model sufficient.  
 - Python 3.12 + Django 5.x baseline.  
 - Simple container hosting with object storage for static files.
@@ -177,15 +186,18 @@ a lean, comprehensible pattern modeled after Carlton Gibson’s site to bridge t
 ## 12. Rollout & Release Plan
 
 **Phasing**  
+
 - v0.1 MVP — Post model, admin, templates, Markdown, pagination.  
 - v0.2 — Search and syntax highlighting.  
 - v0.3 — Feeds, sitemap, SEO, canonical links.  
-- v1.0 — Docs, accessibility, full coverage.
+- v0.4 — Docs, accessibility, full coverage.
 
 **Release Channels**  
+
 - Public GitHub repo and WTAMU course module.  
 
 **Training/Documentation**  
+
 - README, architecture overview, short tutorial (*Build Your Own Blog in Django 5.x*).
 
 ---
@@ -193,14 +205,14 @@ a lean, comprehensible pattern modeled after Carlton Gibson’s site to bridge t
 ## 13. Open Questions
 
 - Store Markdown only in DB or support filesystem drafts?  
-- Include minimal JSON API for Jamstack clients?  
-- Tailwind CLI vs no-build CSS framework?
+- Include minimal JSON API for Jamstack clients?  A: HTMX
+- Tailwind CLI vs no-build CSS framework? A: Bootstrap
 
 ---
 
 ## 14. References
 
-- Carlton Gibson site <https://noumenal.es/>  
+- Carlton Gibson site [https://noumenal.es/](https://noumenal.es/)
 - Matt Layman *Understand Django* <https://www.mattlayman.com/understand-django/>  
 - Django 5.0 Docs <https://docs.djangoproject.com/en/5.0/>  
 - markdown-it-py <https://markdown-it-py.readthedocs.io/>  

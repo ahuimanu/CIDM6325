@@ -1,27 +1,39 @@
-<!-- Base template for the blog application -->
-<!-- blog_site/blog/templates/blog/base.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="A simple Django blog site for sharing posts and ideas.">
-    <meta name="keywords" content="blog, django, posts, articles, CIDM6325">
-    <title>{% block title %}Blog{% endblock title %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'blog:post_list' %}">My Blog</a>
-            <a class="btn btn-primary" href="{% url 'blog:post_create' %}">New Post</a>
-        </div>
-    </nav>
-    <div class="container">
-        {% block content %}
-        <!-- Page-specific content goes here -->
-        {% endblock content %}
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    {% block extra_js %}{% endblock extra_js %}    
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block meta %}
+            <meta name="description"
+                  content="A simple Django blog for CIDM 6325 with Markdown posts.">
+            <meta name="keywords" content="blog, django, cidm6325, posts, articles">
+        {% endblock meta %}
+        <title>
+            {% block title %}
+                Blog
+            {% endblock title %}
+        </title>
+        <!-- Bootstrap 5 (CDN) -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+              rel="stylesheet">
+    </head>
+    <body class="bg-light">
+        {% include "includes/navbar.html" %}
+        <main class="container my-4">
+            {% block content %}
+            {% endblock content %}
+        </main>
+        <footer class="bg-body-tertiary py-4 mt-5">
+            <div class="container text-center">
+                <small class="text-muted">© {% now "Y" %} My Blog</small>
+            </div>
+        </footer>
+        <!-- HTMX (optional) -->
+        <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+        <!-- Bootstrap Bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        {% block extra_js %}
+        {% endblock extra_js %}
+    </body>
 </html>

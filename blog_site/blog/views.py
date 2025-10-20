@@ -6,7 +6,6 @@ from django.views.generic import (
     DeleteView,
 )
 from django.urls import reverse_lazy
-from django.utils import timezone
 from .models import Post
 from .forms import PostForm
 
@@ -24,9 +23,7 @@ class PostListView(ListView):
         """
         Only show posts with publish_date <= now (published).
         """
-        return Post.objects.filter(publish_date__lte=timezone.now()).order_by(
-            "-publish_date"
-        )
+        return Post.objects.published().order_by("-publish_date")
 
 
 class PostDetailView(DetailView):
@@ -43,7 +40,7 @@ class PostDetailView(DetailView):
         """
         Only allow access to published posts.
         """
-        return Post.objects.filter(publish_date__lte=timezone.now())
+        return Post.objects.published()
 
 
 class PostCreateView(CreateView):

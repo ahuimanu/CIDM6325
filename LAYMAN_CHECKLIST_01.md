@@ -1,5 +1,7 @@
 # Django Blog PRD Alignment Checklist
+
 ## Consistency with *Understand Django* (Matt Layman, Chapters 1–8)
+
 This checklist ensures that the Django Blog Example (per the PRD) fulfills pedagogical and structural
 expectations aligned with Matt Layman’s *Understand Django* series (Chs. 1–8: *From Browser to Django*).
 Each section connects the implementation deliverables from the PRD to the conceptual grounding in Layman’s work.
@@ -7,6 +9,7 @@ Each section connects the implementation deliverables from the PRD to the concep
 ---
 
 ## 1. From Browser to Django (Introductory Context)
+
 - [ ] **HTTP request/response flow**: Demonstrate how a browser request reaches Django via URLs → views → templates.
 - [ ] **Runserver demonstration**: Show `python manage.py runserver` and access to `/` and `/posts/`.
 - [ ] **Console inspection**: Log request path and response codes in development server output.
@@ -16,6 +19,7 @@ Each section connects the implementation deliverables from the PRD to the concep
 ---
 
 ## 2. URLs Lead the Way
+
 - [ ] **urls.py created** with `urlpatterns` defining `path("", views.post_list, name="post_list")` and `path("posts/<slug:slug>/", views.post_detail, name="post_detail")`.
 - [ ] **Namespace clarity**: App-level `urls.py` included under project `urls.py` with `include("blog.urls")`.
 - [ ] **URL naming discipline**: All routes use `name=` for reverse resolution in templates.
@@ -25,6 +29,7 @@ Each section connects the implementation deliverables from the PRD to the concep
 ---
 
 ## 3. Views on Views
+
 - [ ] **Function-based views (FBVs)** defined for list/detail; optional refactor to class-based views (CBVs) as second phase.
 - [ ] **Proper use of `HttpResponse`/`render()`** for returning HTML responses.
 - [ ] **View docstrings** reference Matt Layman’s “views mediate between model and template” guidance.
@@ -34,6 +39,7 @@ Each section connects the implementation deliverables from the PRD to the concep
 ---
 
 ## 4. Templates for User Interfaces
+
 - [ ] **Templates directory** configured correctly in `settings.py` (`DIRS`, `APP_DIRS`).
 - [ ] **Base template** with `{% block content %}` and `{% extends "base.html" %}` in all pages.
 - [ ] **List/detail templates** render `{{ post.title }}`, `{{ post.body|safe }}`, and formatted dates.
@@ -44,6 +50,7 @@ Each section connects the implementation deliverables from the PRD to the concep
 ---
 
 ## 5. User Interaction with Forms
+
 - [ ] **Form created** (`forms.py`) for authoring/editing posts or for a “Contact/Feedback” example.
 - [ ] **CSRF token** present in template forms.
 - [ ] **Validation handled** with Django’s `clean_` methods or field validators.
@@ -53,6 +60,7 @@ Each section connects the implementation deliverables from the PRD to the concep
 ---
 
 ## 6. Store Data with Models
+
 - [ ] **Post model** implemented per PRD: `title`, `slug`, `body`, `published_at`, `tags`.
 - [ ] **Database migration** created and applied via `python manage.py makemigrations` / `migrate`.
 - [ ] **Admin entry** created for `Post`.
@@ -64,6 +72,7 @@ Each section connects the implementation deliverables from the PRD to the concep
 ---
 
 ## 7. Administer All the Things
+
 - [ ] **Admin site enabled** with superuser creation.
 - [ ] **Custom `ModelAdmin`** for `Post` includes `list_display`, `prepopulated_fields` for slug.
 - [ ] **Markdown preview integration** optional or documented (for teaching extension).
@@ -74,8 +83,10 @@ Each section connects the implementation deliverables from the PRD to the concep
 ---
 
 ## 8. Anatomy of an Application
+
 - [ ] **App layout** follows Django convention:
-  ```
+  
+  ```text
   blog/
       __init__.py
       admin.py
@@ -88,6 +99,7 @@ Each section connects the implementation deliverables from the PRD to the concep
       urls.py
       views.py
   ```
+
 - [ ] **Settings module** isolates environment configs (`settings/base.py`, `dev.py`, `prod.py` optional).
 - [ ] **`INSTALLED_APPS`** includes `'blog'` explicitly.
 - [ ] **Static files** served through Whitenoise or collectstatic pipeline.
@@ -97,6 +109,7 @@ Each section connects the implementation deliverables from the PRD to the concep
 ---
 
 ## 9. Validation with PRD Alignment
+
 - [ ] Each functional requirement (FR-001 – FR-009) demonstrably satisfied within the chapter progression.
 - [ ] Non-functional targets (performance, accessibility, security) validated in docs/tests.
 - [ ] Clear pedagogical commentary linking code to Layman’s conceptual framing.
@@ -106,13 +119,15 @@ Each section connects the implementation deliverables from the PRD to the concep
 ---
 
 ## 10. Deliverables
+
 - [ ] `CHECKLIST_COMPLETION.md` included in repo root, checked off by instructor/student.
 - [ ] Screenshots or asciinema clips showing each milestone.
 - [ ] Final summary table mapping PRD → Layman Ch. X → Verified artifact.
 
 ---
 
-**References**
+### References
+
 - Matt Layman, *Understand Django* (<https://www.mattlayman.com/understand-django/>)
 - Django 5.x Documentation (<https://docs.djangoproject.com/en/5.0/>)
 - Django Blog Example PRD (rev 0.1, 2025-10-07)
