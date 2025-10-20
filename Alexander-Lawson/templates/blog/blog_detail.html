@@ -1,4 +1,6 @@
+
 {% extends 'blog/base.html' %}
+{% load markdownify %}
 
 {% block title %}{{ post.title }} - Blog{% endblock %}
 
@@ -16,16 +18,16 @@
         
         <hr>
         
-        <div>
-            {{ post.content|linebreaks }}
+        <div class="card card-body mb-3">
+            {{ post.content|markdownify }}
         </div>
         
         <hr>
         
-        <p>
+        <div class="d-flex gap-2">
             <a href="{% url 'blog:post_list' %}" class="btn btn-secondary btn-sm">← Back to all posts</a>
             <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-warning btn-sm">Edit Post</a>
             <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-danger btn-sm">Delete Post</a>
-        </p>
+        </div>
     </article>
 {% endblock %}

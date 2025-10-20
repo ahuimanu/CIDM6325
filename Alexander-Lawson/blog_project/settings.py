@@ -1,3 +1,19 @@
+# Markdownify settings for stricter sanitization
+MARKDOWNIFY = {
+    "default": {
+        "WHITELIST_TAGS": [
+            "a", "abbr", "acronym", "b", "blockquote", "code", "em", "i", "li", "ol", "strong", "ul", "p", "pre", "h1", "h2", "h3", "h4", "h5", "h6", "img"
+        ],
+        "WHITELIST_ATTRS": [
+            "href", "src", "alt", "title"
+        ],
+        "MARKDOWN_EXTENSIONS": [
+            "extra", "codehilite"
+        ],
+        "STRIP": True,
+        "STRIP_COMMENTS": True,
+    }
+}
 """
 Django settings for blog_project project.
 
@@ -39,7 +55,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'taggit',
     'myblog',
-]
+        'markdownify',
+        'widget_tweaks',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

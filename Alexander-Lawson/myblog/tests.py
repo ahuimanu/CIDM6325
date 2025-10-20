@@ -1,3 +1,23 @@
+class PostMarkdownRenderingTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='mduser',
+            email='md@example.com',
+            password='testpass123'
+        )
+        self.post = Post.objects.create(
+            title='Markdown Post',
+            author=self.user,
+            content='# Heading\n\n**bold text** and *italic text*.'
+        )
+
+    def test_markdown_rendering_in_detail_view(self):
+        client = Client()
+        url = reverse('blog:post_detail', kwargs={'pk': self.post.pk})
+        response = client.get(url)
+        self.assertContains(response, '<h1>Heading</h1>', html=True)
+        self.assertContains(response, '<strong>bold text</strong>', html=True)
+        self.assertContains(response, '<em>italic text</em>', html=True)
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.urls import reverse

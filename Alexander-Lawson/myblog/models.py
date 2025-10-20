@@ -8,7 +8,8 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
-    date_created = models.DateTimeField(auto_now_add=True)
+    from django.utils import timezone
+    date_created = models.DateTimeField(default=timezone.now, verbose_name="Publish date")
     date_updated = models.DateTimeField(auto_now=True)
 
     class Meta:
