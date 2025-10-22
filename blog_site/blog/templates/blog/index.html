@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}
+    Blog — Home
+{% endblock title %}
+{% block content %}
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="row g-4 align-items-stretch">
+                <aside class="col-12 col-lg-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">Nav</h5>
+                            <div id="recent-posts"
+                                 hx-get="{% url 'blog:recent_posts' %}?limit={{ recent_count|default:5 }}"
+                                 hx-trigger="revealed once"
+                                 hx-target="#recent-posts"
+                                 hx-swap="outerHTML">
+                                <div class="text-muted small">Loading recent posts…</div>
+                            </div>
+                            <hr>
+                            <nav class="nav flex-column">
+                                <a class="nav-link px-0" href="{% url 'blog:index' %}">Latest</a>
+                                <a class="nav-link px-0" href="{% url 'blog:index' %}?section=older">Archive</a>
+                            </nav>
+                        </div>
+                    </div>
+                </aside>
+                <section class="col-12 col-lg-9">
+                    <div class="card h-100 border-0">
+                        <div class="card-body bg-warning-subtle p-5 rounded-3">
+                            {% if hero_post %}
+                                <h1 class="display-6">{{ hero_post.title }}</h1>
+                                <p class="lead mb-4">{{ hero_post.subtitle|default:hero_post.excerpt }}</p>
+                                <a href="{% url 'blog:post_detail' hero_post.slug %}"
+                                   class="btn btn-primary btn-lg">Read now</a>
+                            {% else %}
+                                <h1 class="display-6">Welcome</h1>
+                                <p class="lead">No hero post selected.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row g-4">
+                {% for post in featured_posts|slice:":3" %}
+                    <div class="col-12 col-md-6 col-lg-4">{% include "blog/_post_card.html" with post=post %}</div>
+                {% empty %}
+                    <div class="col-12">
+                        <div class="alert alert-secondary mb-0">No featured posts yet.</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Older Posts</h2>
+                    {% include "blog/_post_list.html" with page_obj=page_obj %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
