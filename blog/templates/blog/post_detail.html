@@ -1,20 +1,18 @@
 <!doctype html>
 <html>
   <body>
-    <p><a href="{% url 'blog:post_list' %}">← Back</a></p>
-    <h1>{{ post.title }}</h1>
-    <p>by {{ post.author }} • Published date/time: {{ post.published_at|date:"Y-m-d H:i" }}</p>
+    <p><a href="{% url 'blog:post_list' %}">Back</a></p>
 
-    {% if user.is_authenticated %}
-      {% if user == post.author or user.is_superuser %}
-        <p>
-          <a href="{% url 'blog:post_update' post.slug %}">Edit</a> •
-          <a href="{% url 'blog:post_delete' post.slug %}">Delete</a>
-        </p>
-      {% endif %}
+    <h1>{{ post.title }}</h1>
+    <p>by {{ post.author }} • Published date/time: {{ post.published_at }}</p>
+
+    {% if user.is_authenticated and user == post.author %}
+      <p>
+        <a href="{% url 'blog:post_update' slug=post.slug %}">Edit</a> |
+        <a href="{% url 'blog:post_delete' slug=post.slug %}">Delete</a>
+      </p>
     {% endif %}
 
     <article>{{ post.body|linebreaks }}</article>
   </body>
 </html>
-
