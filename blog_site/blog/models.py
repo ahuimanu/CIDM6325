@@ -1,7 +1,16 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from django.urls import reverse
 from taggit.managers import TaggableManager
+
+
+class PostQuerySet(models.QuerySet):
+    """Custom queryset for Post with convenience filters."""
+
+    def published(self) -> "PostQuerySet":
+        """Return posts with publish_date <= now (i.e., published)."""
+        return self.filter(publish_date__lte=timezone.now())
 
 
 class Post(models.Model):
@@ -19,6 +28,9 @@ class Post(models.Model):
         ordering = ["-publish_date"]
         verbose_name = "Post"
         verbose_name_plural = "Posts"
+
+    # Attach custom queryset as default manager
+    objects = PostQuerySet.as_manager()
 
     def save(self, *args, **kwargs):
         """
@@ -39,3 +51,10 @@ class Post(models.Model):
         String representation of the post.
         """
         return self.title
+
+    def get_absolute_url(self) -> str:
+        """Return the canonical URL for this Post.
+
+        Used by templates, feeds/sitemaps, and redirects.
+        """
+        return reverse("blog:post_detail", kwargs={"slug": self.slug})

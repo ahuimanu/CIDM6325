@@ -1,13 +1,13 @@
 # ADR-0.1.0: Adopt Django for Personal Blog Example MVP
 
 Date: 2025-10-07  
-Status: Proposed
+Status: Accepted
 
 ---
 
 ## Context
 
-- PRD link: [docs/blog_site_prd.md](../blog_site_prd.md) §2, §4
+- PRD link: [docs/prd/blog_site_prd_v1.0.1.md](../prd/blog_site_prd_v1.0.1.md) §2, §4
 - Problem/forces:  
   Need a maintainable, production-quality blog example for CIDM 6325 students. Must demonstrate modern Django best practices, clean architecture, and static-friendly deployment. Should be simple enough for teaching, but robust enough for real-world use.
 
@@ -50,5 +50,5 @@ We choose **A) Django 5.x** because:
 
 ## Validation
 
-- Acceptance: MVP delivers post CRUD, Markdown rendering, pagination, and basic templates (see PRD §6, §10).
+- Acceptance: MVP delivers post CRUD, Markdown rendering, and basic templates (see PRD §6, §10). Implemented across briefs cpb-0.1.0–0.1.2.
 - Rollback: If Django proves too complex, fallback to a static generator or simpler Flask app.

@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.urls import reverse
+from django.urls import reverse, resolve
 from .models import Post
 from django.utils import timezone
 
@@ -64,11 +64,18 @@ class PostCBVTests(TestCase):
         """
         The post detail view should render Markdown and sanitize HTML.
         """
-        self.post.body = "**Bold** and [link](https://example.com)<script>alert(1)</script>"
+        self.post.body = (
+            "**Bold** and [link](https://example.com)<script>alert(1)</script>"
+        )
         self.post.save()
         response = self.client.get(
             reverse("blog:post_detail", kwargs={"slug": self.post.slug})
         )
         self.assertContains(response, "<strong>Bold</strong>")
         self.assertContains(response, '<a href="https://example.com"')
-        self.assertNotContains(response, "<script>")    
+        self.assertNotContains(response, "<script>")
+
+    def test_new_route_not_captured_by_slug(self):
+        # Ensures ordering protects 'new' from the slug pattern
+        resolver = resolve("/blog/post/new/")
+        self.assertEqual(resolver.view_name, "blog:post_create")
