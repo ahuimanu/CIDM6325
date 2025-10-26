@@ -103,3 +103,43 @@ AI assistance was used **transparently** and within course policy.
 ---
 
 *Prepared by Melodi Parton — CIDM 6325 Fall 2025 — AI Lab Log Submission*
+
+---
+
+## 2025-10-12 — Week 5–6 Blog Refactor and CBV Implementation  
+
+**Context:**  
+Refactored the Blog application to use Django Class-Based Views (CBVs) and  
+implemented full CRUD functionality with authentication, permissions, and  
+form validation. Updated templates for Create, Update, Delete, and Detail  
+views, ensuring DRY (Don’t Repeat Yourself) principles and clean inheritance  
+via `LoginRequiredMixin` and `UserPassesTestMixin`.  
+
+**AI Assistance:**  
+ChatGPT (GPT-5) provided  guidance in refactoring from FBVs to CBVs,  
+debugging mixin logic, improving template inheritance, and confirming proper  
+URL/view connections. It also assisted with PR documentation (`Week7_8_CBVs.md`)  
+and verifying repo branch merges.  
+
+**Outcome:**  
+Completed the CBV refactor successfully, verified CRUD functionality, and  
+prepared the project for modular design and scalability analysis in upcoming  
+weeks.
+
+---
+
+## 2025-10-25 — Week 7–8 Architecture Critique Added  
+
+**Context:**  
+Finalized Part B deliverable (*Architecture Critique*) and documented it in  
+`/docs/week_7_8_architecture_critique.md` as part of the Weeks 7–8 submission.  
+
+**AI Assistance:**  
+ChatGPT (GPT-5) guided the process of structuring and formatting the Markdown  
+document, ensuring APA-style organization and rubric alignment. It also  
+assisted with Git commands to commit and push the file to the  
+`feature/cbv-weeks-7-8` branch and verified the pull-request merge readiness.  
+
+**Outcome:**  
+Successfully added the Architecture Critique to `/docs`, updated the branch,  
+and confirmed that the pull request is ready for instructor review.
