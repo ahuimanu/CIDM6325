@@ -16,8 +16,9 @@ This module continues directly from the work completed in [Module 4 – Class-Ba
 4. [Part C – Peer Review](#part-c--peer-review)
 5. [Part D – Discussion Summary](#part-d--discussion-summary)
 6. [Part E – Static and Uploaded Files](#part-e)
-7. [AI Use Disclosure](#ai-use-disclosure)
-8. [References](#references)
+7. [Functional vs. Non-Functional Architecture Overview](#functional-vs-non-functional-architecture-overview)
+8. [AI Use Disclosure](#ai-use-disclosure)
+9. [References](#references)
 
 ---
 
@@ -124,13 +125,33 @@ Finally, this project reminded me that user-facing systems don’t end at public
 ### Figure Placeholders – Insert Screenshot Paths
 
 ```
-![Order Form – Upload Field](img/order_form_upload.png)
-![Admin View – File Preview](img/admin_receipt_thumbnail.png)
-![Submitted Orders Table – With Receipt](img/order_list_preview.png)
-![MEDIA URL/ROOT Setup](img/media_config.png)
+![Order Form – Upload Field](./docs/module5uiImages/CreateNewCustomer_neworder_andVewOrderList.png)
+![Admin View – File Preview](./docs/module5uiImages/StaticFileUPloade_CustomerOrder.png)
+![Submitted Orders Table – With Receipt](./docs/module5uiImages/Loginworks_Crud.pngo)
+![Password Encription and enforcement](./docs/module5uiImages/PasswordRule_Encryption_Effective.pngimg/media_config.png)
 ```
 
 > All uploads stored in: `/media/receipts/`
+
+---
+
+## Functional vs. Non-Functional Architecture Overview
+
+From a systems architecture perspective, the solution aligns with a clear separation of functional and non-functional responsibilities:
+
+### Functional Behavior
+
+* **Order and Customer Management**: CRUD operations on `Order` and `Customer` models are routed through Django’s URL dispatcher and handled via class-based and function-based views.
+* **Dynamic ID Generation**: Order IDs are auto-generated using UUID-based logic within the model layer, ensuring uniqueness without burdening user input.
+* **Role-Specific Access Control**: Through group-based permissions (`CustomerAdmin`, `DataAdmin`, etc.), each user’s access path is dynamically filtered by business context.
+* **Media Uploads**: Image files (receipts) are stored via Django’s `ImageField` and accessed conditionally during template rendering.
+
+### Non-Functional Behavior
+
+* **Security**: Authentication is enforced across views, with permissions explicitly tied to business logic. CSRF protection, file upload filtering, and permission isolation ensure secure interactions.
+* **Scalability & Maintainability**: Admin customization and modular model structure allow for vertical and horizontal scaling (e.g., adding new client types or delivery formats).
+* **User Experience**: Use of Bootstrap, error feedback, inline image previews, and admin link injections enhances usability while preserving accessibility.
+* **Extensibility**: The app structure (via `logistics_app/`) adheres to Django best practices for pluggable apps, supporting future modular expansion without architectural rework.
 
 ---
 
