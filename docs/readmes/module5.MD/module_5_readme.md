@@ -1,15 +1,12 @@
 # Module 5 – CIDM 6325: Django Admin + Authentication
 
-**Author:** Mafruha Chowdhury
-**Course:** CIDM 6325 – Electronic Commerce (Fall 2025)
+**Author:** Mafruha Chowdhury  
+**Course:** CIDM 6325 – Electronic Commerce (Fall 2025)  
 **Focus:** Django Admin, Authentication, Role Permissions, File Uploads
 
 ---
 
-This module continues directly from the work completed in [Module 4 – Class-Based Views and Application Architecture](https://github.com/Mafruha17/CIDM6325/blob/Module4Assignment/README.md).
-
 ## Table of Contents
-
 1. [Overview](#overview)
 2. [Part A – Django Admin Implementation](#part-a)
 3. [Part B – Authentication + Role-Based Permissions](#part-b)
@@ -21,51 +18,64 @@ This module continues directly from the work completed in [Module 4 – Class-Ba
 
 ---
 
-## Overview
+### 🔍 **Overview**
 
 This module builds on previous assignments by enhancing the Django Admin experience, implementing user authentication with role-based permissions, and supporting file uploads with image previews.
 
 ---
 
-## Part A – Django Admin Implementation
+## 🧹 <a name="part-a"></a>**Part A – Django Admin Implementation**
 
 Customized Django admin views for two models:
 
-| Model      | Admin Customizations                                                                                  |
-| ---------- | ----------------------------------------------------------------------------------------------------- |
-| `Order`    | `list_display`, filters, search, readonly fields, "Mark as Delivered" action, dynamic order form link |
-| `Customer` | `list_display`, search fields, order linkage via reverse lookup, ordering, read-only timestamps       |
+| Model   | Admin Customizations |
+| ------- | -------------------- |
+| `Order` |                      |
 
-### Business Use Case
+* `list_display`: order_id, date, client type, delivery location, receipt preview
+* `list_filter`, `search_fields`, and `readonly_fields`
+* Custom admin action: **Mark as Delivered**
+* Dynamic "Create Order" button  |
+  | `Customer` |
+* `list_display`: name, email, phone, and **View Orders** link
+* `search_fields` + `ordering`
+* Connected to order via `related_name="orders"`  |
+
+#### 💼 Business Use Case
 
 Back-office and customer service roles can:
 
 * Search/filter records
 * Perform bulk updates
 * View related orders for customers
-* Initiate order entry directly from the admin panel
+* Initiate order entry directly from admin panel
 
 ---
 
-## Part B – Authentication + Role-Based Permissions
+## 🔐 <a name="part-b"></a>**Part B – Authentication + Role-Based Permissions**
 
 Implemented Django authentication system using:
 
-* Login/logout integration
-* Password policy and superuser/staff creation
-* Group-based permissions via Django Admin UI
+* Built-in login/logout views
+* Password strength enforcement
+* Superuser and staff user management via Admin
 
-### User Groups Created
+Created and tested groups:
 
 * `CustomerAdmin_WTAMU_S`
 * `DataAdmin`
 * `DevTestAccounts`
 
-### Permissions Applied
+Permissions assigned via admin UI (`/admin/auth/group/`) to limit or grant:
 
-* Orders: View/Add/Delete per group
-* Customers: Edit restricted to specific roles
-* Login required for admin and CRUD operations
+* Add/view/delete Orders
+* Add/view/edit Customers
+
+#### 🧪 Tested Behavior
+
+* Different users in different groups had varying access
+* Admins could manage records, others were limited
+* Secure login, logout, and access control confirmed
 
 ---
 
@@ -75,22 +85,20 @@ The peer review requirement for Module 5 builds on my earlier review from Module
 
 ### Module 5: Peer Review Follow-up
 
-**Reviewed Repository:** [boyhamgirl/CIDM6325_Week7_8_CBV](https://github.com/boyhamgirl/CIDM6325_Week7_8_CBV)
+**Reviewed Repository:** [boyhamgirl/CIDM6325_Week7_8_CBV](https://github.com/boyhamgirl/CIDM6325_Week7_8_CBV)  
 **Files Reviewed:** `blog/views.py`, `templates/post_form.html`, and `admin.py`
 
 **Key Improvements Observed Since Module 4:**
-
-* Admin forms now display inline preview of uploaded media.
-* Proper permissions enforced using `PermissionRequiredMixin`.
-* Upload path and media handling aligned with Django’s `MEDIA_ROOT` and `MEDIA_URL`.
+- Admin forms now display inline preview of uploaded media.
+- Proper permissions enforced using `PermissionRequiredMixin`.
+- Upload path and media handling aligned with Django’s `MEDIA_ROOT` and `MEDIA_URL`.
 
 **Suggestions for Further Improvement:**
+- Consider resizing thumbnails in list views using Bootstrap `img-thumbnail`.
+- Protect media URLs for unauthenticated users (consider custom view decorators or storage backend configs).
 
-* Consider resizing thumbnails in list views using Bootstrap `img-thumbnail`.
-* Protect media URLs for unauthenticated users (consider custom view decorators or storage backend configs).
-
-*Reviewed by: Mafruha17*
-*Date: November 1, 2025*
+*Reviewed by:* Mafruha17  
+*Date:* November 1, 2025
 
 ---
 
@@ -106,53 +114,44 @@ Finally, this project reminded me that user-facing systems don’t end at public
 
 ---
 
-## Part E – Static and Uploaded Files
+## 🖼️ <a name="part-e"></a>**Part E – Static and Uploaded Files**
 
-### Tech Stack:
+### 🔧 Tech Stack:
 
 * `ImageField` added to `Order` model (`delivery_receipt`)
 * Configured `MEDIA_URL` and `MEDIA_ROOT` in `settings.py`
 * Enabled upload handling in `order_form.html` using `enctype="multipart/form-data"`
-* Confirmed admin and user forms upload to `/media/receipts/`
 
-### Frontend Behavior
+### 🧲 Frontend Behavior
 
-* File upload supported in both Create and Edit order views
-* Thumbnails rendered using `<img class="img-thumbnail">`
-* Conditional preview if file exists
+* Users can attach a receipt file (image/pdf) when creating or editing orders
+* Uploaded files stored under `media/receipts/`
+* Files previewed inline in the order list using `img-thumbnail`
+* "No file" displayed if none uploaded
 
-### Figure Placeholders – Insert Screenshot Paths
+### 📈 Figure Captions and Visual Evidence (To Be Finalized)
 
-```
-![Order Form – Upload Field](img/order_form_upload.png)
-![Admin View – File Preview](img/admin_receipt_thumbnail.png)
-![Submitted Orders Table – With Receipt](img/order_list_preview.png)
-![MEDIA URL/ROOT Setup](img/media_config.png)
-```
-
-> All uploads stored in: `/media/receipts/`
+* ☑️ Screenshot: Order form with file upload input (Create/Edit view)
+* ☑️ Screenshot: Uploaded receipt image rendered in Submitted Orders table
+* ☑️ Screenshot: Django Admin - Uploaded file preview + customer linkage
+* ☑️ Screenshot: Static vs Uploaded file routing (Settings/URL config)
 
 ---
 
-## AI Use Disclosure
+## 🤖 <a name="ai-use-disclosure"></a>**AI Use Disclosure**
 
 AI tools (ChatGPT-4o) were used for:
 
 * Writing and validating `admin.py`, `forms.py`, `models.py`
-* Creating prompt logs and error-handling logic
-* Drafting and structuring this README
-* Formatting Markdown sections and captions
-
-All AI-generated outputs were reviewed and tested for accuracy.
+* Generating `README.md` structure and documentation
+* Designing the UX for file upload and role-based access
+* All outputs reviewed and tested before use
 
 ---
 
-## References
+## 📚 <a name="references"></a>**References**
 
 * Layman, M. (2024). *Understand Django*. Chapters 9 & 11
 * Django Documentation – [https://docs.djangoproject.com](https://docs.djangoproject.com)
 * WTAMU CIDM 6325 Course Materials (Dr. Jeffry Babb, Fall 2025)
 
----
-
-> Note: Functional and non-functional workflow behaviors (user, order, customer) and links to relevant code files (e.g., `views.py`, `forms.py`, `models.py`) will be explained in the final README iteration or supporting blog post submission.
