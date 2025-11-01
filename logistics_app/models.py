@@ -11,6 +11,9 @@ class Order(models.Model):
     client_type = models.CharField(max_length=100)
     eta = models.CharField(max_length=100, blank=True, null=True)
 
+    # NEW: Optional file upload (e.g., receipt or image)
+    delivery_receipt = models.ImageField(upload_to='receipts/', null=True, blank=True)
+    
     def save(self, *args, **kwargs):
         if not self.order_id:
             unique_suffix = uuid.uuid4().hex[:6].upper()

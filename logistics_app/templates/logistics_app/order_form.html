@@ -17,7 +17,7 @@
         {% if is_update %} Edit Order {% else %} Create New Order {% endif %}
     </h2>
 
-    <form method="post" novalidate>
+    <form method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
 
         {% if form.non_field_errors %}
@@ -78,6 +78,18 @@
             {% if form.client_type.errors %}
                 <div class="text-danger" role="alert" aria-live="polite">
                     {% for error in form.client_type.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            <label for="{{ form.delivery_receipt.id_for_label }}" class="form-label">Delivery Receipt</label>
+            {{ form.delivery_receipt }}
+            {% if form.delivery_receipt.errors %}
+                <div class="text-danger" role="alert" aria-live="polite">
+                    {% for error in form.delivery_receipt.errors %}
                         {{ error }}
                     {% endfor %}
                 </div>
