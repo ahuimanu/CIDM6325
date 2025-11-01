@@ -1,9 +1,10 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Post
-from .mixins import AuthorOrStaffRequiredMixin  # if you have this mixin
+from .mixins import AuthorOrStaffRequiredMixin
+
 
 # -------------------------------
 # LIST VIEW (with pagination)
@@ -35,25 +36,50 @@ class PostDetailView(DetailView):
 # -------------------------------
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ["title", "body", "status"]
+    fields = ["title", "body", "status", "image"]
     template_name = "blog/post_form.html"
+
+    def test_func(self):
+        return self.request.user.is_staff or self.request.user.is_superuser 
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-# -------------------------------
+# ------------------------------
 # UPDATE VIEW
-# -------------------------------
-class PostUpdateView(LoginRequiredMixin, AuthorOrStaffRequiredMixin, UpdateView):
+# ------------------------------
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ["title", "body", "status"]
+    fields = ["title", "body", "status", "image"]
     template_name = "blog/post_form.html"
 
-# -------------------------------
+    def form_valid(self, form):
+        # prevent someone from changing author in the form
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        return (
+            post.author == self.request.user
+            or self.request.user.is_staff
+            or self.request.user.is_superuser
+        )
+
+
+# ------------------------------
 # DELETE VIEW
-# -------------------------------
-class PostDeleteView(LoginRequiredMixin, AuthorOrStaffRequiredMixin, DeleteView):
+# ------------------------------
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = "blog/post_confirm_delete.html"
     success_url = reverse_lazy("blog:post_list")
+
+    def test_func(self):
+        post = self.get_object()
+        return (
+            post.author == self.request.user
+            or self.request.user.is_staff
+            or self.request.user.is_superuser
+        )
