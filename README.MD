@@ -388,3 +388,5 @@ Also for ***redis***:
 This README file is constructed using [MarkDown](https://www.markdownguide.org/basic-syntax).  Here is another good [Markdown reference](https://commonmark.org/help/).
 
 [back to outline](#cidm6325---fall-2025)
+
+This will be a conflict with the FALL2024 branch.
