@@ -124,12 +124,15 @@ Finally, this project reminded me that user-facing systems don’t end at public
 
 ### Figure Placeholders – Insert Screenshot Paths
 
-```
+
 ![Order Form – Upload Field](./docs/module5uiImages/CreateNewCustomer_neworder_andVewOrderList.png)
 ![Admin View – File Preview](./docs/module5uiImages/StaticFileUPloade_CustomerOrder.png)
-![Submitted Orders Table – With Receipt](./docs/module5uiImages/Loginworks_Crud.pngo)
-![Password Encription and enforcement](./docs/module5uiImages/PasswordRule_Encryption_Effective.pngimg/media_config.png)
-```
+![Submitted Orders Table – With Receipt](./docs/module5uiImages/Loginworks_Crud.png)
+![Password Encription and enforcement](./docs/module5uiImages/PasswordRule_Encryption_Effective.png)
+![User Group | Permission ](./docs/module5uiImages/CustomerAdminGroup.png)
+![User Admin  ](./docs/module5uiImages/Django_Admin_App_works.png)
+
+
 
 > All uploads stored in: `/media/receipts/`
 
