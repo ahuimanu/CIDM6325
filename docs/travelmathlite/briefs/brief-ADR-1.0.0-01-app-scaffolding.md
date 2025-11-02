@@ -17,6 +17,11 @@ Standards
 - Use `uv run` / `uvx`; lint+format with Ruff; no pytest (use Django TestCase if tests included).
 - Namespaces: app `name` in `apps.py` and `app_name` in `urls.py`.
 
+Workflow & traceability
+
+- Post a kickoff comment to the related Issue when you start this brief (e.g., "Starting brief 01 app scaffolding").
+- Mirror each commit message as an Issue comment to keep history in sync (use "Refs #ISSUE_NUM" for ongoing work; use "Closes #ISSUE_NUM" only on the final merge commit to default).
+
 Acceptance
 
 - `travelmathlite/apps/*` directory exists for calculators, airports, accounts, trips, search, core.
