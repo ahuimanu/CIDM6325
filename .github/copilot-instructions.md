@@ -4,7 +4,7 @@ Project norms
 
 -   Language: Python 3.12 + Django.
 -   Style: PEP 8; docstrings on public functions; type hints on new code.
--   Commits: Conventional (feat/fix/docs/refactor/test/chore). Include Issue references in commit messages: use Refs #123 for ongoing work; use Closes #123 for the final commit when merging to the default branch.
+-   Commits: Conventional (feat/fix/docs/refactor/test/chore). Include Issue references in commit messages using the keywords Refs (for ongoing work) and Closes (for the final commit when merging to the default branch).
 -   Do not add pytest; use Django TestCase.
 
 Tooling norms
@@ -42,4 +42,4 @@ GitHub automations (ADRs, Briefs, FR/AC issues)
 
 -   One ADR per PR. Create a dedicated branch per ADR (`adr/<id>-<slug>`) or use an issues‑only workflow on your base branch (e.g., `FALL2025`) if branch isolation isn’t needed. Keep PRs small; include traceability (PRD §, FR/NF IDs). Title: `docs(adr): ADR-<id> <title>`.
 -   For each Brief and each PRD Functional Requirement ID (e.g., `FR-F-001-1`) or Acceptance Criteria item, create a GitHub Issue using GitHub CLI. Include labels (e.g., `feature`, `FR`, `AC`, `travelmathlite`) and paste the acceptance notes.
--   Branches optional: if using per‑issue branches, link with `gh issue develop` and open PRs with `gh pr create` (enable Copilot PR summary). If using issues‑only, commit on the base branch and PR only when you open a feature branch. Always include the Issue reference (e.g., Refs #123); use Closes #123 only when you intend to close it on merge to the default branch.
+-   Branches optional: if using per‑issue branches, link with `gh issue develop` and open PRs with `gh pr create` (enable Copilot PR summary). If using issues‑only, commit on the base branch and PR only when you open a feature branch. Always include the Issue reference in your commit messages (use Refs for ongoing work; Closes for the final commit merged to the default branch).
