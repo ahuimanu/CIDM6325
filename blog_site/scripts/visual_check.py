@@ -61,13 +61,21 @@ def main() -> int:
             context = browser.new_context(viewport={"width": 1440, "height": 900})
             page = context.new_page()
 
-            # 1) Blog list page
-            page.goto(f"{base_url}/blog/", wait_until="networkidle")
-            page.screenshot(path=str(out_dir / "blog_list.png"), full_page=True)
+            ts = time.strftime("%Y%m%d_%H%M%S")
+            history_dir = out_dir / "history"
+            history_dir.mkdir(exist_ok=True)
 
-            # 2) New post form (no submit to avoid editor scripting complexities)
-            page.goto(f"{base_url}/blog/post/new/", wait_until="networkidle")
+            # 1) Blog list page (cache-busted) — capture full-page and viewport variants
+            page.goto(f"{base_url}/blog/?_ts={ts}", wait_until="networkidle")
+            page.screenshot(path=str(out_dir / "blog_list.png"), full_page=True)
+            page.screenshot(path=str(out_dir / "blog_list_vp.png"), full_page=False)
+            page.screenshot(path=str(history_dir / f"blog_list_{ts}.png"), full_page=False)
+
+            # 2) New post form (cache-busted); no submit to avoid editor complexities
+            page.goto(f"{base_url}/blog/post/new/?_ts={ts}", wait_until="networkidle")
             page.screenshot(path=str(out_dir / "post_form.png"), full_page=True)
+            page.screenshot(path=str(out_dir / "post_form_vp.png"), full_page=False)
+            page.screenshot(path=str(history_dir / f"post_form_{ts}.png"), full_page=False)
 
             context.close()
             browser.close()

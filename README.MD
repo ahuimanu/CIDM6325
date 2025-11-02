@@ -106,6 +106,35 @@ README Outline:
 
 [back to outline](#cidm6325---fall-2025)
 
+## UV-based workflow (recommended) ##
+
+We standardize on uv for fast, reproducible Python workflows on Windows (bash) and macOS/Linux. Use uv to create/activate a virtual environment, install dependencies, and run developer tools via uvx.
+
+Quick start (Windows, Git-Bash):
+
+```bash
+# create a project-local venv
+uv venv .venv
+
+# activate it (Git-Bash/WSL)
+source .venv/Scripts/activate
+
+# install runtime and dev dependencies from requirements.txt
+uv pip install -r requirements.txt
+
+# format and lint with Ruff (no need to pre-install; uvx runs tools in an ephemeral env)
+uvx ruff format
+uvx ruff check --fix
+```
+
+Notes
+
+- The repo includes a `.ruff.toml` with strict but sensible defaults (PEP 8, import sorting, py312 target).
+- `.gitignore` already excludes common environment directories (e.g., `.venv`).
+- You may still use `python -m venv` and `pip install -r requirements.txt`, but uv is faster and more consistent across platforms.
+
+[back to outline](#cidm6325---fall-2025)
+
 ## Install & Packaging (pyproject.toml) ##
 
 Treating this repo as a fresh workspace, here's a minimal `pyproject.toml` and step-by-step, copy-paste-ready commands to create an environment and install the project. The `pyproject.toml` below declares only Django 5.2.6 as the runtime dependency.
@@ -191,6 +220,29 @@ include = ["yourpackagename*"]
 - If you want a pinned pip-style snapshot for CI, create it from an isolated env after installing: `pip freeze > requirements.txt`.
 
 If you'd like, I can add a small GitHub Actions workflow that runs `python -m build` and verifies the Django version on push.
+
+### Optional: pre-commit integration for Ruff ###
+
+If you use pre-commit, you can automatically run Ruff on staged files before each commit. Add a `.pre-commit-config.yaml` like:
+
+```yaml
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+      - id: ruff-format
+```
+
+Then install hooks:
+
+```bash
+uv pip install pre-commit
+pre-commit install
+```
+
+This slice documents the hook only; adding the file can be a follow-up PR to keep changes small.
 
 [back to outline](#cidm6325---fall-2025)
 

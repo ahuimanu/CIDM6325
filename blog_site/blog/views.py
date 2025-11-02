@@ -1,13 +1,14 @@
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView,
-)
 from django.urls import reverse_lazy
-from .models import Post
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
+
 from .forms import PostForm
+from .models import Post
 
 
 class PostListView(ListView):

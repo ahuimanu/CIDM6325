@@ -1,7 +1,8 @@
 from django.test import TestCase
-from django.urls import reverse, resolve
-from .models import Post
+from django.urls import resolve, reverse
 from django.utils import timezone
+
+from .models import Post
 
 
 class PostCBVTests(TestCase):
@@ -22,9 +23,7 @@ class PostCBVTests(TestCase):
         self.assertContains(response, self.post.title)
 
     def test_post_detail_view(self):
-        response = self.client.get(
-            reverse("blog:post_detail", kwargs={"slug": self.post.slug})
-        )
+        response = self.client.get(reverse("blog:post_detail", kwargs={"slug": self.post.slug}))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.post.body)
 
@@ -54,9 +53,7 @@ class PostCBVTests(TestCase):
         self.assertEqual(self.post.title, "Updated Title")
 
     def test_post_delete_view(self):
-        response = self.client.post(
-            reverse("blog:post_delete", kwargs={"slug": self.post.slug})
-        )
+        response = self.client.post(reverse("blog:post_delete", kwargs={"slug": self.post.slug}))
         self.assertEqual(response.status_code, 302)
         self.assertFalse(Post.objects.filter(pk=self.post.pk).exists())
 
@@ -64,13 +61,9 @@ class PostCBVTests(TestCase):
         """
         The post detail view should render Markdown and sanitize HTML.
         """
-        self.post.body = (
-            "**Bold** and [link](https://example.com)<script>alert(1)</script>"
-        )
+        self.post.body = "**Bold** and [link](https://example.com)<script>alert(1)</script>"
         self.post.save()
-        response = self.client.get(
-            reverse("blog:post_detail", kwargs={"slug": self.post.slug})
-        )
+        response = self.client.get(reverse("blog:post_detail", kwargs={"slug": self.post.slug}))
         self.assertContains(response, "<strong>Bold</strong>")
         self.assertContains(response, '<a href="https://example.com"')
         self.assertNotContains(response, "<script>")

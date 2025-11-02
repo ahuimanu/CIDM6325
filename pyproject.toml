@@ -7,16 +7,11 @@ name = "cidm6325"
 version = "0.1.0"
 description = "Minimal project declaring Django 5.2.7 as the sole dependency"
 readme = "README.MD"
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 authors = [{ name = "ahuimanu" }]
 license = "MIT"
 keywords = ["django"]
-dependencies = [
-    "Django==5.2.7",
-    "django-taggit==6.1.0",
-    "markdown",
-    "bleach",
-]
+dependencies = ["Django==5.2.7", "django-taggit==6.1.0", "markdown", "bleach"]
 
 [project.urls]
 Homepage = "https://example.com/"

@@ -1,7 +1,6 @@
 asgiref==3.9.2
 bleach==6.2.0
 build==1.3.0
-cidm6325 @ file:///C:/Users/Jeff/source/repos/courses/CIDM6325
 colorama==0.4.6
 Django==5.2.6
 django-taggit==6.1.0

@@ -1,0 +1,16 @@
+line-length = 100
+indent-width = 4
+target-version = "py313"
+
+[format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[lint]
+select = ["E", "F", "I", "N", "UP", "B", "C4"]
+ignore = []
+
+[lint.isort]
+known-first-party = ["blog", "myblog", "api_examples"]
+combine-as-imports = true

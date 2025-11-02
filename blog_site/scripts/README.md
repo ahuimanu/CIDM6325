@@ -24,8 +24,11 @@ python blog_site/scripts/visual_check.py
 
 This will generate:
 
-- `blog_site/screenshots/blog_list.png`
-- `blog_site/screenshots/post_form.png`
+- `blog_site/screenshots/blog_list.png` (full page)
+- `blog_site/screenshots/post_form.png` (full page)
+- `blog_site/screenshots/blog_list_vp.png` (viewport only)
+- `blog_site/screenshots/post_form_vp.png` (viewport only)
+- Timestamped copies in `blog_site/screenshots/history/` (e.g., `blog_list_YYYYmmdd_HHMMSS.png`)
 
 ## Configuration
 
