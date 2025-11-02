@@ -72,3 +72,39 @@ class PostCBVTests(TestCase):
         # Ensures ordering protects 'new' from the slug pattern
         resolver = resolve("/blog/post/new/")
         self.assertEqual(resolver.view_name, "blog:post_create")
+
+
+class FeedsSitemapSeoTests(TestCase):
+    def setUp(self) -> None:
+        self.post = Post.objects.create(
+            title="SEO Post",
+            body="Body text for SEO and feeds.",
+            publish_date=timezone.now(),
+        )
+
+    def test_rss_feed_contains_post_link(self):
+        url = reverse("blog:feed_rss")
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn(self.post.get_absolute_url(), resp.content.decode())
+
+    def test_atom_feed_contains_post_link(self):
+        url = reverse("blog:feed_atom")
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn(self.post.get_absolute_url(), resp.content.decode())
+
+    def test_sitemap_includes_post(self):
+        resp = self.client.get("/sitemap.xml")
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn(self.post.get_absolute_url(), resp.content.decode())
+
+    def test_canonical_tag_on_detail(self):
+        detail = reverse("blog:post_detail", kwargs={"slug": self.post.slug})
+        resp = self.client.get(detail)
+        self.assertEqual(resp.status_code, 200)
+        expected_canonical = f"http://testserver{self.post.get_absolute_url()}"
+        self.assertIn(
+            f'<link rel="canonical" href="{expected_canonical}"',
+            resp.content.decode(),
+        )

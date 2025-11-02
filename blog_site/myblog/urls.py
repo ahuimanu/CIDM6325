@@ -16,9 +16,23 @@ Including another URLconf
 """
 
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
+from django.http import HttpResponse
 from django.urls import include, path
+
+from blog.sitemaps import PostSitemap
+
+sitemaps = {"posts": PostSitemap}
+
+
+def robots_txt(_request):
+    content = "User-agent: *\nDisallow: /admin/login/\nAllow: /\nSitemap: /sitemap.xml\n"
+    return HttpResponse(content, content_type="text/plain")
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("blog/", include("blog.urls", namespace="blog")),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
+    path("robots.txt", robots_txt, name="robots_txt"),
 ]
