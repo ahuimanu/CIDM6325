@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Base — travelmathlite</title>
-  </head>
-  <body>
-    <main>
-      <h1>Base</h1>
-      <p>Welcome to the Base app scaffolding (formerly core).</p>
-    </main>
-  </body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Base — travelmathlite{% endblock %}
+
+{% block content %}
+  <h1>Base</h1>
+  <p>Welcome to the Base app scaffolding (formerly core).</p>
+  {% include 'base/partials/_welcome.html' %}
+{% endblock %}

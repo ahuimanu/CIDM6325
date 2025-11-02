@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}travelmathlite{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/calculators/">Calculators</a>
+        <a href="/airports/">Airports</a>
+        <a href="/accounts/">Accounts</a>
+        <a href="/trips/">Trips</a>
+        <a href="/search/">Search</a>
+      </nav>
+    </header>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

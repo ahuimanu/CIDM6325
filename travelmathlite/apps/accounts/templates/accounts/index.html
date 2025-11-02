@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Accounts — travelmathlite</title>
-  </head>
-  <body>
-    <main>
-      <h1>Accounts</h1>
-      <p>Welcome to the Accounts app scaffolding.</p>
-    </main>
-  </body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Accounts — travelmathlite{% endblock %}
+
+{% block content %}
+  <h1>Accounts</h1>
+  <p>Welcome to the Accounts app scaffolding.</p>
+  {% include 'accounts/partials/_welcome.html' %}
+{% endblock %}

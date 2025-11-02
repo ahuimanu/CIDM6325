@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Calculators — travelmathlite</title>
-  </head>
-  <body>
-    <main>
-      <h1>Calculators</h1>
-      <p>Welcome to the Calculators app scaffolding.</p>
-    </main>
-  </body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Calculators — travelmathlite{% endblock %}
+
+{% block content %}
+  <h1>Calculators</h1>
+  <p>Welcome to the Calculators app scaffolding.</p>
+  {% include 'calculators/partials/_welcome.html' %}
+{% endblock %}
