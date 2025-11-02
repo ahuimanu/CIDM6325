@@ -39,6 +39,7 @@ uv run python manage.py startapp blog
 
 # 7) Lint/format with Ruff (ephemeral tool via uvx)
 uvx ruff check .
+uvx ruff check --fix .
 uvx ruff format .
 ```
 

@@ -19,3 +19,8 @@ Homepage = "https://example.com/"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["api_examples*"]
+
+[tool.uv.workspace]
+members = [
+    "travelmathlite",
+]
