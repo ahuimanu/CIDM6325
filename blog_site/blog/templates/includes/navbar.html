@@ -19,14 +19,14 @@
                     <a class="nav-link" href="{% url 'blog:post_create' %}">New Post</a>
                 </li>
             </ul>
-            <form class="d-flex" role="search" action="#" method="get">
+            <form class="d-flex" role="search" action="{% url 'blog:post_search' %}" method="get">
                 <input class="form-control me-2"
                        type="search"
                        placeholder="Search"
                        aria-label="Search"
                        name="q"
-                       disabled>
-                <button class="btn btn-outline-success" type="submit" disabled>Search</button>
+                       value="{{ request.GET.q }}">
+                <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
     </div>

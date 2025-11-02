@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -82,3 +83,29 @@ class PostDeleteView(DeleteView):
     slug_field = "slug"
     slug_url_kwarg = "slug"
     success_url = reverse_lazy("blog:post_list")
+
+
+class SearchView(ListView):
+    """Simple full-text search over Post title/body with pagination.
+
+    Query param `q` filters published posts via icontains on title/body.
+    """
+
+    model = Post
+    context_object_name = "results"
+    template_name = "blog/search_results.html"
+    paginate_by = 10
+
+    def get_queryset(self):
+        q = (self.request.GET.get("q") or "").strip()
+        base_qs = Post.objects.published()
+        if not q:
+            return base_qs.none()
+        return base_qs.filter(Q(title__icontains=q) | Q(body__icontains=q))
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        q = (self.request.GET.get("q") or "").strip()
+        ctx["query"] = q
+        ctx["count"] = self.get_queryset().count() if q else 0
+        return ctx

@@ -77,6 +77,22 @@ def main() -> int:
             page.screenshot(path=str(out_dir / "post_form_vp.png"), full_page=False)
             page.screenshot(path=str(history_dir / f"post_form_{ts}.png"), full_page=False)
 
+            # 3) Perform a search via the navbar and capture results
+            search_query = os.environ.get("VISUAL_CHECK_SEARCH_QUERY", "fun")
+            page.goto(f"{base_url}/blog/?_ts={ts}", wait_until="networkidle")
+            # Fill the search input in the navbar and submit
+            page.fill('input[name="q"]', search_query)
+            page.click('form[role="search"] button[type="submit"]')
+            page.wait_for_load_state("networkidle")
+            # Also wait for the Search header to ensure results page is rendered
+            try:
+                page.wait_for_selector('h1:has-text("Search")', timeout=3000)
+            except Exception:
+                pass
+            page.screenshot(path=str(out_dir / "search_results.png"), full_page=True)
+            page.screenshot(path=str(out_dir / "search_results_vp.png"), full_page=False)
+            page.screenshot(path=str(history_dir / f"search_results_{ts}.png"), full_page=False)
+
             context.close()
             browser.close()
 

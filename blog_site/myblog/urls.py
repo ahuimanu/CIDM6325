@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.http import HttpResponse
 from django.urls import include, path
+from django.views.generic.base import RedirectView
 
 from blog.sitemaps import PostSitemap
 
@@ -32,6 +33,7 @@ def robots_txt(_request):
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", RedirectView.as_view(pattern_name="blog:post_list", permanent=False), name="index"),
     path("blog/", include("blog.urls", namespace="blog")),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("robots.txt", robots_txt, name="robots_txt"),

@@ -7,12 +7,14 @@ from .views import (
     PostDetailView,
     PostListView,
     PostUpdateView,
+    SearchView,
 )
 
 app_name = "blog"
 
 urlpatterns = [
     path("", PostListView.as_view(), name="post_list"),
+    path("search/", SearchView.as_view(), name="post_search"),
     # Feeds
     path("feeds/rss/", LatestPostsRSSFeed(), name="feed_rss"),
     path("feeds/atom/", LatestPostsAtomFeed(), name="feed_atom"),

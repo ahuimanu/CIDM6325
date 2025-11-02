@@ -108,3 +108,53 @@ class FeedsSitemapSeoTests(TestCase):
             f'<link rel="canonical" href="{expected_canonical}"',
             resp.content.decode(),
         )
+
+
+class RootIndexTests(TestCase):
+    def test_root_redirects_to_blog(self):
+        resp = self.client.get("/")
+        # non-permanent redirect
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(resp.headers.get("Location"), reverse("blog:post_list"))
+
+
+class SearchTests(TestCase):
+    def setUp(self) -> None:
+        now = timezone.now()
+        for i in range(25):
+            Post.objects.create(
+                title=f"Alpha {i}",
+                body=("Body with term foo." if i % 2 == 0 else "Irrelevant text"),
+                publish_date=now,
+            )
+
+    def test_search_happy_path(self):
+        resp = self.client.get(reverse("blog:post_search"), {"q": "foo"})
+        self.assertEqual(resp.status_code, 200)
+        # Should find posts where body contains 'foo'
+        self.assertContains(resp, "foo", html=False)
+        self.assertIn("count", resp.context)
+        self.assertGreater(resp.context["count"], 0)
+
+    def test_empty_query_shows_zero_state(self):
+        resp = self.client.get(reverse("blog:post_search"))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, "Type a term above", html=False)
+
+    def test_pagination_and_query_preserved(self):
+        # With page size 10, ensure next page link carries q
+        resp = self.client.get(reverse("blog:post_search"), {"q": "Alpha", "page": 1})
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, "?q=Alpha&amp;page=2")
+
+    def test_html_escaping_in_snippet(self):
+        # Create a post with HTML in body and search for a term within it
+        Post.objects.create(title="XSS Test", body="<b>danger</b>", publish_date=timezone.now())
+        resp = self.client.get(reverse("blog:post_search"), {"q": "danger"})
+        self.assertEqual(resp.status_code, 200)
+        # Ensure bold tag is escaped in snippet (not rendered as HTML) and match is highlighted
+        self.assertContains(
+            resp,
+            '&lt;b&gt;<mark class="highlight">danger</mark>&lt;/b&gt;',
+            html=False,
+        )

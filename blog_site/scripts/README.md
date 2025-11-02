@@ -28,6 +28,8 @@ This will generate:
 - `blog_site/screenshots/post_form.png` (full page)
 - `blog_site/screenshots/blog_list_vp.png` (viewport only)
 - `blog_site/screenshots/post_form_vp.png` (viewport only)
+- `blog_site/screenshots/search_results.png` (full page)
+- `blog_site/screenshots/search_results_vp.png` (viewport only)
 - Timestamped copies in `blog_site/screenshots/history/` (e.g., `blog_list_YYYYmmdd_HHMMSS.png`)
 
 ## Configuration
@@ -36,6 +38,7 @@ Optional environment variables:
 
 - `VISUAL_CHECK_HOST` (default `127.0.0.1`)
 - `VISUAL_CHECK_PORT` (default `8009`)
+- `VISUAL_CHECK_SEARCH_QUERY` (default `fun`)
 
 Example:
 
