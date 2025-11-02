@@ -9,5 +9,5 @@ __all__ = [
     "accounts",
     "trips",
     "search",
-    "core",
+    "base",
 ]
