@@ -6,6 +6,7 @@ Goal
 
 Scope (single PR)
 
+- Project path: All paths are relative to the travelmathlite project root. Create app packages under `travelmathlite/apps/*` (do not modify `blog_site/*`).
 - Create `apps/` modules: calculators, airports, accounts, trips, search, core.
 - Each app: `__init__.py`, `apps.py`, `urls.py`, `views.py`, `templates/<app>/` with a minimal index template.
 - Non-goals: model fields, business logic (handled in other ADRs).
@@ -18,7 +19,7 @@ Standards
 
 Acceptance
 
-- `apps/*` directory exists for calculators, airports, accounts, trips, search, core.
+- `travelmathlite/apps/*` directory exists for calculators, airports, accounts, trips, search, core.
 - Each app has a `urls.py` exposing a trivial index route and a minimal template under `templates/<app>/index.html`.
 - Repo lints clean (Ruff) and imports resolve.
 

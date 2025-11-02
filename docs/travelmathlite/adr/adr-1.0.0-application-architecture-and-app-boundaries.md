@@ -24,6 +24,10 @@ Define the Django project module boundaries using multiple small apps under `app
 In scope: app layout, import paths, template directories, namespaced URLs, shared `core/` helpers.  
 Out of scope: specific model fields, specific calculations (covered by separate ADRs).
 
+Project path note
+
+- This ADR applies to the travelmathlite project. App roots live at `travelmathlite/apps/*`. Do not modify `blog_site/*` as part of this ADR or its briefs.
+
 ---
 
 ## Problem and forces

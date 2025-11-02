@@ -2,6 +2,8 @@
 
 This file is a running tally of GitHub CLI commands to open Issues for each ADR-1.0.0 brief (issues-only; no branches). Run from the repo root. Adjust the base branch if needed (default here: FALL2025).
 
+Note: All code changes tied to these briefs belong under `travelmathlite/` (for example, `travelmathlite/apps/*`). Do not modify the unrelated `blog_site/` project when implementing ADR-1.0.0 briefs.
+
 ## One-time label setup (optional)
 
 ```bash
@@ -16,6 +18,7 @@ This file is a running tally of GitHub CLI commands to open Issues for each ADR-
 > Important
 >
 > - Run these commands from the repo root (`CIDM6325`). If you're in `blog_site/`, either `cd ..` first or change each `-F docs/...` path to `-F ../docs/...`.
+> - Code scope reminder: target `travelmathlite/*` paths (e.g., `travelmathlite/apps/…`), not `blog_site/*`.
 > - If the labels don't exist, run the optional label setup below or remove the `-l` flags.
 > - Issues-only mode: per your preference, these snippets DO NOT create branches; continue working on `FALL2025`.
 

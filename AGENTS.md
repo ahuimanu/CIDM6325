@@ -202,6 +202,27 @@ git commit -m "feat: add <feature> form and CBV\n\nPRD: §<id>; ADR: ADR-XXXX; R
 # git commit -m "feat: finish <feature> — closes #<issue-number>"
 ```
 
+#### Keep Issue comments in sync with commit messages
+
+For clear traceability, mirror each commit message as an Issue comment on the related Issue. This keeps the timeline aligned for reviewers.
+
+``` bash
+# Assumes ISSUE_NUM is set (see creating issues in your workflow)
+COMMIT_MSG="feat: <short> — context (ADR-<id>) Refs #${ISSUE_NUM}"
+
+git add -A
+git commit -m "$COMMIT_MSG"
+
+# Post the same message as an Issue comment so they stay in sync
+gh issue comment "$ISSUE_NUM" -b "$COMMIT_MSG"
+
+git push
+
+# Optional (final): when you intend to close the Issue on merge to default
+# COMMIT_MSG="feat: complete <short> — closes #${ISSUE_NUM}"
+# git commit -m "$COMMIT_MSG" && gh issue comment "$ISSUE_NUM" -b "$COMMIT_MSG" && git push
+```
+
 ### 4.5 Open a PR from your branch
 
 ``` bash
@@ -273,6 +294,7 @@ and any migrations. Include “How to Test” steps and risk/rollback notes.
 * Scope fits one Issue; branch optional (issues-only on base branch is acceptable).
 * Small, atomic commits with clear messages.
 * Commits reference the Issue (Refs #ISSUE_NUM for ongoing; closes #ISSUE_NUM for final when merging to default).
+* Commit message and the Issue comment remain identical for each change to keep discussion and history aligned.
 * No secrets; settings via environment.
 * Docs and templates updated (`copilot-instructions.md`, PR template).
 * Ask Copilot for a **PR summary**; sanity‑check it.
