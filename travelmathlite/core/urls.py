@@ -21,7 +21,7 @@ from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
     # Namespaced app URLs
-    path("", include("apps.core.urls", namespace="core")),
+    path("", include("apps.base.urls", namespace="base")),
     path("calculators/", include("apps.calculators.urls", namespace="calculators")),
     path("airports/", include("apps.airports.urls", namespace="airports")),
     path("accounts/", include("apps.accounts.urls", namespace="accounts")),

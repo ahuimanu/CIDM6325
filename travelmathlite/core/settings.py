@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "apps.accounts",
     "apps.trips",
     "apps.search",
-    "apps.core",
+    "apps.base",
 ]
 
 MIDDLEWARE = [
