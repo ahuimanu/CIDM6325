@@ -194,6 +194,25 @@ If you'd like, I can add a small GitHub Actions workflow that runs `python -m bu
 
 [back to outline](#cidm6325---fall-2025)
 
+## Visual check screenshots (Playwright) ##
+
+We capture quick screenshots of key blog pages using Playwright to review layout/design without manual clicking.
+
+- Script lives in: `blog_site/scripts/visual_check.py`
+- Outputs are saved to: `blog_site/screenshots/`
+
+Quick start (Windows, venv recommended):
+
+```bash
+# one-time browser install
+python -m playwright install chromium
+
+# capture screenshots of /blog/ and /blog/post/new/
+python blog_site/scripts/visual_check.py
+```
+
+Advanced options and details live alongside the script: see `blog_site/scripts/README.md`.
+
 ## Why this felt harder than `pip install -r requirements.txt` and troubleshooting ##
 
 Short version: `requirements.txt` is just a list of packages for pip to install. `pyproject.toml` is a package manifest used by build tools (setuptools, wheel, etc.) and requires minimal package metadata (name, version) and sometimes package-discovery configuration so setuptools knows what to include in a wheel. That extra metadata is why you saw extra steps.

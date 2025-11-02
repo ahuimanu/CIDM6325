@@ -12,3 +12,4 @@ ruff==0.14.0
 sqlparse==0.5.3
 tzdata==2025.2
 webencodings==0.5.1
+playwright==1.49.0
