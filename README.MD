@@ -135,6 +135,20 @@ Notes
 
 [back to outline](#cidm6325---fall-2025)
 
+## App layout (travelmathlite) ##
+
+A compact overview of how the Django apps are organized in `travelmathlite` (namespaces, templates, and tests) is available here:
+
+- docs/architecture/app-layout.md — App layout guide (ADR-1.0.0)
+
+Highlights
+
+- Project package lives at `travelmathlite/core`; domain apps live under `travelmathlite/apps/*`.
+- Each app exposes a namespaced `index` route (e.g., `reverse('calculators:index') -> /calculators/`).
+- Templates extend a shared `travelmathlite/templates/base.html`; per-app partials live under `templates/<app>/partials/`.
+
+This structure is tested with Django TestCase to ensure reverse() and basic template rendering remain stable.
+
 ## Install & Packaging (pyproject.toml) ##
 
 Treating this repo as a fresh workspace, here's a minimal `pyproject.toml` and step-by-step, copy-paste-ready commands to create an environment and install the project. The `pyproject.toml` below declares only Django 5.2.6 as the runtime dependency.
