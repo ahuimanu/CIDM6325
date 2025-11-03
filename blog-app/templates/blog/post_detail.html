@@ -13,6 +13,11 @@
       {% endfor %}
     </p>
   </header>
+  {% if object.image %}
+    <figure class="mb-3">
+      <img src="{{ object.image.url }}" class="img-fluid" alt="{{ object.title }}">
+    </figure>
+  {% endif %}
   <div class="fs-5">{{ object.body|linebreaks }}</div>
 </article>
 <hr/>

@@ -9,10 +9,11 @@ class PostForm(forms.ModelForm):
         label="Tags (comma-separated)", required=False,
         help_text="Example: django, web, tutorial"
     )
+    image = forms.ImageField(required=False, label="Feature image")
 
     class Meta:
         model = Post
-        fields = ["title", "body", "status", "tags_csv"]
+        fields = ["title", "body", "status", "tags_csv", "image"]
         widgets = {
             "title": forms.TextInput(attrs={"placeholder": "Clear, descriptive title"}),
             "body": forms.Textarea(attrs={"rows": 8, "aria-describedby": "body-help"}),

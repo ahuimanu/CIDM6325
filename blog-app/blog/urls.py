@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import PostCreateView
+from .views import PostCreateView, PostUpdateView, PostDeleteView
 
 urlpatterns = [
     # list & detail
@@ -10,8 +10,8 @@ urlpatterns = [
     path("posts/review/", views.review_list, name="review_list"),
     path("debug/users/", views.debug_users, name="debug_users"),
     path("debug/users/reset/<str:username>/", views.debug_reset_password, name="debug_reset_password"),
-    path("posts/<slug:slug>/edit/", views.post_update, name="post_update"),
-    path("posts/<slug:slug>/delete/", views.post_delete, name="post_delete"),
+    path("posts/<slug:slug>/edit/", PostUpdateView.as_view(), name="post_update"),
+    path("posts/<slug:slug>/delete/", PostDeleteView.as_view(), name="post_delete"),
     # detail (dynamic slug) - placed after static routes
     path("posts/<slug:slug>/", views.PostDetailView.as_view(), name="post_detail"),
 

@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import CreateView
+from django.views.generic.edit import UpdateView, DeleteView
+from django.urls import reverse_lazy
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
@@ -103,6 +105,25 @@ class PostCreateView(LoginRequiredMixin, AuthorAssignMixin, CreateView):
     # The mixin's form_valid will redirect to the post's absolute URL.
 
 
+class AuthorOrChangePermissionMixin(UserPassesTestMixin):
+    """Allow access if the current user is the object's author or has change permission."""
+
+    def test_func(self):
+        obj = self.get_object()
+        user = self.request.user
+        if not user.is_authenticated:
+            return False
+        return obj.author == user or user.has_perm("blog.change_post")
+
+
+class RequireDeletePermissionMixin(UserPassesTestMixin):
+    """Allow access only to users with the `blog.delete_post` permission."""
+
+    def test_func(self):
+        user = self.request.user
+        return user.is_authenticated and user.has_perm("blog.delete_post")
+
+
 @login_required
 def post_update(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -132,6 +153,52 @@ def post_update(request, slug):
         initial = {"tags_csv": ", ".join(t.name for t in post.tags.all())}
         form = PostForm(instance=post, initial=initial)
     return render(request, "blog/post_form.html", {"form": form, "post": post})
+
+
+class PostUpdateView(LoginRequiredMixin, AuthorOrChangePermissionMixin, UpdateView):
+    """CBV replacement for post_update FBV.
+
+    Enforces that the editor is either the author or has the `change_post` permission.
+    It also gates publishing (setting status to `published`) by requiring the
+    `blog.can_publish` permission.
+    """
+
+    model = Post
+    form_class = PostForm
+    template_name = "blog/post_form.html"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_initial(self):
+        initial = super().get_initial() or {}
+        post = self.get_object()
+        initial.update({"tags_csv": ", ".join(t.name for t in post.tags.all())})
+        return initial
+
+    def form_valid(self, form):
+        post = self.get_object()
+        # Gate publishing by custom permission
+        if form.cleaned_data.get("status") == Post.Status.PUBLISHED and not self.request.user.has_perm("blog.can_publish"):
+            messages.error(self.request, "You do not have permission to publish.")
+            return redirect(post.get_absolute_url())
+        # preserve original author
+        form.save(author=post.author)
+        messages.success(self.request, "Post updated.")
+        return redirect(post.get_absolute_url())
+
+
+class PostDeleteView(LoginRequiredMixin, RequireDeletePermissionMixin, DeleteView):
+    """CBV replacement for post_delete FBV. Requires `blog.delete_post` permission."""
+
+    model = Post
+    template_name = "blog/post_confirm_delete.html"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+    success_url = reverse_lazy("post_list")
+
+    def delete(self, request, *args, **kwargs):
+        messages.info(request, "Post deleted.")
+        return super().delete(request, *args, **kwargs)
 
 @login_required
 @permission_required("blog.delete_post", raise_exception=True)

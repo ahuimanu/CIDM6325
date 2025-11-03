@@ -23,6 +23,7 @@ class Post(models.Model):
     body = models.TextField()
     status = models.CharField(max_length=10, choices=Status.choices, default=Status.DRAFT)
     tags = models.ManyToManyField(Tag, blank=True)
+    image = models.ImageField(upload_to="post_images/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
