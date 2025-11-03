@@ -4,12 +4,12 @@ from . import views
 app_name = 'blog'
 
 urlpatterns = [
-    path('', views.post_list, name='post_list'),
-    path('post/new/', views.post_create, name='post_create'),
-    path('post/<int:pk>/', views.post_detail, name='post_detail'),
-    path('post/<int:pk>/edit/', views.post_update, name='post_update'),
-    path('post/<int:pk>/delete/', views.post_delete, name='post_delete'),
-    path('post/<int:pk>/publish/', views.post_publish, name='post_publish'),
-    path('search/', views.post_search, name='post_search'),  # HTMX endpoint
-    path('comment/<int:pk>/add/', views.comment_add, name='comment_add'),
+    path('', views.PostListView.as_view(), name='post_list'),
+    path('post/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
+    path('post/new/', views.PostCreateView.as_view(), name='post_create'),
+    path('post/<int:pk>/edit/', views.PostUpdateView.as_view(), name='post_update'),
+    path('post/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post_delete'),
+    path('post/<int:pk>/publish/', views.PostPublishView.as_view(), name='post_publish'),
+    path('comment/<int:pk>/add/', views.CommentCreateView.as_view(), name='comment_add'),
+    path('accounts/register/', views.RegisterView.as_view(), name='register'),
 ]
