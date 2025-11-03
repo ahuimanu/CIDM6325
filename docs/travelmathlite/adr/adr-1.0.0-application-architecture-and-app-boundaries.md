@@ -1,10 +1,10 @@
 # ADR-1.0.0 Application architecture and app boundaries
 
 Date: 2025-11-02  
-Status: Proposed  
+Status: Accepted  
 Version: 1.0  
 Authors: Course Staff  
-Reviewers: TODO  
+Reviewers: Completed via Briefs 01–06  
 Supersedes or amends: —
 
 ---
@@ -14,7 +14,7 @@ Supersedes or amends: —
 PRD link: docs/travelmathlite/prd/travelmathlite_prd_v1.0.0.md#4-scope-items-and-checklist-seeds (Scope) · docs/travelmathlite/prd/travelmathlite_prd_v1.0.0.md#13-traceability (Traceability)  
 Scope IDs from PRD: F-001, F-002, F-003, F-004, F-005, F-006, F-007, F-008, F-009, F-010, F-011, F-012, F-013, F-014, F-015  
 Functional requirements: FR-F-001-1, FR-F-001-2, FR-F-002-1, FR-F-003-1, FR-F-004-1, FR-F-005-1, FR-F-006-1, FR-F-007-1, FR-F-008-1, FR-F-009-1, FR-F-010-1, FR-F-011-1, FR-F-012-1, FR-F-013-1, FR-F-014-1, FR-F-015-1  
-Related issues or PRs: #TODO
+Related issues or PRs: #20 (Brief 01), #21 (Brief 02), #22 (Brief 03), #23 (Brief 04), #24 (Brief 05), #26 (Brief 06)
 
 ---
 
@@ -166,15 +166,23 @@ Human witness
 
 Attestation record
 
-- Commit hashes introducing app scaffolds
+- Brief 01 (app scaffolding): 9b71cfb, e97bc83
+- Brief 02 (settings wiring): 8099386
+- Brief 03 (project URLs): a596919
+- Brief 04 (templates organization): 6e6db00
+- Brief 05 (tests): a8d8265
+- Brief 06 (docs): 2fbb5aa
+- Core→base rename (in-scope correction): f1ac883
+
+All acceptance criteria verified; tests passing (14/14); documentation complete.
 
 ---
 
 ## Checklist seed
 
-- [ ] Namespaced URLs included
-- [ ] INSTALLED_APPS configured
-- [ ] Templates organized by app
+- [x] Namespaced URLs included
+- [x] INSTALLED_APPS configured
+- [x] Templates organized by app
 
 ---
 
