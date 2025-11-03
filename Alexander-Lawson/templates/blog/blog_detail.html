@@ -8,13 +8,19 @@
     <article>
         <h2>{{ post.title }}</h2>
         
-        <p>
+        <p class="text-muted">
             <strong>By:</strong> {{ post.author.username }} |
             <strong>Published:</strong> {{ post.date_created|date:"F j, Y" }}
             {% if post.date_updated != post.date_created %}
                 | <strong>Updated:</strong> {{ post.date_updated|date:"F j, Y" }}
             {% endif %}
         </p>
+        
+        {% if post.image %}
+            <div class="mb-4">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid rounded shadow" style="max-height: 500px; width: 100%; object-fit: cover;">
+            </div>
+        {% endif %}
         
         <hr>
         

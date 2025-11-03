@@ -17,6 +17,9 @@
             {% for post in posts %}
                 <div class="list-group-item mb-4 p-0 border-0">
                     <div class="card shadow-sm">
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 250px; object-fit: cover;">
+                        {% endif %}
                         <div class="card-body">
                             <h3 class="card-title">
                                 <a href="{% url 'blog:post_detail' post.pk %}" class="text-decoration-none text-primary">
@@ -26,11 +29,26 @@
                             <h6 class="card-subtitle mb-2 text-muted">
                                 <strong>By:</strong> {{ post.author.username }} |
                                 <strong>Published:</strong> {{ post.date_created|date:"F j, Y" }}
+                                {% if post.image %}
+                                    | <i class="fas fa-image text-success" title="Has image"></i>
+                                {% endif %}
                             </h6>
                             <div class="card-text mb-2">
                                 {{ post.content|truncatewords:50|markdownify }}
                             </div>
-                            <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-primary btn-sm">Read more →</a>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-primary btn-sm">Read more →</a>
+                                {% if user.is_authenticated and user == post.author or user.is_staff %}
+                                    <div>
+                                        <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-outline-secondary btn-sm">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-outline-danger btn-sm">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
