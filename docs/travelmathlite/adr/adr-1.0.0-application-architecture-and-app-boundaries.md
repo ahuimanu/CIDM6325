@@ -189,3 +189,50 @@ All acceptance criteria verified; tests passing (14/14); documentation complete.
 ## References
 
 - PRD §4 Scope, §13 Traceability
+
+---
+
+## Appendix: Completion evidence (ADR-1.0.0)
+
+### A.1 Acceptance criteria validation
+
+| Criterion | Status | Evidence |
+|-----------|--------|----------|
+| AC: `apps/*` directory exists with calculators, airports, accounts, trips, search, base (formerly core) | ✅ Done | Brief 01 — scaffolded all six apps under `travelmathlite/apps/` |
+| AC: Each app has `urls.py` and templates under `templates/<app>/...` | ✅ Done | Brief 01 (URLs), Brief 04 (templates organization with partials) |
+| AC: Project `urls.py` includes namespaced app URLs | ✅ Done | Brief 03 — all namespaces wired in `core/urls.py` |
+
+### A.2 Implementation completion
+
+| Task | Status | Evidence |
+|------|--------|----------|
+| Create `apps/*` with minimal `apps.py`, `urls.py`, `views.py`, `templates/` | ✅ Done | Brief 01 (commits: 9b71cfb, e97bc83) |
+| Configure `INSTALLED_APPS` in settings | ✅ Done | Brief 02 (commit: 8099386) |
+| Project `urls.py` includes app URLConfs under namespaces | ✅ Done | Brief 03 (commit: a596919) |
+
+### A.3 Test validation
+
+| Invariant/Test | Status | Evidence |
+|----------------|--------|----------|
+| INV-1: All URLs reverse via namespaces | ✅ Done | Brief 05 — tests validate `reverse('<app>:index')` for all apps |
+| INV-2: Templates per app resolve without conflicts | ✅ Done | Brief 05 — tests assert template rendering with partials |
+| Unit tests in `apps/*/tests.py` for URL reversing and template rendering | ✅ Done | Brief 05 (commit: a8d8265) — 14 tests, all passing |
+
+### A.4 Documentation completion
+
+| Doc | Status | Evidence |
+|-----|--------|----------|
+| Add `docs/architecture/app-layout.md` | ✅ Done | Brief 06 (commit: 2fbb5aa) |
+| Update README with app structure | ✅ Done | Brief 06 — added "App layout (travelmathlite)" section |
+
+### A.5 Checklist validation
+
+| Item | Status |
+|------|--------|
+| Namespaced URLs included | ✅ Done |
+| INSTALLED_APPS configured | ✅ Done |
+| Templates organized by app | ✅ Done |
+
+### Summary
+
+All acceptance criteria, implementation steps, test invariants, and documentation requirements have been satisfied through Briefs 01–06. ADR-1.0.0 accepted on 2025-11-02.
