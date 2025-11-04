@@ -115,6 +115,7 @@ Used for mapping `iso_country` codes to full country names for display purposes.
 - OurAirports Homepage: https://ourairports.com/
 - Data Download Page: https://ourairports.com/data/
 - License: https://creativecommons.org/publicdomain/zero/1.0/
+- **Schema Mapping**: docs/travelmathlite/datasets/schema-mapping.md
 - ADR: docs/travelmathlite/adr/adr-1.0.1-dataset-source-for-airports-and-cities.md
 - PRD: docs/travelmathlite/prd/travelmathlite_prd_v1.0.0.md §4 (F-002, F-004, F-005, F-008)
 
