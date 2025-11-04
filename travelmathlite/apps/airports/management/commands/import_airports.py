@@ -2,8 +2,9 @@
 
 import csv
 import logging
+import ssl
 from typing import Any
-from urllib.request import urlretrieve
+from urllib.request import urlopen
 
 from django.core.management.base import BaseCommand, CommandParser
 
@@ -67,7 +68,15 @@ class Command(BaseCommand):
             csv_path = DEFAULT_LOCAL_PATH
             self.stdout.write(f"Downloading from: {url}")
             try:
-                urlretrieve(url, csv_path)
+                # Create SSL context that doesn't verify certificates (for development)
+                ssl_context = ssl.create_default_context()
+                ssl_context.check_hostname = False
+                ssl_context.verify_mode = ssl.CERT_NONE
+
+                # Download with SSL context
+                with urlopen(url, context=ssl_context) as response:
+                    with open(csv_path, "wb") as out_file:
+                        out_file.write(response.read())
                 self.stdout.write(self.style.SUCCESS(f"Downloaded to {csv_path}"))
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f"Failed to download CSV: {e}"))
