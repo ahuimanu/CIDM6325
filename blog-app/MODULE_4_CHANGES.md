@@ -41,18 +41,18 @@ From the project root (`blog-app`), use PowerShell commands (or your preferred s
 
 Expected: All tests pass (the suite contains 13 tests in this project). I ran this command and saw `OK`.
 
-2) Start the dev server and smoke-test
+2) Start the dev server
 
 ```powershell
 .venv\Scripts\python.exe manage.py runserver 127.0.0.1:8000
 ```
 
-Then visit in a browser:
+Then visit in a browser to verify basic behavior:
 - Home / posts list: http://127.0.0.1:8000/
 - New post (requires login): http://127.0.0.1:8000/posts/new/
 - Dev helper (creates & logs in a dev user when DEBUG=True): http://127.0.0.1:8000/dev-login/ (username `dev`, password `devpass` if created)
 
-Expected: The server starts cleanly; GET / returns 200; navigating to `/posts/new/` when logged in shows the same `post_form.html` form as before and allowed submissions create posts with the logged-in user set as the author.
+Expected: The server starts cleanly; GET / returns 200; navigating to `/posts/new/` when logged in shows the `post_form.html` form and allowed submissions create posts with the logged-in user set as the author.
 
 Files changed (concise list)
 - Modified: `blog/views.py` — added `AuthorAssignMixin` and `PostCreateView`.
