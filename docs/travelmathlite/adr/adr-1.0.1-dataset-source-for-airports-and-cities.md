@@ -1,10 +1,10 @@
 # ADR-1.0.1 Dataset source for airports and cities
 
 Date: 2025-11-02  
-Status: Proposed  
+Status: Accepted  
 Version: 1.0  
 Authors: Course Staff  
-Reviewers: TODO  
+Reviewers: Completed (Brief ADR-1.0.1-01)  
 Supersedes or amends: —
 
 ---
@@ -14,7 +14,7 @@ Supersedes or amends: —
 PRD link: docs/travelmathlite/prd/travelmathlite_prd_v1.0.0.md#4-scope-items-and-checklist-seeds (Scope) · docs/travelmathlite/prd/travelmathlite_prd_v1.0.0.md#14-open-questions (Open questions)  
 Scope IDs from PRD: F-002, F-004, F-005, F-008  
 Functional requirements: FR-F-002-1, FR-F-004-1, FR-F-005-1, FR-F-008-1  
-Related issues or PRs: #TODO
+Related issues or PRs: #30
 
 ---
 
