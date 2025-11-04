@@ -57,9 +57,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "elevation_ft",
-                    models.IntegerField(
-                        blank=True, help_text="Elevation in feet", null=True
-                    ),
+                    models.IntegerField(blank=True, help_text="Elevation in feet", null=True),
                 ),
                 (
                     "iso_country",
@@ -69,15 +67,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "iso_region",
-                    models.CharField(
-                        blank=True, help_text="ISO 3166-2 region code", max_length=10
-                    ),
+                    models.CharField(blank=True, help_text="ISO 3166-2 region code", max_length=10),
                 ),
                 (
                     "municipality",
-                    models.CharField(
-                        blank=True, help_text="City or town name", max_length=255
-                    ),
+                    models.CharField(blank=True, help_text="City or town name", max_length=255),
                 ),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
@@ -86,12 +80,8 @@ class Migration(migrations.Migration):
                 "db_table": "airports",
                 "ordering": ["name"],
                 "indexes": [
-                    models.Index(
-                        fields=["iata_code"], name="airports_iata_co_d51f22_idx"
-                    ),
-                    models.Index(
-                        fields=["iso_country"], name="airports_iso_cou_39e14a_idx"
-                    ),
+                    models.Index(fields=["iata_code"], name="airports_iata_co_d51f22_idx"),
+                    models.Index(fields=["iso_country"], name="airports_iso_cou_39e14a_idx"),
                     models.Index(
                         fields=["latitude_deg", "longitude_deg"],
                         name="airports_latitud_3274f7_idx",
