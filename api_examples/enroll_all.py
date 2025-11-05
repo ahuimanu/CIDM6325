@@ -14,7 +14,7 @@ while url is not None:
     url = response["next"]
     courses = response["results"]
     available_courses += [course["title"] for course in courses]
-print(f'Available courses: {", ".join(available_courses)}')
+print(f"Available courses: {', '.join(available_courses)}")
 
 for course in courses:
     course_id = course["id"]

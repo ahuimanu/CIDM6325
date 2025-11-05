@@ -1,0 +1,20 @@
+{% with p=post %}
+    <article class="card h-100">
+        {% if p.hero_image %}
+            <img src="{{ p.hero_image.url }}"
+                 class="card-img-top"
+                 alt="{{ p.title }}"
+                 width="{{ p.hero_image.width }}"
+                 height="{{ p.hero_image.height }}">
+        {% endif %}
+        <div class="card-body d-flex flex-column">
+            <h3 class="h5 card-title">{{ p.title }}</h3>
+            <p class="card-text text-muted small mb-2">{{ p.published_at|date:"M j, Y" }}</p>
+            <p class="card-text flex-grow-1">{{ p.excerpt }}</p>
+            <div>
+                <a href="{% url 'blog:post_detail' p.slug %}"
+                   class="btn btn-outline-primary btn-sm">Read</a>
+            </div>
+        </div>
+    </article>
+{% endwith %}
