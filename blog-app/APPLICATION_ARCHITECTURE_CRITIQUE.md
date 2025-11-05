@@ -62,3 +62,5 @@ Modularization has cost: extra files, more layers, and sometimes more indirectio
 Conclusion
 
 Django’s app structure provides a pragmatic, productive starting point for web applications: clear conventions, an integrated feature set, and a large ecosystem. The main weaknesses are implicit coupling via settings, scattered UI fragments, and potential ORM/migration friction for large refactors. Teams can mitigate these by adopting clear boundaries, extracting shared concerns into utilities or services, centralizing UI components, and preferring explicit integration patterns. For course projects and many production apps, Django's balance of structure and flexibility is a strong fit; for extremely large or distributed systems, it is a sound core but should be supplemented with explicit architecture around data flows, async processing, and service boundaries.
+
+text here for updates for PR push
