@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Smart Scheduler</h1>
+  <p>Welcome! Use the links below while we build features.</p>
+  <ul>
+    <li><a href="{% url 'login' %}">Login</a></li>
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+    <li><a href="/admin/">Admin</a></li>
+  </ul>
+{% endblock %}
