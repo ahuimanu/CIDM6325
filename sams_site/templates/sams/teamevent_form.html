@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-4">
+    <h3>
+        {% if object %}
+            Edit Event: {{ object.title }}
+        {% else %}
+            Add New Event
+        {% endif %}
+    </h3>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_date" class="form-label">Date</label>
+            <input type="date" name="date" class="form-control" id="id_date" value="{{ form.date.value|default:'' }}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="id_title" class="form-label">Title</label>
+            <input type="text" name="title" class="form-control" id="id_title" value="{{ form.title.value|default:'' }}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="id_description" class="form-label">Description</label>
+            <textarea name="description" class="form-control" id="id_description" rows="4">{{ form.description.value|default:'' }}</textarea>
+        </div>
+        
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+                {% if object %}Update Event{% else %}Create Event{% endif %}
+            </button>
+            <a href="{% url 'sams:calendar' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+    
+    {% if object %}
+    <div class="mt-4">
+        <h5>Delete Event</h5>
+        <p class="text-muted">This action cannot be undone.</p>
+        <a href="{% url 'sams:event_delete' object.pk %}" class="btn btn-danger" 
+           onclick="return confirm('Are you sure you want to delete this event?')">Delete Event</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
