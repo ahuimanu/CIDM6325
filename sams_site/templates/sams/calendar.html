@@ -4,6 +4,11 @@
 {% block content %}
 <!-- Modern Calendar Wrapper -->
 <div class="calendar-page">
+    <!-- System Title Banner -->
+    <div class="system-banner">
+        <h2 class="system-title">Student Athlete Management System</h2>
+    </div>
+    
     <div class="calendar-container">
         <!-- Compact Header Section -->
         <div class="compact-header">
@@ -61,25 +66,28 @@
             <div id="eventPopout" class="event-popout" style="display: none;">
                 <div class="popout-header">
                     <h6 id="popoutEventTitle" class="mb-0 text-truncate"></h6>
-                    <div class="popout-buttons">
-                        {% if user.is_authenticated %}
-                        <button class="btn btn-sm btn-outline-warning me-1" id="popoutEditBtn" onclick="editCurrentEvent()" title="Edit Event">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        {% endif %}
-                        <button class="btn btn-sm btn-outline-secondary" onclick="closeEventPopout()" title="Close">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="closeEventPopout()" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
                 <div class="popout-body">
                     <p id="popoutEventDescription" class="mb-2 small"></p>
                     <div class="popout-meta">
                         <small class="text-muted">
                             <div><strong>By:</strong> <span id="popoutEventOwner"></span></div>
-                            <div><strong>Added:</strong> <span id="popoutEventCreated"></span></div>
+                            <div><strong>Time:</strong> <span id="popoutEventCreated"></span></div>
                         </small>
                     </div>
+                    {% if user.is_authenticated %}
+                    <div class="popout-actions mt-3">
+                        <button type="button" class="btn-edit-event" id="btnEditEvent" title="Edit Event">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button type="button" class="btn-delete-event" id="btnDeleteEvent" title="Delete Event">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="popout-arrow"></div>
             </div>
@@ -102,6 +110,16 @@
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-muted">DATE</label>
                             <input type="date" class="form-control form-control-sm" id="addEventDate" readonly>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label small fw-bold text-muted">START TIME</label>
+                                <input type="time" class="form-control form-control-sm" id="addEventStartTime" placeholder="HH:MM">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-bold text-muted">END TIME</label>
+                                <input type="time" class="form-control form-control-sm" id="addEventEndTime" placeholder="HH:MM">
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-muted">TITLE</label>
@@ -159,9 +177,6 @@
                                                     <i class="fas fa-calendar-day"></i>
                                                     <span>Today</span>
                                                 </div>
-                                                <div class="today-date">
-                                                    {{ today|date:"M d, Y" }}
-                                                </div>
                                             </div>
                                         {% endif %}
                                     </div>
@@ -175,15 +190,30 @@
                                             {% if date.day == day and date.month == month and date.year == year %}
                                                 {% for event in event_list %}
                                                 <div class="event-item mb-1" data-event-id="{{ event.id }}">
-                                                    <div class="event-header bg-info text-white rounded p-1 cursor-pointer" 
+                                                    <div class="event-header {% if event.has_time_conflict %}bg-danger conflict-event{% else %}bg-info{% endif %} text-white rounded p-1 cursor-pointer" 
                                                          data-title="{{ event.title|escapejs }}" 
                                                          data-description="{{ event.description|escapejs }}"
                                                          data-owner="{{ event.owner.username|escapejs }}"
+                                                         data-date="{{ event.date|date:"Y-m-d" }}"
                                                          data-created="{{ event.created_at|date:"M d, Y g:i A" }}"
+                                                         data-start-time="{% if event.start_time %}{{ event.start_time|time:"H:i" }}{% endif %}"
+                                                         data-end-time="{% if event.end_time %}{{ event.end_time|time:"H:i" }}{% endif %}"
+                                                         data-has-conflict="{{ event.has_time_conflict }}"
                                                          data-event-id="{{ event.id }}"
                                                          onclick="showEventNote(this)">
-                                                        <div class="fw-bold event-title">{{ event.title|truncatechars:15 }}</div>
-                                                        <div class="event-time small opacity-75">{{ event.created_at|date:"g:i A" }}</div>
+                                                        <div class="fw-bold event-title">
+                                                            {% if event.has_time_conflict %}<i class="fas fa-exclamation-triangle me-1"></i>{% endif %}
+                                                            {{ event.title|truncatechars:15 }}
+                                                        </div>
+                                                        <div class="event-time small opacity-75">
+                                                            {% if event.start_time and event.end_time %}
+                                                                {{ event.start_time|time:"g:i A" }} - {{ event.end_time|time:"g:i A" }}
+                                                            {% elif event.start_time %}
+                                                                {{ event.start_time|time:"g:i A" }}
+                                                            {% else %}
+                                                                All Day
+                                                            {% endif %}
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 {% endfor %}
@@ -209,6 +239,95 @@
                 </table>
             </div>
 
+        </div>
+        
+        <!-- Public Blog Section -->
+        <div class="blog-section">
+            <div class="blog-banner">
+                <h2 class="blog-title">
+                    <i class="fas fa-comments me-2"></i>
+                    Team Blog
+                </h2>
+            </div>
+            
+            <div class="blog-content">
+                <!-- Add New Post Form -->
+                <div class="new-post-card">
+                    <h4><i class="fas fa-plus-circle me-2"></i>Create New Post</h4>
+                    <form method="POST" action="{% url 'sams:blog_create' %}" class="blog-form">
+                        {% csrf_token %}
+                        <input type="text" name="author_name" class="form-control mb-2" placeholder="Your Name" required>
+                        <input type="text" name="title" class="form-control mb-2" placeholder="Post Title" required maxlength="200">
+                        <textarea name="content" class="form-control mb-2" placeholder="What's on your mind?" rows="3" required></textarea>
+                        <button type="submit" class="btn-submit-post">
+                            <i class="fas fa-paper-plane me-1"></i> Post
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Blog Posts -->
+                {% if announcements %}
+                    {% for announcement in announcements %}
+                    <div class="blog-post-card">
+                        <div class="post-header">
+                            <div class="post-info">
+                                <h3 class="post-title">{{ announcement.title }}</h3>
+                                <div class="post-meta">
+                                    <span class="author">
+                                        <i class="fas fa-user"></i> {{ announcement.author_name }}
+                                    </span>
+                                    <span class="date">
+                                        <i class="fas fa-clock"></i> {{ announcement.created_at|date:"M d, Y g:i A" }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-body">
+                            {{ announcement.content|linebreaks }}
+                        </div>
+                        
+                        <!-- Comments Section -->
+                        <div class="comments-section">
+                            <h5 class="comments-header">
+                                <i class="fas fa-comment-dots me-2"></i>
+                                Comments ({{ announcement.comments.count }})
+                            </h5>
+                            
+                            <!-- Existing Comments -->
+                            {% if announcement.comments.all %}
+                            <div class="comments-list">
+                                {% for comment in announcement.comments.all %}
+                                <div class="comment-item">
+                                    <div class="comment-author">
+                                        <i class="fas fa-user-circle me-1"></i>
+                                        <strong>{{ comment.author_name }}</strong>
+                                        <span class="comment-date">{{ comment.created_at|date:"M d, g:i A" }}</span>
+                                    </div>
+                                    <div class="comment-content">{{ comment.content }}</div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Add Comment Form -->
+                            <form method="POST" action="{% url 'sams:comment_create' announcement.id %}" class="comment-form">
+                                {% csrf_token %}
+                                <input type="text" name="author_name" class="form-control form-control-sm mb-1" placeholder="Your Name" required>
+                                <textarea name="content" class="form-control form-control-sm mb-1" placeholder="Add a comment..." rows="2" required></textarea>
+                                <button type="submit" class="btn-submit-comment">
+                                    <i class="fas fa-reply me-1"></i> Comment
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-posts">
+                        <i class="fas fa-inbox"></i>
+                        <p>No blog posts yet. Be the first to post!</p>
+                    </div>
+                {% endif %}
+            </div>
         </div>
         
         <!-- Compact Navigation -->
@@ -257,6 +376,23 @@ body {
     padding: 0;
     margin: 0;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* System Banner */
+.system-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 0.8rem 2rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.system-title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .calendar-container {
@@ -650,6 +786,47 @@ body {
     border-top: 1px solid #e9ecef;
 }
 
+.popout-actions {
+    display: flex;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.popout-actions .btn-edit-event,
+.popout-actions .btn-delete-event {
+    flex: 1;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-edit-event {
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+}
+
+.btn-edit-event:hover {
+    background: linear-gradient(135deg, #0984e3, #6c5ce7);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(9, 132, 227, 0.3);
+}
+
+.btn-delete-event {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+}
+
+.btn-delete-event:hover {
+    background: linear-gradient(135deg, #ee5a6f, #c92a2a);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(238, 90, 111, 0.3);
+}
+
 .popout-arrow {
     position: absolute;
     width: 0;
@@ -738,6 +915,28 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* Conflict Event Styling */
+.conflict-event {
+    background: linear-gradient(135deg, #dc3545, #c82333) !important;
+    border: 2px solid #bd2130 !important;
+    animation: conflictPulse 2s ease-in-out infinite;
+}
+
+.conflict-event:hover {
+    background: linear-gradient(135deg, #c82333, #bd2130) !important;
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(220, 53, 69, 0.5);
+}
+
+@keyframes conflictPulse {
+    0%, 100% {
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 16px rgba(220, 53, 69, 0.6);
+    }
+}
+
 .event-title {
     font-size: 0.8rem;
     font-weight: 600;
@@ -757,6 +956,7 @@ body {
     padding: 0.5rem;
     font-size: 0.75rem;
     font-weight: 600;
+    color: white;
     transition: all 0.3s ease;
     margin-top: 0.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -1023,34 +1223,246 @@ body {
 .nav-btn-inline {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.4rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 6px;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
     text-decoration: none;
     font-weight: 500;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
-    background: white;
-    color: #495057;
-    border: 1px solid #ddd;
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 8px rgba(116, 185, 255, 0.3);
     box-sizing: border-box;
+    min-width: 140px;
 }
 
 .nav-btn-inline:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    color: #495057;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(116, 185, 255, 0.4);
+    color: white;
     text-decoration: none;
+    background: linear-gradient(135deg, #81ecec 0%, #0984e3 100%);
 }
 
 .nav-btn-inline.home-btn:hover {
-    border-color: #74b9ff;
-    box-shadow: 0 4px 8px rgba(116, 185, 255, 0.3);
+    background: linear-gradient(135deg, #81ecec 0%, #0984e3 100%);
 }
 
 .nav-btn-inline.admin-btn:hover {
-    border-color: #6c5ce7;
-    box-shadow: 0 4px 8px rgba(108, 92, 231, 0.3);
+    background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+}
+
+.nav-btn-inline.admin-btn {
+    background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+}
+
+/* Blog Section */
+.blog-section {
+    margin: 1.5rem 0 1rem 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.blog-banner {
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    padding: 0.8rem 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.blog-title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 0.3px;
+}
+
+.blog-content {
+    padding: 1.5rem;
+}
+
+.new-post-card {
+    background: linear-gradient(to bottom, rgba(116, 185, 255, 0.05), white);
+    border: 2px dashed #74b9ff;
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.new-post-card h4 {
+    color: #0984e3;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.blog-form .form-control {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 0.6rem;
+    font-size: 0.9rem;
+}
+
+.blog-form .form-control:focus {
+    border-color: #74b9ff;
+    box-shadow: 0 0 0 0.2rem rgba(116, 185, 255, 0.25);
+    outline: none;
+}
+
+.btn-submit-post {
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-submit-post:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(116, 185, 255, 0.4);
+}
+
+.blog-post-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.blog-post-card:hover {
+    box-shadow: 0 4px 12px rgba(116, 185, 255, 0.2);
+}
+
+.post-header {
+    margin-bottom: 0.8rem;
+}
+
+.post-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0 0 0.5rem 0;
+}
+
+.post-meta {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+.post-meta i {
+    margin-right: 0.3rem;
+    color: #74b9ff;
+}
+
+.post-body {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.comments-section {
+    margin-top: 1rem;
+}
+
+.comments-header {
+    font-size: 0.95rem;
+    color: #4a5568;
+    margin-bottom: 0.8rem;
+}
+
+.comments-list {
+    margin-bottom: 1rem;
+}
+
+.comment-item {
+    background: #f8f9fa;
+    border-left: 3px solid #74b9ff;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.comment-author {
+    font-size: 0.85rem;
+    color: #0984e3;
+    margin-bottom: 0.3rem;
+}
+
+.comment-date {
+    color: #a0aec0;
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+}
+
+.comment-content {
+    color: #4a5568;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.comment-form {
+    background: #f8f9fa;
+    padding: 0.8rem;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.comment-form .form-control-sm {
+    border: 1px solid #d0d0d0;
+    font-size: 0.85rem;
+}
+
+.comment-form .form-control-sm:focus {
+    border-color: #74b9ff;
+    box-shadow: 0 0 0 0.1rem rgba(116, 185, 255, 0.2);
+    outline: none;
+}
+
+.btn-submit-comment {
+    background: linear-gradient(135deg, #81ecec 0%, #0984e3 100%);
+    color: white;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-submit-comment:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(129, 236, 236, 0.4);
+}
+
+.no-posts {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #a0aec0;
+}
+
+.no-posts i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #cbd5e0;
+}
+
+.no-posts p {
+    font-size: 1.1rem;
+    margin: 0;
 }
 
 /* Full width table fix */
@@ -1100,6 +1512,21 @@ body {
 let currentEventId = null;
 let currentEventData = null;
 
+// Make functions globally accessible
+window.editCurrentEvent = editCurrentEvent;
+window.deleteCurrentEvent = deleteCurrentEvent;
+window.closeEventPopout = closeEventPopout;
+
+// Helper function to format time from 24hr to 12hr format
+function formatTime(timeStr) {
+    if (!timeStr) return '';
+    const [hours, minutes] = timeStr.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour % 12 || 12;
+    return `${displayHour}:${minutes} ${ampm}`;
+}
+
 function showAddEventPopout(buttonElement, date) {
     // Close any other popouts first
     closeEventPopout();
@@ -1113,6 +1540,8 @@ function showAddEventPopout(buttonElement, date) {
     document.getElementById('addEventDate').value = date;
     document.getElementById('addEventTitle').value = '';
     document.getElementById('addEventDescription').value = '';
+    document.getElementById('addEventStartTime').value = '';
+    document.getElementById('addEventEndTime').value = '';
     document.getElementById('addEventId').value = '';
     document.getElementById('addEventDeleteBtn').style.display = 'none';
     document.getElementById('addEventSaveBtnText').textContent = 'Save';
@@ -1171,20 +1600,47 @@ function showEventNote(element) {
     const title = element.getAttribute('data-title');
     const description = element.getAttribute('data-description');
     const owner = element.getAttribute('data-owner');
+    const date = element.getAttribute('data-date');
     const created = element.getAttribute('data-created');
     const eventId = element.getAttribute('data-event-id');
+    const startTime = element.getAttribute('data-start-time');
+    const endTime = element.getAttribute('data-end-time');
+    const hasConflict = element.getAttribute('data-has-conflict') === 'True';
     
-    // Store current event data for editing
-    currentEventData = { id: eventId, title, description, owner, created };
+    // Close any existing popout FIRST (before setting new data)
+    closeEventPopout(true);
     
-    // Close any existing popout
-    closeEventPopout();
+    // THEN store current event data for editing AND the element reference
+    currentEventData = { 
+        id: eventId, 
+        title, 
+        description, 
+        owner, 
+        date, 
+        created, 
+        startTime, 
+        endTime,
+        element: element  // Store reference to the DOM element
+    };
+    
+    console.log('Event opened, stored data:', currentEventData);
     
     // Populate the popout
     document.getElementById('popoutEventTitle').textContent = title;
     document.getElementById('popoutEventDescription').textContent = description || 'No description provided.';
     document.getElementById('popoutEventOwner').textContent = owner;
-    document.getElementById('popoutEventCreated').textContent = created;
+    
+    // Format time range display
+    let timeDisplay = 'All Day';
+    if (startTime && endTime) {
+        timeDisplay = `${formatTime(startTime)} - ${formatTime(endTime)}`;
+        if (hasConflict) {
+            timeDisplay += ' ⚠️ TIME CONFLICT';
+        }
+    } else if (startTime) {
+        timeDisplay = formatTime(startTime);
+    }
+    document.getElementById('popoutEventCreated').textContent = timeDisplay;
     
     // Position the popout near the clicked element
     const popout = document.getElementById('eventPopout');
@@ -1235,30 +1691,94 @@ function showEventNote(element) {
     }, 100);
 }
 
-function closeEventPopout() {
+function closeEventPopout(clearData = true) {
     const popout = document.getElementById('eventPopout');
     popout.style.display = 'none';
     popout.style.opacity = '0';
-    currentEventData = null;
+    if (clearData) {
+        currentEventData = null;
+    }
     document.removeEventListener('click', closePopoutOnOutsideClick);
 }
 
 function closePopoutOnOutsideClick(event) {
     const popout = document.getElementById('eventPopout');
+    // Don't close if clicking on edit or delete buttons
+    if (event.target.closest('.btn-edit-event') || event.target.closest('.btn-delete-event')) {
+        return;
+    }
     if (!popout.contains(event.target) && !event.target.closest('.event-header')) {
-        closeEventPopout();
+        closeEventPopout(true);
     }
 }
 
 function editCurrentEvent() {
+    console.log('Edit button clicked', currentEventData);
     if (currentEventData) {
-        closeEventPopout();
+        const dataToEdit = {...currentEventData}; // Clone the data
+        closeEventPopout(false); // Don't clear data yet
         // Use the add event popout for editing
-        showEditEventPopout(currentEventData);
+        showEditEventPopout(dataToEdit);
+    } else {
+        console.error('No current event data available');
+        alert('Error: No event data available for editing');
+    }
+}
+
+async function deleteCurrentEvent() {
+    console.log('Delete button clicked', currentEventData);
+    if (!currentEventData || !currentEventData.id) {
+        console.error('No event ID available', currentEventData);
+        alert('Error: No event data available for deletion');
+        return;
+    }
+    
+    if (!confirm('Are you sure you want to delete this event?')) {
+        return;
+    }
+    
+    const eventToDelete = {...currentEventData}; // Clone the data before closing
+    console.log('Deleting event with ID:', eventToDelete.id);
+    
+    try {
+        const url = `{% url 'sams:event_delete' 0 %}`.replace('0', eventToDelete.id);
+        console.log('Delete URL:', url);
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        });
+        
+        const result = await response.json();
+        console.log('Delete result:', result);
+        
+        if (result.success) {
+            // Remove the event from the DOM
+            if (eventToDelete.element) {
+                const eventItem = eventToDelete.element.closest('.event-item');
+                if (eventItem) {
+                    eventItem.style.transition = 'opacity 0.3s ease';
+                    eventItem.style.opacity = '0';
+                    setTimeout(() => {
+                        eventItem.remove();
+                        console.log('Event removed from DOM');
+                    }, 300);
+                }
+            }
+            closeEventPopout(true); // Now clear the data
+        } else {
+            alert('Error deleting event. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error deleting event: ' + error.message);
     }
 }
 
 function showEditEventPopout(eventData) {
+    console.log('showEditEventPopout called with:', eventData);
     // Close any other popouts first
     closeEventPopout();
     closeAddEventPopout();
@@ -1267,14 +1787,18 @@ function showEditEventPopout(eventData) {
     currentEventId = eventData.id;
     currentEventData = eventData;
     
+    console.log('Setting form values...');
     document.getElementById('addEventModeTitle').textContent = 'Edit Event';
     document.getElementById('addEventDate').value = eventData.date || new Date().toISOString().split('T')[0];
-    document.getElementById('addEventTitle').value = eventData.title;
-    document.getElementById('addEventDescription').value = eventData.description;
+    document.getElementById('addEventTitle').value = eventData.title || '';
+    document.getElementById('addEventDescription').value = eventData.description || '';
+    document.getElementById('addEventStartTime').value = eventData.startTime || '';
+    document.getElementById('addEventEndTime').value = eventData.endTime || '';
     document.getElementById('addEventId').value = eventData.id;
     document.getElementById('addEventDeleteBtn').style.display = 'inline-block';
     document.getElementById('addEventSaveBtnText').textContent = 'Update';
     
+    console.log('Form populated, showing popout...');
     // Position in center of screen for editing
     const popout = document.getElementById('addEventPopout');
     const arrow = popout.querySelector('.popout-arrow');
@@ -1294,6 +1818,7 @@ function showEditEventPopout(eventData) {
     setTimeout(() => {
         popout.style.opacity = '1';
         document.getElementById('addEventTitle').focus();
+        console.log('Edit popout should now be visible');
     }, 10);
     
     // Close popout when clicking elsewhere
@@ -1341,6 +1866,8 @@ async function saveEventFromPopout() {
     const title = document.getElementById('addEventTitle').value.trim();
     const description = document.getElementById('addEventDescription').value.trim();
     const date = document.getElementById('addEventDate').value;
+    const startTime = document.getElementById('addEventStartTime').value;
+    const endTime = document.getElementById('addEventEndTime').value;
     
     if (!title) {
         alert('Please enter a title for the event.');
@@ -1351,7 +1878,9 @@ async function saveEventFromPopout() {
     const data = {
         title: title,
         description: description,
-        date: date
+        date: date,
+        start_time: startTime || null,
+        end_time: endTime || null
     };
     
     try {
@@ -1377,8 +1906,15 @@ async function saveEventFromPopout() {
         
         if (result.success) {
             closeAddEventPopout();
-            // Refresh the page to show updated events
-            window.location.reload();
+            
+            // Add or update the event in the DOM dynamically
+            if (currentEventId) {
+                // Update existing event
+                updateEventInDOM(result.event);
+            } else {
+                // Add new event to the calendar
+                addEventToDOM(result.event);
+            }
         } else {
             alert('Error saving event. Please try again.');
         }
@@ -1388,15 +1924,118 @@ async function saveEventFromPopout() {
     }
 }
 
+function addEventToDOM(event) {
+    // Find the events container for this date
+    const containerId = `events-${event.date}`;
+    const container = document.getElementById(containerId);
+    
+    if (!container) {
+        console.error('Container not found for date:', event.date);
+        return;
+    }
+    
+    // Create the event element
+    const eventDiv = document.createElement('div');
+    eventDiv.className = 'event-item mb-1';
+    eventDiv.setAttribute('data-event-id', event.id);
+    
+    const conflictClass = event.has_conflict ? 'bg-danger conflict-event' : 'bg-info';
+    const conflictIcon = event.has_conflict ? '<i class="fas fa-exclamation-triangle me-1"></i>' : '';
+    
+    let timeDisplay = 'All Day';
+    if (event.start_time && event.end_time) {
+        timeDisplay = `${formatTime(event.start_time)} - ${formatTime(event.end_time)}`;
+    } else if (event.start_time) {
+        timeDisplay = formatTime(event.start_time);
+    }
+    
+    eventDiv.innerHTML = `
+        <div class="event-header ${conflictClass} text-white rounded p-1 cursor-pointer" 
+             data-title="${event.title}" 
+             data-description="${event.description || ''}"
+             data-owner="${event.owner}"
+             data-date="${event.date}"
+             data-created="${event.created_at}"
+             data-start-time="${event.start_time || ''}"
+             data-end-time="${event.end_time || ''}"
+             data-has-conflict="${event.has_conflict}"
+             data-event-id="${event.id}"
+             onclick="showEventNote(this)">
+            <div class="fw-bold event-title">
+                ${conflictIcon}${event.title.length > 15 ? event.title.substring(0, 12) + '...' : event.title}
+            </div>
+            <div class="event-time small opacity-75">
+                ${timeDisplay}
+            </div>
+        </div>
+    `;
+    
+    // Add to container with animation
+    eventDiv.style.opacity = '0';
+    container.appendChild(eventDiv);
+    setTimeout(() => {
+        eventDiv.style.transition = 'opacity 0.3s ease';
+        eventDiv.style.opacity = '1';
+    }, 10);
+}
+
+function updateEventInDOM(event) {
+    // Find the existing event element
+    const eventItems = document.querySelectorAll(`.event-item[data-event-id="${event.id}"]`);
+    
+    eventItems.forEach(eventItem => {
+        const eventHeader = eventItem.querySelector('.event-header');
+        if (!eventHeader) return;
+        
+        // Update classes for conflict status
+        const conflictClass = event.has_conflict ? 'bg-danger conflict-event' : 'bg-info';
+        eventHeader.className = `event-header ${conflictClass} text-white rounded p-1 cursor-pointer`;
+        
+        // Update data attributes
+        eventHeader.setAttribute('data-title', event.title);
+        eventHeader.setAttribute('data-description', event.description || '');
+        eventHeader.setAttribute('data-start-time', event.start_time || '');
+        eventHeader.setAttribute('data-end-time', event.end_time || '');
+        eventHeader.setAttribute('data-has-conflict', event.has_conflict);
+        
+        // Update display content
+        const conflictIcon = event.has_conflict ? '<i class="fas fa-exclamation-triangle me-1"></i>' : '';
+        let timeDisplay = 'All Day';
+        if (event.start_time && event.end_time) {
+            timeDisplay = `${formatTime(event.start_time)} - ${formatTime(event.end_time)}`;
+        } else if (event.start_time) {
+            timeDisplay = formatTime(event.start_time);
+        }
+        
+        eventHeader.innerHTML = `
+            <div class="fw-bold event-title">
+                ${conflictIcon}${event.title.length > 15 ? event.title.substring(0, 12) + '...' : event.title}
+            </div>
+            <div class="event-time small opacity-75">
+                ${timeDisplay}
+            </div>
+        `;
+    });
+}
+
 async function deleteEventFromPopout() {
-    if (!currentEventId) return;
+    console.log('deleteEventFromPopout called', currentEventId, currentEventData);
+    if (!currentEventId && (!currentEventData || !currentEventData.id)) {
+        console.error('No event ID available');
+        alert('Error: No event data available for deletion');
+        return;
+    }
     
     if (!confirm('Are you sure you want to delete this event?')) {
         return;
     }
     
+    const eventId = currentEventId || currentEventData.id;
+    console.log('Deleting event with ID:', eventId);
+    
     try {
-        const url = `{% url 'sams:event_delete' 0 %}`.replace('0', currentEventId);
+        const url = `{% url 'sams:event_delete' 0 %}`.replace('0', eventId);
+        console.log('Delete URL:', url);
         const response = await fetch(url, {
             method: 'DELETE',
             headers: {
@@ -1406,17 +2045,28 @@ async function deleteEventFromPopout() {
         });
         
         const result = await response.json();
+        console.log('Delete result:', result);
         
         if (result.success) {
+            // Remove the event from the DOM
+            if (currentEventData && currentEventData.element) {
+                const eventItem = currentEventData.element.closest('.event-item');
+                if (eventItem) {
+                    eventItem.style.transition = 'opacity 0.3s ease';
+                    eventItem.style.opacity = '0';
+                    setTimeout(() => {
+                        eventItem.remove();
+                        console.log('Event removed from DOM');
+                    }, 300);
+                }
+            }
             closeAddEventPopout();
-            // Refresh the page to show updated events
-            window.location.reload();
         } else {
             alert('Error deleting event. Please try again.');
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Error deleting event. Please try again.');
+        alert('Error deleting event: ' + error.message);
     }
 }
 
@@ -1449,5 +2099,37 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+// Set up event listeners when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, setting up button listeners...');
+    
+    // Use event delegation since the buttons are in a popout
+    document.addEventListener('click', function(e) {
+        // Check if click is on edit button or its children
+        const editBtn = e.target.closest('.btn-edit-event');
+        if (editBtn) {
+            console.log('Edit button clicked via event delegation');
+            console.log('Current event data:', currentEventData);
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            editCurrentEvent();
+            return false;
+        }
+        
+        // Check if click is on delete button or its children
+        const deleteBtn = e.target.closest('.btn-delete-event');
+        if (deleteBtn) {
+            console.log('Delete button clicked via event delegation');
+            console.log('Current event data:', currentEventData);
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            deleteCurrentEvent();
+            return false;
+        }
+    }, true); // Use capture phase
+});
 </script>
 {% endblock %}

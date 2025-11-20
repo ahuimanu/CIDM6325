@@ -125,6 +125,10 @@ class CalendarView(TemplateView):
         next_month = month + 1 if month < 12 else 1
         next_year = year if month < 12 else year + 1
         
+        # Get announcements (latest 5)
+        from .models import Announcement
+        announcements = Announcement.objects.all().prefetch_related('comments')[:10]
+        
         context.update({
             'year': year,
             'month': month,
@@ -136,6 +140,7 @@ class CalendarView(TemplateView):
             'prev_year': prev_year,
             'next_month': next_month,
             'next_year': next_year,
+            'announcements': announcements,
         })
         return context
 
@@ -144,7 +149,7 @@ class CalendarView(TemplateView):
 class EventCreateView(LoginRequiredMixin, CreateView):
     """Create a new team event with AJAX support."""
     model = TeamEvent
-    fields = ['title', 'description', 'date']
+    fields = ['title', 'description', 'date', 'start_time', 'end_time']
     
     def post(self, request, *args, **kwargs):
         if request.content_type == 'application/json':
@@ -155,10 +160,35 @@ class EventCreateView(LoginRequiredMixin, CreateView):
             else:
                 date_obj = date_str
             
+            # Parse time fields if provided
+            start_time = data.get('start_time')
+            end_time = data.get('end_time')
+            
+            # Convert empty strings to None, parse time strings
+            if start_time == '' or start_time is None:
+                start_time = None
+            elif isinstance(start_time, str):
+                # Parse time string "HH:MM" to time object
+                try:
+                    start_time = datetime.datetime.strptime(start_time, '%H:%M').time()
+                except ValueError:
+                    start_time = None
+            
+            if end_time == '' or end_time is None:
+                end_time = None
+            elif isinstance(end_time, str):
+                # Parse time string "HH:MM" to time object
+                try:
+                    end_time = datetime.datetime.strptime(end_time, '%H:%M').time()
+                except ValueError:
+                    end_time = None
+            
             event = TeamEvent.objects.create(
                 title=data.get('title', ''),
                 description=data.get('description', ''),
                 date=date_obj,
+                start_time=start_time,
+                end_time=end_time,
                 owner=request.user
             )
             return JsonResponse({
@@ -168,7 +198,11 @@ class EventCreateView(LoginRequiredMixin, CreateView):
                     'title': event.title,
                     'description': event.description,
                     'date': event.date.isoformat(),
-                    'owner': event.owner.username
+                    'start_time': event.start_time.strftime('%H:%M') if event.start_time else '',
+                    'end_time': event.end_time.strftime('%H:%M') if event.end_time else '',
+                    'owner': event.owner.username,
+                    'created_at': event.created_at.strftime('%b %d, %Y %I:%M %p'),
+                    'has_conflict': event.has_time_conflict()
                 }
             })
         else:
@@ -186,7 +220,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
 class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """Update an existing team event with AJAX support."""
     model = TeamEvent
-    fields = ['title', 'description', 'date']
+    fields = ['title', 'description', 'date', 'start_time', 'end_time']
     
     def test_func(self):
         # Allow all authenticated users to edit any event per requirement
@@ -204,6 +238,32 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 self.object.date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
             else:
                 self.object.date = date_str
+            
+            # Update time fields
+            start_time = data.get('start_time')
+            end_time = data.get('end_time')
+            
+            # Convert empty strings to None, parse time strings
+            if start_time == '' or start_time is None:
+                start_time = None
+            elif isinstance(start_time, str):
+                # Parse time string "HH:MM" to time object
+                try:
+                    start_time = datetime.datetime.strptime(start_time, '%H:%M').time()
+                except ValueError:
+                    start_time = None
+            
+            if end_time == '' or end_time is None:
+                end_time = None
+            elif isinstance(end_time, str):
+                # Parse time string "HH:MM" to time object
+                try:
+                    end_time = datetime.datetime.strptime(end_time, '%H:%M').time()
+                except ValueError:
+                    end_time = None
+                
+            self.object.start_time = start_time
+            self.object.end_time = end_time
                 
             self.object.save()
             return JsonResponse({
@@ -213,7 +273,11 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                     'title': self.object.title,
                     'description': self.object.description,
                     'date': self.object.date.isoformat(),
-                    'owner': self.object.owner.username
+                    'start_time': self.object.start_time.strftime('%H:%M') if self.object.start_time else '',
+                    'end_time': self.object.end_time.strftime('%H:%M') if self.object.end_time else '',
+                    'owner': self.object.owner.username,
+                    'created_at': self.object.created_at.strftime('%b %d, %Y %I:%M %p'),
+                    'has_conflict': self.object.has_time_conflict()
                 }
             })
         else:
@@ -242,3 +306,32 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     
     def get_success_url(self):
         return reverse_lazy('sams:calendar')
+
+
+# Blog/Announcement Views (Public - no authentication required)
+def blog_create(request):
+    """Create a new blog post (public)."""
+    if request.method == 'POST':
+        from .models import Announcement
+        Announcement.objects.create(
+            title=request.POST.get('title', 'Untitled'),
+            content=request.POST.get('content', ''),
+            author_name=request.POST.get('author_name', 'Anonymous')
+        )
+    return redirect('sams:calendar')
+
+
+def comment_create(request, announcement_id):
+    """Add a comment to a blog post (public)."""
+    if request.method == 'POST':
+        from .models import Announcement, Comment
+        try:
+            announcement = Announcement.objects.get(id=announcement_id)
+            Comment.objects.create(
+                announcement=announcement,
+                author_name=request.POST.get('author_name', 'Anonymous'),
+                content=request.POST.get('content', '')
+            )
+        except Announcement.DoesNotExist:
+            pass
+    return redirect('sams:calendar')
