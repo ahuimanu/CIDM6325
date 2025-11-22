@@ -77,6 +77,7 @@ Total Coverage: **79%**
 - `logistics_app.admin.py`: 88%
 
 Detailed breakdown available via `htmlcov/index.html` (not committed).
+[Local test](![alt text](./doc/image.png))
 
 ---
 
@@ -129,10 +130,11 @@ python manage.py runserver
 
 ## 🔹 Related Files
 
-* `AI_LOG.md` — Prompt iterations and generation notes
-* `ETHICS.md` — Reflection on accessibility, security, and responsible AI use
+* `AI_LOG.md` — Prompt iterations and generation notes [link AI_LOG.md](./doc/AI_LOG.MD)
+* `ETHICS.md` — Reflection on accessibility, security, and responsible AI use [ETHICS Md link](./doc/ETHICS.md)
 * `requirements.txt` — Pinned dependencies
 
+* [DEPLOYMENT.md – Future Hosting Strategy](./doc/DEPLOYMENT.md)
 ---
 
 ##  Rubric Completion Summary
