@@ -2,6 +2,8 @@
 
 **Author:** Mafruha Chowdhury
 **Course:** CIDM 6325 – Electronic Commerce (Fall 2025)
+------
+
 **Submission Branch:** `FinalProject/feature/final-delivery-app`
 **Live Site URL:** *[Insert your deployed URL]*
 **Admin Credentials:** *[Insert username/password]*
@@ -101,7 +103,21 @@ Key architectural elements include:
 
 * **Documentation Integration:** The project includes structured documentation files (README, AI_LOG, ETHICS) to support transparency, reproducibility, and submission completeness.
 
-This architecture ensures a stable, scalable, and secure foundation for the logistics application and satisfies the expectations of a graduate-level Django project.
+      This architecture ensures a stable, scalable, and secure foundation for the logistics application and satisfies the expectations of a graduate-level Django project.
+
+* **Session Management** The application uses Django’s session framework as a core part of its security and workflow architecture. Session data governs authenticated state, permissions, and view access across the entire logistics application. Specifically, sessions support:
+
+   * **Authentication persistence** across all protected routes
+   * **Conditional UI rendering** based on `request.user` identity
+   * **Permission enforcement** for Order and Customer CRUD views
+   * **CSRF-protected form submissions**, tied directly to session identity
+   * **HTMX interactions** that require a valid session and CSRF token
+   * **Django Admin authorization**, including group-based permission checks
+
+   These session mechanics ensure consistent, secure behavior in both development and production deployments.
+   Full session behavior and verification steps are documented in the **TESTING.md** file.
+-------
+
 
 ## Baseline Features (70 percent)
 
@@ -306,8 +322,9 @@ This section provides a consolidated summary of all required deliverables for th
 
 ### **Submission Deliverables**
 
-* **Live Application URL:** *[Insert deployed URL]*
-* **Admin Login Credentials:** *[Insert username and password]*
+* **Live Application URL: [https://mafruhac.pythonanywhere.com/](https://mafruhac.pythonanywhere.com/)
+* **Admin Login Credentials: Username: professor_babb
+  Pass: <your professor password here>
 * **GitHub Repository Link:** [https://github.com/Mafruha17/CIDM6325/tree/main/FinalProject/](https://github.com/Mafruha17/CIDM6325/tree/main/FinalProject/)
 * **ZIP Archive:** Full project directory compressed and uploaded to Canvas.
 * **FinalProject README:** Complete documentation including rubric mapping, architecture, and instructions.
@@ -325,9 +342,47 @@ This section provides a consolidated summary of all required deliverables for th
 | Deployment | Site live with admin credentials    | ✔ Yes    |
 | Submission | PR + ZIP + Canvas checklist met     | ✔ Yes    |
 
-### **Notes**
+### **Notes for Professor**
 
 This Final Project integrates all major components developed throughout CIDM 6325 and enhances them with production-oriented deployment, security hardening, Docker support, and full documentation readiness.
+
+## Application Validation & Smoke Testing Summary
+
+### Core Functional Workflows Verified
+
+* Successful login using `professor_babb` account.
+* Creation, editing, and deletion of **Customers**.
+* Creation, editing, and deletion of **Orders** linked to Customers.
+* Receipt file upload rendering correctly via MEDIA settings.
+* Mock ETA values displayed consistently.
+* Navigation across all menu items (`Orders`, `Create Order`, `Create Customer`, `Predict ETA`, `Admin`).
+
+### Admin Panel Verification
+
+* Access to Django Admin using superuser credentials.
+* Group creation and permission assignments validated.
+* User management verified, including search, filters, and status indicators.
+
+### Deployment-Level Testing (PythonAnywhere)
+
+* Static files served correctly using `STATIC_ROOT`.
+* Media files accessible through configured `MEDIA_ROOT`.
+* Allowed hosts validation successful.
+* Full CRUD workflows behave identically to local environment.
+
+### Smoke Test Checklist
+
+* [x] Homepage loads without error
+* [x] Orders list loads with existing records
+* [x] Creating a new Customer works
+* [x] Creating an Order linked to a Customer works
+* [x] Uploading and previewing receipts works
+* [x] Editing and deleting records works
+* [x] Admin login/authentication works
+* [x] Session cookies operate as expected
+* [x] Static and media serving verified on production
+
+---
 
 ## Executive Overview
 
