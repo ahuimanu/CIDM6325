@@ -5,26 +5,55 @@
 ------
 
 **Submission Branch:** `FinalProject/feature/final-delivery-app`
-**Live Site URL:** *[Insert your deployed URL]*
-**Admin Credentials:** *[Insert username/password]*
-**GitHub Repo:** [https://github.com/Mafruha17/CIDM6325/tree/main/FinalProject/](https://github.com/Mafruha17/CIDM6325/tree/main/FinalProject/)
+**Live Site URL:** *[https://mafruhac.pythonanywhere.com](https://mafruhac.pythonanywhere.com)*
+**Admin Credentials:** *[Will email]*
+**GitHub Repo:** [https://github.com/Mafruha17/CIDM6325/tree/main/FinalProject/](https://github.com/Mafruha17/CIDM6325/tree/FinalProject/feature/final-delivery-app/FinalProject)
 
 
 ## Table of Contents
 
 1. [Project Overview](#project-overview)
 2. [Architecture Summary](#architecture-summary)
-3. [Technology Stack](#technology-stack)
-4. [Project Folder Structure](#project-folder-structure)
-5. [Baseline Features (70 percent)](#baseline-features-70-percent)
-6. [Good Features](#good-features)
-7. [Better Features](#better-features)
-8. [Best Feature](#best-feature)
-9. [Screenshots](#screenshots)
-10. [Running the Application](#running-the-application)
-11. [Deployment Guide](#deployment-guide)
-12. [Submission Summary](#submission-summary)
-13. [Executive Overview](#executive-overview)
+3. [ProjectSub Readmes](#projects-sub-readme-links)
+4. [Supporting Documentation](#final-project-supporting-documentation-supplemental)
+5. [Technology Stack](#technology-stack)
+6. [Project Folder Structure](#project-folder-structure)
+7. [Baseline Features (70 percent)](#baseline-features-70-percent)
+8. [Good Features](#good-features)
+9. [Better Features](#better-features)
+10. [Best Feature](#best-feature)
+11. [Screenshots](#screenshots)
+12. [Running the Application](#running-the-application)
+13. [Deployment Guide](#deployment-guide)
+14. [Submission Summary](#submission-summary)
+15. [Executive Overview](#executive-overview)
+
+## Project's sub readme links
+* [AI_LOG.MD](./doc/AI_LOG.MD)
+* [ETHICS.MD](./doc/ETHICS.md)
+* [Project.toml](/pyproject.toml)
+* [Test.MD](./TESTING.MD)
+
+------
+
+## Final Project Supporting Documentation (Supplemental)
+
+Additional detailed explanations of administrative customization, authentication logic, file handling, functional vs. non-functional architecture, and extended discussion are included in the supplemental documentation. This file provides deeper context for implementation choices and supports technical traceability across the project.
+
+📄 **Document:** [Supporting_Documentation.md](./doc/Module5Readme.MD)
+
+Contents include:
+
+* Django Admin customization and role configuration
+* Session-backed authentication and permission workflows
+* File upload logic and media preview behavior
+* Functional vs. non-functional architecture overview
+* Peer review notes and validation screenshots
+
+This supplemental documentation serves as a technical appendix supporting the Final Project deliverables.
+
+------------------
+
 
 ## Technology Stack
 
@@ -202,30 +231,41 @@ These measures create a solid foundation for hosting the application in producti
 
 The Final Project includes key visual evidence demonstrating full application functionality. These screenshots validate CRUD workflows, authentication, permissions, and administrative operations. All figures should be placed under a `docs/` or `media/` directory within the FinalProject folder.
 
-### **Screenshots to Include**
+### **Screenshots to Include** 
+
+* For more Screenshots [View Doc](./doc/Module5Readme.MD)
 
 1. **Submitted Orders Table**
    Displays the Order list with Bootstrap formatting, receipt preview column, and dynamic updates.
-
+   [View](./doc/finalPorjectImages/Submitted_Orders_Table.png)
+   
 2. **Create Order Form**
    Shows form fields, validation behavior, and the file upload element.
+   [View](./doc/module5uiImages/CustomerAdmin_WTAMU_S_canlogn_And_takeAcontion_BasedOnPermission.png)
 
 3. **Order Update and Delete Views**
    Demonstrates Class-Based Views, consistent template inheritance, and form behavior.
+   [View](./doc/finalPorjectImages/Order_CRUD.png)
 
 4. **Image Upload Preview (Admin)**
    Validates thumbnail rendering, secure file handling, and preview logic.
+   [View](./doc/finalPorjectImages/Preview_Admin.png)
 
 5. **Login Page**
    Proof of Django authentication, session initialization, and access control.
+   [View](./doc/module5uiImages/Loginworks_Crud.png)
 
 6. **Group Permissions View (Admin)**
    Shows assigned groups (CustomerAdmin, DataAdmin) and their permission structure.
+   [View](./doc/module5uiImages/CreattingUserGroupsAndPermission.png)
 
 7. **Admin Dashboard**
    Displays search, filters, ordering, and the custom "Mark as Delivered" action.
+   [View](./doc/module5uiImages/StaticFileUPloade_CustomerOrder.png)
 
+*All the screenshots can be verified [https://mafruhac.pythonanywhere.com/](https://mafruhac.pythonanywhere.com/)
 These screenshots collectively demonstrate compliance with Baseline, Good, and Better rubric features.
+
 
 ## Running the Application
 
@@ -324,8 +364,8 @@ This section provides a consolidated summary of all required deliverables for th
 
 * **Live Application URL: [https://mafruhac.pythonanywhere.com/](https://mafruhac.pythonanywhere.com/)
 * **Admin Login Credentials: Username: professor_babb
-  Pass: <your professor password here>
-* **GitHub Repository Link:** [https://github.com/Mafruha17/CIDM6325/tree/main/FinalProject/](https://github.com/Mafruha17/CIDM6325/tree/main/FinalProject/)
+  Pass: Password will be provided by email.
+* **GitHub Repository Link:** [https://github.com/Mafruha17/CIDM6325/tree/main/FinalProject/](https://github.com/Mafruha17/CIDM6325/tree/FinalProject/feature/final-delivery-app/FinalProject)
 * **ZIP Archive:** Full project directory compressed and uploaded to Canvas.
 * **FinalProject README:** Complete documentation including rubric mapping, architecture, and instructions.
 * **AI_LOG.md:** Documenting prompt interactions and development support.
@@ -342,7 +382,7 @@ This section provides a consolidated summary of all required deliverables for th
 | Deployment | Site live with admin credentials    | ✔ Yes    |
 | Submission | PR + ZIP + Canvas checklist met     | ✔ Yes    |
 
-### **Notes for Professor**
+### **Notes**
 
 This Final Project integrates all major components developed throughout CIDM 6325 and enhances them with production-oriented deployment, security hardening, Docker support, and full documentation readiness.
 

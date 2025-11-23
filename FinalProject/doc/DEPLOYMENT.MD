@@ -3,7 +3,7 @@
 **Author:** Mafruha Chowdhury
 **Course:** CIDM 6325 – Electronic Commerce (Fall 2025)
 **Submission Branch:** `FinalProject/feature/final-delivery-app`
-**GitHub Repo:** [CIDM6325 FinalProject](https://github.com/Mafruha17/CIDM6325/tree/main/FinalProject/)
+**GitHub Repo:** [CIDM6325 FinalProject](https://github.com/Mafruha17/CIDM6325/tree/FinalProject/feature/final-delivery-app/FinalProject)
 
 ---
 
