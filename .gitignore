@@ -58,3 +58,6 @@ coverage.xml
 *.tmp
 debug.log
 .history
+
+**/.docker/
+**/.venv/

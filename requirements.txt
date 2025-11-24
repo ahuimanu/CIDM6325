@@ -35,3 +35,5 @@ crispy-bootstrap5==0.7
 # Optional testing utilities (recommended for test_views_cbv.py)
 pytest-django==4.7.0
 
+gunicorn>=21.2.0
+

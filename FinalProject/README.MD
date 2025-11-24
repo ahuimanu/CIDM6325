@@ -4,11 +4,15 @@
 **Course:** CIDM 6325 – Electronic Commerce (Fall 2025)
 ------
 
-**Submission Branch:** `FinalProject/feature/final-delivery-app`
-**Live Site URL:** *[https://mafruhac.pythonanywhere.com](https://mafruhac.pythonanywhere.com)*
-**Admin Credentials:** *[Will email]*
-**GitHub Repo:** [https://github.com/Mafruha17/CIDM6325/tree/main/FinalProject/](https://github.com/Mafruha17/CIDM6325/tree/FinalProject/feature/final-delivery-app/FinalProject)
+- **Submission Branch:** `FinalProject/feature/final-delivery-app`
 
+- **Live Site URL:** *[https://mafruhac.pythonanywhere.com](https://mafruhac.pythonanywhere.com)*
+
+- **Admin Credentials:** *[Will email]*
+
+- **GitHub Repo:** [https://github.com/Mafruha17/CIDM6325/tree/main/FinalProject/](https://github.com/Mafruha17/CIDM6325/tree/FinalProject/feature/final-delivery-app/FinalProject)
+
+- **PR Document | Final Project Submission** [PR Document | Final Project Submission](FinalProject_Submission.md)
 
 ## Table of Contents
 
@@ -32,7 +36,7 @@
 * [AI_LOG.MD](./doc/AI_LOG.MD)
 * [ETHICS.MD](./doc/ETHICS.md)
 * [Project.toml](/pyproject.toml)
-* [Test.MD](./TESTING.MD)
+* [Testing | Funtion | Smoke.MD](./TESTING.MD)
 
 ------
 
@@ -171,19 +175,19 @@ These capabilities collectively fulfill the full 70 percent baseline requirement
 The Final Project implements and strengthens all Good-level rubric features. Each item below reflects the finalized implementation as included in the **FinalProject** directory.
 
 1. **Named URLs and URL Reversing**
-   The Final Project implements `{% url %}` tags and Django reverse lookups consistently across templates. URL patterns are structured under the FinalProject folder using clear, descriptive names to enhance readability and maintainability.
+   The Final Project implements **`{% url %}`** tags and Django reverse lookups consistently across templates. URL patterns are structured under the FinalProject folder using clear, descriptive names to enhance readability and maintainability.
 
 2. **Class-Based Views for CRUD Operations**
-   The Final Project uses Class-Based Views (`ListView`, `CreateView`, `UpdateView`, `DeleteView`) across Order and Customer workflows. These views are organized under the FinalProject architecture for clarity, deployment stability, and scalability.
+   The Final Project uses Class-Based Views **(`ListView`, `CreateView`, `UpdateView`, `DeleteView`)** across Order and Customer workflows. These views are organized under the FinalProject architecture for clarity, deployment stability, and scalability.
 
 3. **Template Inheritance Using Base Layout**
-   Templates use a unified `base.html` structure, applying Bootstrap for layout and styling. Common components are shared across all templates using `{% block %}` and `{% include %}` for consistency and reuse.
+   Templates use a unified **`base.html`**  structure, applying Bootstrap for layout and styling. Common components are shared across all templates using **`{% block %}`** and **`{% include %}`** for consistency and reuse.
 
 4. **HTMX Integration for Dynamic UI Updates**
-   HTMX is used inside the FinalProject to streamline dynamic interactions, partial page refreshes, and inline updates. All HTMX endpoints are aligned with the FinalProject's routing structure.
+   HTMX is used inside the FinalProject to **streamline dynamic interactions, partial page refreshes, and inline updates.** All HTMX endpoints are aligned with the FinalProject's routing structure.
 
 5. **Admin Filters, Search, and Bulk Actions**
-   The Final Project includes enhanced Django Admin functionality: search fields, list filters, ordering, and custom actions such as "Mark as Delivered." These features improve administrative workflows and operational visibility.
+   The Final Project includes enhanced Django Admin functionality: search fields, list filters, ordering, and custom actions such as "Mark as Delivered." These features improve **administrative workflows and operational visibility.**
 
 6. **File and Image Uploads with Preview**
    The application supports file uploads via `ImageField` with conditional preview rendering in both admin and user forms. Upload paths are configured to be fully compatible with Docker volumes and production environments.
@@ -263,7 +267,7 @@ The Final Project includes key visual evidence demonstrating full application fu
    Displays search, filters, ordering, and the custom "Mark as Delivered" action.
    [View](./doc/module5uiImages/StaticFileUPloade_CustomerOrder.png)
 
-*All the screenshots can be verified [https://mafruhac.pythonanywhere.com/](https://mafruhac.pythonanywhere.com/)
+**All the screenshots** can be verified [https://mafruhac.pythonanywhere.com/](https://mafruhac.pythonanywhere.com/)
 These screenshots collectively demonstrate compliance with Baseline, Good, and Better rubric features.
 
 
