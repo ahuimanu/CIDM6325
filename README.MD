@@ -6,7 +6,7 @@
 
 ---
 
-This module continues directly from the work completed in [Module 4 – Class-Based Views and Application Architecture](https://github.com/Mafruha17/CIDM6325/blob/Module4Assignment/README.md).
+This module continues directly from the work completed in [Module 4 – Class-Based Views and Application Architecture](https://github.com/Mafruha17/CIDM6325/tree/Module4Assignment/Module_4_Assignment#readme).
 
 ## Table of Contents
 
