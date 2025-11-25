@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Logged Out - TravelMathLite{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h1>Logged Out</h1>
+    <p class="lead">You have been successfully logged out.</p>
+    <p><a href="{% url 'accounts:login' %}" class="btn btn-primary">Log in again</a></p>
+    <p><a href="{% url 'base:index' %}" class="btn btn-link">Go to home page</a></p>
+  </div>
+</div>
+{% endblock %}

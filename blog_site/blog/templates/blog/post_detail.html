@@ -1,6 +1,20 @@
 {% extends "blog/base.html" %}
 {% load markdown_extras %}
 
+{% block meta %}
+  {% with canonical=request.scheme|add:"://"|add:request.get_host|add:post.get_absolute_url %}
+    <link rel="canonical" href="{{ canonical }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ post.title }}" />
+    <meta property="og:url" content="{{ canonical }}" />
+    <meta property="og:site_name" content="My Blog" />
+    <meta property="og:description" content="{{ post.body|striptags|truncatechars:160 }}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="{{ post.title }}" />
+    <meta name="twitter:description" content="{{ post.body|striptags|truncatechars:160 }}" />
+  {% endwith %}
+{% endblock meta %}
+
 {% block content %}
 <div class="container mt-4">
   <div class="card">

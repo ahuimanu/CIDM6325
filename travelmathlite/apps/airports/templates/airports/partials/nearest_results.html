@@ -1,0 +1,19 @@
+{% if results %}
+  <h2>Results ({{ unit }})</h2>
+  <ol>
+    {% for a in results %}
+      <li>
+        <strong>{{ a.name }}</strong> ({{ a.iata_code|default:a.ident }}) —
+        {% if unit == 'mi' %}
+          {{ a.distance_mi|floatformat:1 }} mi
+        {% else %}
+          {{ a.distance_km|floatformat:1 }} km
+        {% endif %}
+        <br>
+        <small>{{ a.municipality }}{% if a.iso_country %}, {{ a.iso_country }}{% endif %}</small>
+      </li>
+    {% endfor %}
+  </ol>
+{% else %}
+  <p>No results found. Try a different query.</p>
+{% endif %}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}travelmathlite{% endblock %}</title>
+    {% block canonical %}{% endblock %}
+    {% load static %}
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- HTMX for progressive enhancement -->
+    <script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'base:index' %}">TravelMathLite</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'base:index' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'calculators:index' %}">Calculators</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'airports:index' %}">Airports</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'airports:nearest' %}">Nearest</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'accounts:index' %}">Accounts</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'trips:index' %}">Trips</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'trips:saved_list' %}">Saved Calculations</a>
+              </li>
+              <li class="nav-item">
+                <span class="nav-link">Welcome, {{ user.username }}</span>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:signup' %}">Sign Up</a>
+              </li>
+            {% endif %}
+          </ul>
+          <form class="d-flex" role="search" method="get" action="{% url 'search:index' %}">
+            <input class="form-control me-2" type="search" name="q" placeholder="Search airports or cities" aria-label="Search" value="{{ request.GET.q }}">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <main class="container my-4">
+      {% block content %}{% endblock %}
+    </main>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+      // HTMX focus management for accessibility (ADR-1.0.5)
+      document.body.addEventListener('htmx:afterSwap', function(evt) {
+        // Focus result containers after HTMX swaps for screen reader announcement
+        if (evt.detail.target && evt.detail.target.hasAttribute('tabindex')) {
+          evt.detail.target.focus();
+        }
+      });
+    </script>
+  </body>
+</html>

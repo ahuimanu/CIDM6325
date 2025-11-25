@@ -1,0 +1,20 @@
+[project]
+name = "travelmathlite"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = ["django>=5.2.7", "whitenoise>=6.5.0", "Pillow>=10.0.0"]
+
+[dependency-groups]
+dev = ["django-debug-toolbar>=6.1.0"]
+
+[tool.ruff]
+# Keep formatting/linting strict but practical for generated code.
+line-length = 140
+target-version = "py312"
+extend-exclude = ["apps/**/migrations/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = []

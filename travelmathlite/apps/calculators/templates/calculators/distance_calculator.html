@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Distance Calculator{% endblock %}
+{% block content %}
+  <h1>Distance Calculator</h1>
+    <form id="distance-form" method="post" action="{% url 'calculators:distance' %}"
+      hx-post="{% url 'calculators:distance-partial' %}"
+        hx-target="#distance-results"
+        hx-swap="outerHTML show:top">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+      <label for="id_origin">Origin</label>
+      {{ form.origin }}
+      {% if form.origin.errors %}<div class="error">{{ form.origin.errors }}</div>{% endif %}
+    </div>
+    <div>
+      <label for="id_destination">Destination</label>
+      {{ form.destination }}
+      {% if form.destination.errors %}<div class="error">{{ form.destination.errors }}</div>{% endif %}
+    </div>
+    <div>
+      <label for="id_unit">Unit</label>
+      {{ form.unit }}
+    </div>
+    <div>
+      <label for="id_route_factor">Route Factor</label>
+      {{ form.route_factor }}
+    </div>
+    <button type="submit">Calculate</button>
+  </form>
+
+  <div id="distance-results" style="margin-top: 1rem;">
+    {% if flight_distance is not None %}
+      {% include "calculators/partials/distance_result.html" %}
+    {% endif %}
+  </div>
+{% endblock %}
