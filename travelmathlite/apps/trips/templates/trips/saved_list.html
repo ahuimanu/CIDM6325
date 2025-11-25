@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Saved Calculations - TravelMathLite{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-12">
+    <h1>Saved Calculations</h1>
+    
+    {% if calculations %}
+      <p class="text-muted">You have {{ calculations|length }} saved calculation{{ calculations|length|pluralize }}.</p>
+      
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Calculator Type</th>
+              <th>Created</th>
+              <th>Preview</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for calc in calculations %}
+              <tr>
+                <td>
+                  <span class="badge bg-primary">{{ calc.calculator_type|title }}</span>
+                </td>
+                <td>{{ calc.created_at|date:"M d, Y g:i A" }}</td>
+                <td>
+                  <small class="text-muted">
+                    {% with inputs=calc.get_inputs %}
+                      {% if inputs %}
+                        {% for key, value in inputs.items %}
+                          <strong>{{ key }}:</strong> {{ value }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                      {% else %}
+                        No data
+                      {% endif %}
+                    {% endwith %}
+                  </small>
+                </td>
+                <td>
+                  <a href="{% url 'trips:saved_delete' calc.pk %}" 
+                     class="btn btn-sm btn-danger"
+                     onclick="return confirm('Are you sure you want to delete this calculation?');">
+                    Delete
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      
+      {% if is_paginated %}
+        <nav aria-label="Saved calculations pagination">
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1">First</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+              </li>
+            {% endif %}
+            
+            <li class="page-item active">
+              <span class="page-link">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+              </span>
+            </li>
+            
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
+      
+    {% else %}
+      <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">No saved calculations yet</h4>
+        <p>Your calculations will be saved here automatically when you're logged in.</p>
+        <hr>
+        <p class="mb-0">
+          <a href="{% url 'calculators:index' %}" class="btn btn-primary">Go to Calculators</a>
+        </p>
+      </div>
+    {% endif %}
+    
+  </div>
+</div>
+{% endblock %}

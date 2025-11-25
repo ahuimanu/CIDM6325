@@ -62,6 +62,49 @@ README Outline:
 
 [back to outline](#cidm6325---fall-2025)
 
+## UV-based workflow (recommended) ##
+
+We standardize on uv for fast, reproducible Python workflows on Windows (bash) and macOS/Linux. Use uv to create/activate a virtual environment, install dependencies, and run developer tools via uvx.
+
+Quick start (Windows, Git-Bash):
+
+```bash
+# create a project-local venv
+uv venv .venv
+
+# activate it (Git-Bash/WSL)
+source .venv/Scripts/activate
+
+# install runtime and dev dependencies from requirements.txt
+uv pip install -r requirements.txt
+
+# format and lint with Ruff (no need to pre-install; uvx runs tools in an ephemeral env)
+uvx ruff format
+uvx ruff check --fix
+```
+
+Notes
+
+- The repo includes a `.ruff.toml` with strict but sensible defaults (PEP 8, import sorting, py312 target).
+- `.gitignore` already excludes common environment directories (e.g., `.venv`).
+- You may still use `python -m venv` and `pip install -r requirements.txt`, but uv is faster and more consistent across platforms.
+
+[back to outline](#cidm6325---fall-2025)
+
+## App layout (travelmathlite) ##
+
+A compact overview of how the Django apps are organized in `travelmathlite` (namespaces, templates, and tests) is available here:
+
+- docs/architecture/app-layout.md — App layout guide (ADR-1.0.0)
+
+Highlights
+
+- Project package lives at `travelmathlite/core`; domain apps live under `travelmathlite/apps/*`.
+- Each app exposes a namespaced `index` route (e.g., `reverse('calculators:index') -> /calculators/`).
+- Templates extend a shared `travelmathlite/templates/base.html`; per-app partials live under `templates/<app>/partials/`.
+
+This structure is tested with Django TestCase to ensure reverse() and basic template rendering remain stable.
+
 ## Install & Packaging (pyproject.toml) ##
 
 Treating this repo as a fresh workspace, here's a minimal `pyproject.toml` and step-by-step, copy-paste-ready commands to create an environment and install the project. The `pyproject.toml` below declares only Django 5.2.6 as the runtime dependency.
@@ -148,7 +191,49 @@ include = ["yourpackagename*"]
 
 If you'd like, I can add a small GitHub Actions workflow that runs `python -m build` and verifies the Django version on push.
 
+### Optional: pre-commit integration for Ruff ###
+
+If you use pre-commit, you can automatically run Ruff on staged files before each commit. Add a `.pre-commit-config.yaml` like:
+
+```yaml
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+      - id: ruff-format
+```
+
+Then install hooks:
+
+```bash
+uv pip install pre-commit
+pre-commit install
+```
+
+This slice documents the hook only; adding the file can be a follow-up PR to keep changes small.
+
 [back to outline](#cidm6325---fall-2025)
+
+## Visual check screenshots (Playwright) ##
+
+We capture quick screenshots of key blog pages using Playwright to review layout/design without manual clicking.
+
+- Script lives in: `blog_site/scripts/visual_check.py`
+- Outputs are saved to: `blog_site/screenshots/`
+
+Quick start (Windows, venv recommended):
+
+```bash
+# one-time browser install
+python -m playwright install chromium
+
+# capture screenshots of /blog/ and /blog/post/new/
+python blog_site/scripts/visual_check.py
+```
+
+Advanced options and details live alongside the script: see `blog_site/scripts/README.md`.
 
 ## Why this felt harder than `pip install -r requirements.txt` and troubleshooting ##
 
@@ -289,6 +374,82 @@ Also for ***redis***:
 
 `docker run -it --rm --name redis -p 6379:6379 redis:latest`
 
+## Caching Configuration ##
+
+TravelMathLite uses Django's caching framework to improve performance. By default, local development uses in-memory caching (no setup required).
+
+### Local Development (Default)
+
+No configuration needed. The application uses `locmem` backend:
+
+```bash
+# Cache settings (already configured in settings/base.py)
+CACHE_BACKEND=django.core.cache.backends.locmem.LocMemCache
+CACHE_LOCATION=travelmathlite-cache
+CACHE_TIMEOUT=300  # 5 minutes
+```
+
+### Production (Redis)
+
+For production deployments, configure Redis caching:
+
+**1. Install Redis:**
+
+```bash
+# Ubuntu/Debian
+sudo apt-get install redis-server
+
+# Docker
+docker run -d --name redis -p 6379:6379 redis:latest
+
+# macOS
+brew install redis
+```
+
+**2. Set environment variables:**
+
+```bash
+export CACHE_BACKEND=django.core.cache.backends.redis.RedisCache
+export CACHE_LOCATION=redis://localhost:6379/1
+export CACHE_KEY_PREFIX=travelmathlite
+```
+
+**3. Install Redis Python client:**
+
+```bash
+uv pip install redis
+```
+
+### Cache Management Commands
+
+**Clear cache:**
+
+```bash
+# Clear entire cache
+uv run python manage.py clear_cache
+
+# Clear specific patterns (Redis only)
+uv run python manage.py clear_cache --pattern airports
+uv run python manage.py clear_cache --pattern search
+uv run python manage.py clear_cache --pattern calculators
+```
+
+**View cache statistics (Redis only):**
+
+```bash
+uv run python manage.py cache_stats
+```
+
+### Caching Strategy
+
+- **Search results:** 5 minutes (300s)
+- **Calculator results:** 10 minutes (600s)
+- **Airport queries:** 15 minutes (900s)
+- **Distance calculations:** 15 minutes (900s)
+- **Static assets:** 1 year (handled by WhiteNoise)
+
+For more details, see `docs/travelmathlite/ops/caching.md`.
+
 ## General Notes ##
 
 - DO NOT SKIP READING THE BOOK! As it is Free, [Matt Layman's Book](https://www.mattlayman.com/understand-django/browser-to-django/) is a little sparse, but it has the concepts we need.
@@ -317,3 +478,5 @@ Also for ***redis***:
 This README file is constructed using [MarkDown](https://www.markdownguide.org/basic-syntax).  Here is another good [Markdown reference](https://commonmark.org/help/).
 
 [back to outline](#cidm6325---fall-2025)
+
+This will be a conflict with the FALL2024 branch.

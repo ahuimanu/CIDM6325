@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Login - TravelMathLite{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h1>Login</h1>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      <div class="mb-3">
+        <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+        <input type="text" 
+               class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+               id="{{ form.username.id_for_label }}" 
+               name="{{ form.username.html_name }}" 
+               value="{{ form.username.value|default:'' }}"
+               required>
+        {% if form.username.errors %}
+          <div class="invalid-feedback">
+            {{ form.username.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+        <input type="password" 
+               class="form-control {% if form.password.errors %}is-invalid{% endif %}" 
+               id="{{ form.password.id_for_label }}" 
+               name="{{ form.password.html_name }}"
+               required>
+        {% if form.password.errors %}
+          <div class="invalid-feedback">
+            {{ form.password.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-primary">Login</button>
+      <a href="{% url 'accounts:password_reset' %}" class="btn btn-link">Forgot password?</a>
+    </form>
+
+    <hr class="my-4">
+    <p>Don't have an account? <a href="{% url 'accounts:signup' %}">Sign up</a></p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "blog/base.html" %}
+{% load markdown_extras %}
+
+{% block meta %}
+  {% with canonical=request.scheme|add:"://"|add:request.get_host|add:post.get_absolute_url %}
+    <link rel="canonical" href="{{ canonical }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ post.title }}" />
+    <meta property="og:url" content="{{ canonical }}" />
+    <meta property="og:site_name" content="My Blog" />
+    <meta property="og:description" content="{{ post.body|striptags|truncatechars:160 }}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="{{ post.title }}" />
+    <meta name="twitter:description" content="{{ post.body|striptags|truncatechars:160 }}" />
+  {% endwith %}
+{% endblock meta %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title">{{ post.title }}</h1>
+      <div class="card-text pre-line">
+        {{ post.body|markdown_safe|safe }}
+      </div>
+      <p class="text-muted mt-3">Published: {{ post.publish_date|date:"M d, Y H:i" }}</p>
+      {% if post.tags.exists %}
+        <p>
+          <span class="badge bg-secondary me-1 tag-badge">
+            {% for tag in post.tags.all %}
+              {{ tag.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </span>
+        </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

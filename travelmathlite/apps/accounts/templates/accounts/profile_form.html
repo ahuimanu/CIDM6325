@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<h1>Edit Profile</h1>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="mb-3">
+    {% if request.user.profile.avatar %}
+      <img src="{{ request.user.profile.avatar.url }}" alt="avatar" class="img-thumbnail" style="max-width:200px;">
+    {% else %}
+      <img src="{% static 'img/avatar-placeholder.png' %}" alt="avatar placeholder" class="img-thumbnail" style="max-width:200px;">
+    {% endif %}
+  </div>
+  <div class="mb-3">
+    {{ form.avatar.label_tag }}
+    {{ form.avatar }}
+    {% if form.avatar.help_text %}
+      <div class="form-text">{{ form.avatar.help_text }}</div>
+    {% endif %}
+  </div>
+  <button class="btn btn-primary" type="submit">Save</button>
+</form>
+{% endblock %}

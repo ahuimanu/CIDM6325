@@ -124,7 +124,7 @@ AI tools were used for:
 - Generating Markdown and APA-style citations  
 - Structuring critique sections and discussion summaries  
 
-All AI-assisted outputs were manually verified, revised, and documented in [`docs/AI_LOG.md`](docs/AI_LOG.md).
+All AI-assisted outputs were manually verified, revised, and documented in [`docs/AI_LOG.md`](./AI_LOG.md).
 
 ---
 

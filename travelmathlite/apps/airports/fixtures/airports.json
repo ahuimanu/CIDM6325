@@ -1,0 +1,182 @@
+[
+{
+  "model": "airports.airport",
+  "pk": 2,
+  "fields": {
+    "ident": "00AA",
+    "iata_code": "",
+    "name": "Aero B Ranch Airport",
+    "airport_type": "small_airport",
+    "latitude_deg": 38.704022,
+    "longitude_deg": -101.473911,
+    "elevation_ft": 3435,
+    "iso_country": "US",
+    "iso_region": "US-KS",
+    "municipality": "Leoti",
+    "created_at": "2025-11-04T21:50:00.010Z",
+    "updated_at": "2025-11-04T21:50:07.688Z"
+  }
+},
+{
+  "model": "airports.airport",
+  "pk": 7,
+  "fields": {
+    "ident": "00AZ",
+    "iata_code": "",
+    "name": "Cordes Airport",
+    "airport_type": "small_airport",
+    "latitude_deg": 34.305599212646484,
+    "longitude_deg": -112.16500091552734,
+    "elevation_ft": 3810,
+    "iso_country": "US",
+    "iso_region": "US-AZ",
+    "municipality": "Cordes",
+    "created_at": "2025-11-04T21:50:00.058Z",
+    "updated_at": "2025-11-04T21:50:07.724Z"
+  }
+},
+{
+  "model": "airports.airport",
+  "pk": 4,
+  "fields": {
+    "ident": "00AL",
+    "iata_code": "",
+    "name": "Epps Airpark",
+    "airport_type": "small_airport",
+    "latitude_deg": 34.86479949951172,
+    "longitude_deg": -86.77030181884766,
+    "elevation_ft": 820,
+    "iso_country": "US",
+    "iso_region": "US-AL",
+    "municipality": "Harvest",
+    "created_at": "2025-11-04T21:50:00.029Z",
+    "updated_at": "2025-11-04T21:50:07.701Z"
+  }
+},
+{
+  "model": "airports.airport",
+  "pk": 6,
+  "fields": {
+    "ident": "00AS",
+    "iata_code": "",
+    "name": "Fulton Airport",
+    "airport_type": "small_airport",
+    "latitude_deg": 34.9428028,
+    "longitude_deg": -97.8180194,
+    "elevation_ft": 1100,
+    "iso_country": "US",
+    "iso_region": "US-OK",
+    "municipality": "Alex",
+    "created_at": "2025-11-04T21:50:00.052Z",
+    "updated_at": "2025-11-04T21:50:07.715Z"
+  }
+},
+{
+  "model": "airports.airport",
+  "pk": 8,
+  "fields": {
+    "ident": "00CA",
+    "iata_code": "",
+    "name": "Goldstone (GTS) Airport",
+    "airport_type": "small_airport",
+    "latitude_deg": 35.35474,
+    "longitude_deg": -116.885329,
+    "elevation_ft": 3038,
+    "iso_country": "US",
+    "iso_region": "US-CA",
+    "municipality": "Barstow",
+    "created_at": "2025-11-04T21:50:00.062Z",
+    "updated_at": "2025-11-04T21:50:07.732Z"
+  }
+},
+{
+  "model": "airports.airport",
+  "pk": 5,
+  "fields": {
+    "ident": "00AN",
+    "iata_code": "",
+    "name": "Katmai Lodge Airport",
+    "airport_type": "small_airport",
+    "latitude_deg": 59.093287,
+    "longitude_deg": -156.456699,
+    "elevation_ft": 80,
+    "iso_country": "US",
+    "iso_region": "US-AK",
+    "municipality": "King Salmon",
+    "created_at": "2025-11-04T21:50:00.042Z",
+    "updated_at": "2025-11-04T21:50:07.706Z"
+  }
+},
+{
+  "model": "airports.airport",
+  "pk": 10,
+  "fields": {
+    "ident": "00CN",
+    "iata_code": "",
+    "name": "Kitchen Creek Helibase Heliport",
+    "airport_type": "heliport",
+    "latitude_deg": 32.7273736,
+    "longitude_deg": -116.4597417,
+    "elevation_ft": 3350,
+    "iso_country": "US",
+    "iso_region": "US-CA",
+    "municipality": "Pine Valley",
+    "created_at": "2025-11-04T21:50:00.072Z",
+    "updated_at": "2025-11-04T21:50:07.749Z"
+  }
+},
+{
+  "model": "airports.airport",
+  "pk": 3,
+  "fields": {
+    "ident": "00AK",
+    "iata_code": "",
+    "name": "Lowell Field",
+    "airport_type": "small_airport",
+    "latitude_deg": 59.947733,
+    "longitude_deg": -151.692524,
+    "elevation_ft": 450,
+    "iso_country": "US",
+    "iso_region": "US-AK",
+    "municipality": "Anchor Point",
+    "created_at": "2025-11-04T21:50:00.015Z",
+    "updated_at": "2025-11-04T21:50:07.694Z"
+  }
+},
+{
+  "model": "airports.airport",
+  "pk": 1,
+  "fields": {
+    "ident": "00A",
+    "iata_code": "",
+    "name": "Total RF Heliport",
+    "airport_type": "heliport",
+    "latitude_deg": 40.070985,
+    "longitude_deg": -74.933689,
+    "elevation_ft": 11,
+    "iso_country": "US",
+    "iso_region": "US-PA",
+    "municipality": "Bensalem",
+    "created_at": "2025-11-04T21:49:59.998Z",
+    "updated_at": "2025-11-04T21:50:07.681Z"
+  }
+},
+{
+  "model": "airports.airport",
+  "pk": 9,
+  "fields": {
+    "ident": "00CL",
+    "iata_code": "",
+    "name": "Williams Ag Airport",
+    "airport_type": "small_airport",
+    "latitude_deg": 39.427188,
+    "longitude_deg": -121.763427,
+    "elevation_ft": 87,
+    "iso_country": "US",
+    "iso_region": "US-CA",
+    "municipality": "Biggs",
+    "created_at": "2025-11-04T21:50:00.067Z",
+    "updated_at": "2025-11-04T21:50:07.739Z"
+  }
+}
+]
