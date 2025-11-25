@@ -1,0 +1,32 @@
+<div id="cost-results" class="card mt-3" aria-live="polite" aria-atomic="true" tabindex="-1">
+  <div class="card-body">
+    {% if form.errors %}
+      <div class="alert alert-danger" role="alert">
+        <h5 class="alert-heading">Please correct the following errors:</h5>
+        {{ form.non_field_errors }}
+        {% for field in form %}
+          {% if field.errors %}
+            <p><strong>{{ field.label }}:</strong> {{ field.errors|join:", " }}</p>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% elif fuel_cost is not None %}
+      <h5 class="card-title">Cost Estimate Results</h5>
+      <dl class="row">
+        <dt class="col-sm-6">Flight distance:</dt>
+        <dd class="col-sm-6">{{ flight_distance|floatformat:2 }} {{ unit }}</dd>
+        
+        <dt class="col-sm-6">Estimated driving distance:</dt>
+        <dd class="col-sm-6">{{ driving_distance|floatformat:2 }} {{ unit }}</dd>
+        
+        <dt class="col-sm-6">Estimated driving time:</dt>
+        <dd class="col-sm-6">{{ driving_time_hours|floatformat:2 }} hours</dd>
+        
+        <dt class="col-sm-6">Estimated fuel cost:</dt>
+        <dd class="col-sm-6">${{ fuel_cost|floatformat:2 }}</dd>
+      </dl>
+    {% else %}
+      <p class="text-muted">Enter trip details to calculate cost estimate.</p>
+    {% endif %}
+  </div>
+</div>

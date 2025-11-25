@@ -1,4 +1,5 @@
 from django import forms
+
 from .models import Post
 
 
@@ -22,9 +23,7 @@ class PostForm(forms.ModelForm):
             "publish_date": forms.DateTimeInput(
                 attrs={"type": "datetime-local", "class": "form-control"}
             ),
-            "title": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Post title"}
-            ),
+            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Post title"}),
             "tags": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Tags (comma separated)"}
             ),

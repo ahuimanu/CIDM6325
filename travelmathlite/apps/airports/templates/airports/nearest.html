@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Nearest Airports{% endblock %}
+{% block content %}
+  <h1>Nearest Airports</h1>
+  <form method="post" hx-post="{% url 'airports:nearest' %}" hx-target="#results-container" hx-swap="innerHTML">
+    {% csrf_token %}
+    <label>Query (city, IATA, or lat,lon): {{ form.query }}</label><br/>
+    <label>Country (ISO 2): {{ form.iso_country }}</label><br/>
+    <label>Unit: {{ form.unit }}</label>
+    <label>Limit: {{ form.limit }}</label>
+    <button type="submit">Search</button>
+    {% if form.errors %}
+      <pre>{{ form.errors }}</pre>
+    {% endif %}
+  </form>
+
+  <div id="results-container">
+    {% if results %}
+      {% include "airports/partials/nearest_results.html" with results=results unit=unit %}
+    {% endif %}
+  </div>
+{% endblock %}

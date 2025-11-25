@@ -11,6 +11,9 @@ ruff==0.14.0
 sqlparse==0.5.3
 tzdata==2025.2
 webencodings==0.5.1
+playwright==1.49.0
+django-environ==0.10.0
+whitenoise==6.5.0
 ##-------------##
 # Module 4 – CIDM 6325: Class-Based Views + Application Architecture
 # ---------------------------------------------------------------

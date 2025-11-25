@@ -1,0 +1,4 @@
+{
+    "djlint.showInstallError": false,
+    "python.analysis.extraPaths": ["${workspaceFolder}/travelmathlite"]
+}

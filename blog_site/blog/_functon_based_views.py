@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest, HttpResponse
-from .models import Post
+from django.shortcuts import get_object_or_404, redirect, render
+
 from .forms import PostForm
+from .models import Post
 
 
 def post_list(request: HttpRequest) -> HttpResponse:

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load search_extras %}
+
+{% block title %}Search{% if query %} — {{ query }}{% endif %}{% endblock %}
+
+{% block canonical %}
+  {% if had_query %}
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{% url 'search:index' %}?q={{ query|urlencode }}{% if page_obj.number > 1 %}&page={{ page_obj.number }}{% endif %}" />
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <h1>Search</h1>
+
+  <form method="get" action="" style="margin-bottom: 1rem;">
+    <label for="q">Query</label>
+    <input type="text" id="q" name="q" value="{{ query|default:'' }}" />
+    <button type="submit">Search</button>
+  </form>
+
+  {% if not had_query %}
+    <p>Enter a term to search airports and cities.</p>
+  {% else %}
+    <p><strong>{{ results_count }}</strong> result{{ results_count|pluralize }} for "{{ query }}"</p>
+
+    {% if page_obj and page_obj.object_list %}
+      <ul>
+        {% for kind, obj in page_obj.object_list %}
+          {% if kind == 'airport' %}
+            <li>
+              [Airport] {{ obj.name|highlight:query }}{% if obj.iata_code %} ({{ obj.iata_code|highlight:query }}){% else %} ({{ obj.ident|highlight:query }}){% endif %}
+              {% if obj.municipality %} — {{ obj.municipality|highlight:query }}{% endif %}
+              {% if obj.country %}, {{ obj.country.name|highlight:query }}{% endif %}
+            </li>
+          {% elif kind == 'city' %}
+            <li>
+              [City] {{ obj.name|highlight:query }}, {{ obj.country.iso_code }}
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+
+      {% if page_obj.paginator.num_pages > 1 %}
+        <nav aria-label="Search pagination">
+          <ul>
+            {% if page_obj.has_previous %}
+              <li><a href="?q={{ query|urlencode }}&page=1">First</a></li>
+              <li><a href="?q={{ query|urlencode }}&page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% endif %}
+            <li>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</li>
+            {% if page_obj.has_next %}
+              <li><a href="?q={{ query|urlencode }}&page={{ page_obj.next_page_number }}">Next</a></li>
+              <li><a href="?q={{ query|urlencode }}&page={{ page_obj.paginator.num_pages }}">Last</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
+    {% else %}
+      <p>No results.</p>
+    {% endif %}
+  {% endif %}
+{% endblock %}

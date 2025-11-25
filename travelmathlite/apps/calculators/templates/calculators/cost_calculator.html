@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Cost Calculator{% endblock %}
+{% block content %}
+  <h1>Trip Cost Calculator</h1>
+    <form id="cost-form" method="post" action="{% url 'calculators:cost' %}"
+      hx-post="{% url 'calculators:cost-partial' %}"
+        hx-target="#cost-results"
+        hx-swap="outerHTML show:top">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+      <label for="id_origin">Origin</label>
+      {{ form.origin }}
+      {% if form.origin.errors %}<div class="error">{{ form.origin.errors }}</div>{% endif %}
+    </div>
+    <div>
+      <label for="id_destination">Destination</label>
+      {{ form.destination }}
+      {% if form.destination.errors %}<div class="error">{{ form.destination.errors }}</div>{% endif %}
+    </div>
+    <div>
+      <label for="id_unit">Unit</label>
+      {{ form.unit }}
+    </div>
+    <div>
+      <label for="id_route_factor">Route Factor</label>
+      {{ form.route_factor }}
+    </div>
+    <div>
+      <label for="id_fuel_economy_l_per_100km">Fuel Economy (L/100km)</label>
+      {{ form.fuel_economy_l_per_100km }}
+    </div>
+    <div>
+      <label for="id_fuel_price_per_liter">Fuel Price (/L)</label>
+      {{ form.fuel_price_per_liter }}
+    </div>
+    <button type="submit">Estimate Cost</button>
+  </form>
+
+  <div id="cost-results" style="margin-top: 1rem;">
+    {% if fuel_cost is not None %}
+      {% include "calculators/partials/cost_result.html" %}
+    {% endif %}
+  </div>
+{% endblock %}
