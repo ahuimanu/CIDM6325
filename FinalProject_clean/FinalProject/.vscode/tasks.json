@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Containers: Docker Compose",
+            "command": "docker compose -f FinalProject/docker-compose.yml up -d --build",
+            "problemMatcher": []
+        }
+    ]
+}
