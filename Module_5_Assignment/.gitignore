@@ -1,0 +1,63 @@
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+
+# Backup files
+*.bak
+
+# IDEs and editors
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Migrations (keep scripts, ignore cache)
+**/migrations/__pycache__/
+**/migrations/*.pyc
+
+# Python environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Build & distribution
+build/
+dist/
+downloads/
+.eggs/
+*.egg-info/
+*.manifest
+*.spec
+
+# Unit test / coverage
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Miscellaneous
+*.tmp
+debug.log
+.history
+
+**/.docker/
+**/.venv/

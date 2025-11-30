@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cidm6325"
+version = "0.1.0"
+description = "Minimal project declaring Django 5.2.7 as the sole dependency"
+readme = "README.MD"
+requires-python = ">=3.13"
+authors = [{ name = "ahuimanu" }]
+license = "MIT"
+keywords = ["django"]
+dependencies = [
+    "Django==5.2.7",
+    "django-taggit==6.1.0",
+    "markdown",
+    "bleach",
+    "geopy>=2.4.1",
+    "django-environ==0.10.0",
+    "whitenoise==6.5.0",
+]
+
+[project.urls]
+Homepage = "https://example.com/"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["api_examples*"]
+
+[tool.uv.workspace]
+members = [
+    "travelmathlite",
+]
+
+[dependency-groups]
+dev = [
+    "playwright>=1.56.0",
+]

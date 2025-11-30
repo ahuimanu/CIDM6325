@@ -1,0 +1,42 @@
+asgiref==3.9.2
+bleach==6.2.0
+build==1.3.0
+colorama==0.4.6
+Django==5.2.6
+django-taggit==6.1.0
+Markdown==3.9
+packaging==25.0
+pyproject_hooks==1.2.0
+ruff==0.14.0
+sqlparse==0.5.3
+tzdata==2025.2
+webencodings==0.5.1
+playwright==1.49.0
+django-environ==0.10.0
+whitenoise==6.5.0
+##-------------##
+# Module 4 – CIDM 6325: Class-Based Views + Application Architecture
+# ---------------------------------------------------------------
+# This file lists all dependencies required for running the Module 4
+# logistics web application built with Django, Bootstrap 5, and HTMX.
+# Includes form rendering tools, CBV utilities, and optional test packages.
+# ---------------------------------------------------------------
+
+# Core Django dependencies
+Django==5.2.6
+asgiref==3.9.2
+sqlparse==0.5.3
+tzdata==2025.2
+
+# HTMX integration for async, dynamic form updates
+django-htmx==1.15.0
+
+# Form rendering helpers for Bootstrap compatibility
+django-crispy-forms==2.1
+crispy-bootstrap5==0.7
+
+# Optional testing utilities (recommended for test_views_cbv.py)
+pytest-django==4.7.0
+
+gunicorn>=21.2.0
+

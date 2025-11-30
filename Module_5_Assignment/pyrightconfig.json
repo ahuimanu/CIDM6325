@@ -1,0 +1,19 @@
+{
+  "include": [
+    "travelmathlite/apps",
+    "travelmathlite/core",
+    "travelmathlite/scripts"
+  ],
+  "executionEnvironments": [
+    {
+      "root": "./travelmathlite"
+    }
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/migrations"
+  ],
+  "reportMissingTypeStubs": false,
+  "pythonVersion": "3.13"
+}
