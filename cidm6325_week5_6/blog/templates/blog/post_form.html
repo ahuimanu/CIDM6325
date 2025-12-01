@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h1 class="h3">{{ form.instance.pk|yesno:"Edit Post,New Post" }}</h1>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="mb-3">
+    <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
+    {{ form.title }}
+  </div>
+  <div class="mb-3">
+    <label for="{{ form.body.id_for_label }}" class="form-label">Body</label>
+    {{ form.body }}
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Category</label>
+    {{ form.category }}
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Tags</label>
+    {{ form.tags }}
+  </div>
+  <div class="form-check mb-3">
+    {{ form.is_published }} <label class="form-check-label" for="{{ form.is_published.id_for_label }}">Published</label>
+  </div>
+  <button class="btn btn-primary">Save</button>
+</form>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h1 class="h3 mb-3">Posts</h1>
+<form class="mb-3" role="search" aria-label="Live search posts">
+  <label for="q" class="form-label">Search</label>
+  <input id="q" name="q" class="form-control" value="{{ q }}"
+         hx-get="{% url 'blog:post_search' %}" hx-target="#list" hx-trigger="keyup changed delay:300ms">
+  <div id="titleHelp" class="form-text">Type to live-filter posts (HTMX).</div>
+</form>
+<ul id="list" class="list-group">
+  {% include 'blog/_post_list_items.html' with posts=posts %}
+</ul>
+{% endblock %}
