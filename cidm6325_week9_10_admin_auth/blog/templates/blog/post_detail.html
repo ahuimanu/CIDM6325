@@ -1,0 +1,44 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<article>
+  <header class="d-flex justify-content-between align-items-center">
+    <h1 class="h3">{{ object.title }}</h1>
+    {% if user == object.author %}
+      <div class="btn-group">
+        <a href="{% url 'blog:post_update' object.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+        <a href="{% url 'blog:post_delete' object.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+        {% if perms.blog.can_publish %}
+          <form method="post" action="{% url 'blog:post_publish' object.pk %}">{% csrf_token %}
+            <button class="btn btn-sm btn-success">Publish</button>
+          </form>
+        {% endif %}
+      </div>
+    {% endif %}
+  </header>
+  <p class="text-muted">By {{ object.author }} • {{ object.created_at|date:"Y-m-d H:i" }} • Category: {{ object.category }}</p>
+  {% if object.image %}
+    <img src="{{ object.image.url }}" alt="Image for {{ object.title }}" class="img-fluid rounded mb-3">
+  {% endif %}
+  <div class="lead">{{ object.body|linebreaks }}</div>
+</article>
+
+<section class="mt-4">
+  <h2 class="h5">Comments</h2>
+  <ul class="list-group mb-3">
+    {% for c in object.comments.all %}
+      <li class="list-group-item"><strong>{{ c.author or "Anonymous" }}:</strong> {{ c.content }}</li>
+    {% empty %}
+      <li class="list-group-item">No comments yet.</li>
+    {% endfor %}
+  </ul>
+  {% if user.is_authenticated %}
+  <form method="post" action="{% url 'blog:comment_add' object.pk %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary">Add Comment</button>
+  </form>
+  {% else %}
+  <p><a href="{% url 'login' %}">Log in</a> to comment.</p>
+  {% endif %}
+</section>
+{% endblock %}

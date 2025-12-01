@@ -1,0 +1,39 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<article>
+  <header class="d-flex justify-content-between align-items-center">
+    <h1 class="h3">{{ post.title }}</h1>
+    {% if user == post.author %}
+      <div class="btn-group">
+        <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+        <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+        {% if perms.blog.can_publish %}
+          <a href="{% url 'blog:post_publish' post.pk %}" class="btn btn-sm btn-success">Publish</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </header>
+  <p class="text-muted">By {{ post.author }} • {{ post.created_at|date:"Y-m-d H:i" }} • Category: {{ post.category }}</p>
+  <div class="lead">{{ post.body|linebreaks }}</div>
+</article>
+
+<section class="mt-4">
+  <h2 class="h5">Comments</h2>
+  <ul class="list-group mb-3">
+    {% for c in post.comments.all %}
+      <li class="list-group-item"><strong>{{ c.author or "Anonymous" }}:</strong> {{ c.content }}</li>
+    {% empty %}
+      <li class="list-group-item">No comments yet.</li>
+    {% endfor %}
+  </ul>
+  {% if user.is_authenticated %}
+  <form method="post" action="{% url 'blog:comment_add' post.pk %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary">Add Comment</button>
+  </form>
+  {% else %}
+  <p><a href="{% url 'login' %}">Log in</a> to comment.</p>
+  {% endif %}
+</section>
+{% endblock %}

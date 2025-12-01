@@ -1,0 +1,25 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h1 class="h3">Create an account</h1>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="mb-3">
+    <label class="form-label" for="{{ form.username.id_for_label }}">Username</label>
+    {{ form.username }}
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="{{ form.email.id_for_label }}">Email</label>
+    {{ form.email }}
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="{{ form.password1.id_for_label }}">Password</label>
+    {{ form.password1 }}
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="{{ form.password2.id_for_label }}">Confirm Password</label>
+    {{ form.password2 }}
+  </div>
+  <button class="btn btn-primary">Register</button>
+</form>
+{% endblock %}
