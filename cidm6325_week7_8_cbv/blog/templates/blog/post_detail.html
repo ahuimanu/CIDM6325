@@ -2,32 +2,34 @@
 {% block content %}
 <article>
   <header class="d-flex justify-content-between align-items-center">
-    <h1 class="h3">{{ post.title }}</h1>
-    {% if user == post.author %}
+    <h1 class="h3">{{ object.title }}</h1>
+    {% if user == object.author %}
       <div class="btn-group">
-        <a href="{% url 'blog:post_update' post.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
-        <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+        <a href="{% url 'blog:post_update' object.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+        <a href="{% url 'blog:post_delete' object.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
         {% if perms.blog.can_publish %}
-          <a href="{% url 'blog:post_publish' post.pk %}" class="btn btn-sm btn-success">Publish</a>
+          <form method="post" action="{% url 'blog:post_publish' object.pk %}">{% csrf_token %}
+            <button class="btn btn-sm btn-success">Publish</button>
+          </form>
         {% endif %}
       </div>
     {% endif %}
   </header>
-  <p class="text-muted">By {{ post.author }} • {{ post.created_at|date:"Y-m-d H:i" }} • Category: {{ post.category }}</p>
-  <div class="lead">{{ post.body|linebreaks }}</div>
+  <p class="text-muted">By {{ object.author }} • {{ object.created_at|date:"Y-m-d H:i" }} • Category: {{ object.category }}</p>
+  <div class="lead">{{ object.body|linebreaks }}</div>
 </article>
 
 <section class="mt-4">
   <h2 class="h5">Comments</h2>
   <ul class="list-group mb-3">
-    {% for c in post.comments.all %}
+    {% for c in object.comments.all %}
       <li class="list-group-item"><strong>{{ c.author or "Anonymous" }}:</strong> {{ c.content }}</li>
     {% empty %}
       <li class="list-group-item">No comments yet.</li>
     {% endfor %}
   </ul>
   {% if user.is_authenticated %}
-  <form method="post" action="{% url 'blog:comment_add' post.pk %}">
+  <form method="post" action="{% url 'blog:comment_add' object.pk %}">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-primary">Add Comment</button>

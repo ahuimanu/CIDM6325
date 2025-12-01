@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h1 class="h3 mb-3">Posts</h1>
+<form class="mb-3" role="search" aria-label="Live search posts" method="get">
+  <label for="q" class="form-label">Search</label>
+  <input id="q" name="q" class="form-control" value="{{ q|default:'' }}">
+  <div class="form-text">Type to filter posts. Press Enter to submit.</div>
+</form>
+<ul id="list" class="list-group">
+  {% for p in posts %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a href="{% url 'blog:post_detail' p.pk %}" class="text-decoration-none">{{ p.title }}</a>
+      <small class="text-muted">{{ p.created_at|date:"Y-m-d H:i" }}</small>
+    </li>
+  {% empty %}
+    <li class="list-group-item">No posts yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
