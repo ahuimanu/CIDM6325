@@ -1265,6 +1265,9 @@ body {
     cursor: pointer;
     flex: 1;
     font-size: 0.9rem;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: visible;
 }
 
 /* Student Management Styles */
@@ -1287,12 +1290,17 @@ body {
 
 .student-info {
     flex: 1;
+    overflow: visible;
+    white-space: normal;
 }
 
 .student-name {
     font-weight: 500;
     font-size: 0.9rem;
     color: #333;
+    display: inline-block;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 .student-id-badge {
