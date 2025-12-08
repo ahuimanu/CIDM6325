@@ -170,7 +170,14 @@
                                 {% if day != 0 %}
                                     <!-- Date Header -->
                                     <div class="d-flex justify-content-between align-items-start mb-2">
-                                        <span class="fw-bold date-number">{{ day }}</span>
+                                        <div class="d-flex flex-column align-items-start">
+                                            <span class="fw-bold date-number">{{ day }}</span>
+                                            <!-- Add Event Button -->
+                                            <button class="add-event-btn-circle" 
+                                                    onclick="showAddEventPopout(this, '{{ year }}-{{ month|stringformat:'02d' }}-{{ day|stringformat:'02d' }}')">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
                                         {% if day == today.day and month == today.month and year == today.year %}
                                             <div class="today-indicator">
                                                 <div class="today-badge">
@@ -220,14 +227,6 @@
                                             {% endif %}
                                         {% endfor %}
                                     </div>
-
-                                    <!-- Add Event Button (for authenticated users) -->
-                                    {% if user.is_authenticated %}
-                                    <button class="btn btn-sm btn-success add-event-btn w-100" 
-                                            onclick="showAddEventPopout(this, '{{ year }}-{{ month|stringformat:'02d' }}-{{ day|stringformat:'02d' }}')">
-                                        <small>+ Add Event</small>
-                                    </button>
-                                    {% endif %}
 
                                     {% endwith %}
                                 {% endif %}
@@ -966,6 +965,37 @@ body {
     background: linear-gradient(135deg, #0984e3, #6c5ce7);
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.add-event-btn-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.25rem 0 0 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.add-event-btn-circle i {
+    color: white;
+    font-size: 0.65rem;
+    line-height: 1;
+}
+
+.add-event-btn-circle:hover {
+    background: linear-gradient(135deg, #0984e3, #6c5ce7);
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.add-event-btn-circle:active {
+    transform: scale(0.95);
 }
 
 /* Footer Navigation */
@@ -1857,7 +1887,7 @@ function handleAddEventPopoutKeys(event) {
 
 function closeAddEventPopoutOnOutsideClick(event) {
     const popout = document.getElementById('addEventPopout');
-    if (!popout.contains(event.target) && !event.target.closest('.add-event-btn')) {
+    if (!popout.contains(event.target) && !event.target.closest('.add-event-btn-circle')) {
         closeAddEventPopout();
     }
 }
