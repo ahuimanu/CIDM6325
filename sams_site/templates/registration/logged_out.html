@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0;url={% url 'login' %}">
+    <title>Logged Out - SAMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 50%, #6c5ce7 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .logout-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .logout-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #74b9ff, #6c5ce7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .logout-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        h2 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        
+        p {
+            color: #718096;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .btn-login:hover {
+            background: linear-gradient(135deg, #0984e3, #6c5ce7);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(116, 185, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <div class="logout-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2>Successfully Logged Out</h2>
+        <p>You have been logged out of the Student Athlete Management System.</p>
+        <p><small class="text-muted">Redirecting to login page...</small></p>
+        <a href="{% url 'login' %}" class="btn-login">
+            <i class="fas fa-sign-in-alt me-2"></i>Log In Again
+        </a>
+    </div>
+    
+    <script>
+        // Redirect to login after 1 second
+        setTimeout(function() {
+            window.location.href = "{% url 'login' %}";
+        }, 1000);
+    </script>
+</body>
+</html>
+{% endblock %}

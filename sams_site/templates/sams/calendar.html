@@ -7,6 +7,29 @@
     <!-- System Title Banner -->
     <div class="system-banner">
         <h2 class="system-title">Student Athlete Management System</h2>
+        <div class="auth-status">
+            {% if user.is_authenticated %}
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="username">{{ user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}" style="display: inline; margin: 0;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-logout" title="Logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="user-info">
+                    <a href="{% url 'login' %}?next={% url 'sams:calendar' %}" class="btn-login" title="Login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                    <a href="{% url 'sams:register' %}" class="btn-register" title="Register">
+                        <i class="fas fa-user-plus"></i> Register
+                    </a>
+                </div>
+            {% endif %}
+        </div>
     </div>
     
     <div class="calendar-container">
@@ -106,7 +129,7 @@
                     </div>
                 </div>
                 <div class="popout-body">
-                    <form id="addEventForm">
+                    <form id="addEventForm" onsubmit="return false;">
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-muted">DATE</label>
                             <input type="date" class="form-control form-control-sm" id="addEventDate" readonly>
@@ -381,7 +404,9 @@ body {
 .system-banner {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: 0.8rem 2rem;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
@@ -392,6 +417,85 @@ body {
     color: white;
     letter-spacing: 0.5px;
     text-transform: uppercase;
+}
+
+.auth-status {
+    display: flex;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: white;
+    font-size: 0.95rem;
+}
+
+.user-info .fa-user-circle {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.username {
+    font-weight: 500;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+}
+
+.btn-logout,
+.btn-login,
+.btn-register {
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.btn-logout {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-login {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.btn-login:hover {
+    background: rgba(255, 255, 255, 0.35);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.btn-register {
+    background: white;
+    color: #667eea;
+    border: 1px solid white;
+}
+
+.btn-register:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #764ba2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .calendar-container {
@@ -1620,9 +1724,10 @@ function showAddEventPopout(buttonElement, date) {
         document.getElementById('addEventTitle').focus();
     }, 10);
     
-    // Close popout when clicking elsewhere
+    // Close popout when clicking elsewhere or pressing Escape
     setTimeout(() => {
         document.addEventListener('click', closeAddEventPopoutOnOutsideClick);
+        document.addEventListener('keydown', handleAddEventPopoutKeys);
     }, 100);
 }
 
@@ -1932,37 +2037,63 @@ async function saveEventFromPopout() {
             body: JSON.stringify(data)
         });
         
+        console.log('Response status:', response.status);
+        console.log('Response content type:', response.headers.get('content-type'));
+        
+        // Check if response is JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            console.error('Server returned non-JSON response:', text.substring(0, 500));
+            if (response.status === 401 || text.includes('login')) {
+                alert('You must be logged in to add events. Please log in and try again.');
+                window.location.href = '/accounts/login/?next=' + window.location.pathname;
+            } else {
+                alert('Server error. Please refresh the page and try again.');
+            }
+            return;
+        }
+        
         const result = await response.json();
+        console.log('Result:', result);
         
         if (result.success) {
+            console.log('Event saved successfully:', result.event);
             closeAddEventPopout();
             
             // Add or update the event in the DOM dynamically
             if (currentEventId) {
                 // Update existing event
+                console.log('Updating event in DOM');
                 updateEventInDOM(result.event);
             } else {
                 // Add new event to the calendar
+                console.log('Adding new event to DOM');
                 addEventToDOM(result.event);
             }
         } else {
-            alert('Error saving event. Please try again.');
+            console.error('Server returned error:', result);
+            alert('Error saving event: ' + (result.error || 'Please try again.'));
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Error saving event. Please try again.');
+        alert('Error saving event: ' + error.message);
     }
 }
 
 function addEventToDOM(event) {
     // Find the events container for this date
+    // event.date is in format YYYY-MM-DD, container ID matches this format
     const containerId = `events-${event.date}`;
+    console.log('Looking for container:', containerId);
     const container = document.getElementById(containerId);
     
     if (!container) {
-        console.error('Container not found for date:', event.date);
+        console.error('Container not found for date:', event.date, 'ID:', containerId);
+        console.log('Available containers:', Array.from(document.querySelectorAll('[id^="events-"]')).map(el => el.id));
         return;
     }
+    console.log('Container found:', container);
     
     // Create the event element
     const eventDiv = document.createElement('div');

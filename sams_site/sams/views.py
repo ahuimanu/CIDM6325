@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import Group
 from django.http import JsonResponse
@@ -74,19 +74,52 @@ class ItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 def register(request):
-    """Simple user registration view using Django's UserCreationForm.
+    """Admin user registration view.
 
-    Creates a user and logs them in, then redirects to the SAMS index.
+    Creates an admin user and logs them in, then redirects to the calendar.
     """
     if request.method == 'POST':
         form = SamsUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            # Add user to admin group or mark as staff
+            user.is_staff = True
+            user.save()
             login(request, user)
             return redirect('sams:calendar')
     else:
         form = SamsUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+
+def student_login_view(request):
+    """Student login view using Django's authentication."""
+    from django.contrib.auth.views import LoginView
+    
+    class StudentLoginView(LoginView):
+        template_name = 'registration/student_login.html'
+        
+        def get_success_url(self):
+            return reverse_lazy('sams:calendar')
+    
+    return StudentLoginView.as_view()(request)
+
+
+def student_register(request):
+    """Student user registration view.
+
+    Creates a student user and logs them in, then redirects to the calendar.
+    """
+    if request.method == 'POST':
+        form = SamsUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Student users don't get staff privileges
+            login(request, user)
+            return redirect('sams:calendar')
+    else:
+        form = SamsUserCreationForm()
+    return render(request, 'registration/student_register.html', {'form': form})
 
 
 class CalendarView(TemplateView):
@@ -145,66 +178,72 @@ class CalendarView(TemplateView):
         return context
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 class EventCreateView(LoginRequiredMixin, CreateView):
     """Create a new team event with AJAX support."""
     model = TeamEvent
     fields = ['title', 'description', 'date', 'start_time', 'end_time']
     
     def post(self, request, *args, **kwargs):
+        # Check authentication for AJAX requests
+        if not request.user.is_authenticated:
+            return JsonResponse({'success': False, 'error': 'Authentication required'}, status=401)
+        
         if request.content_type == 'application/json':
-            data = json.loads(request.body)
-            date_str = data.get('date')
-            if isinstance(date_str, str):
-                date_obj = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
-            else:
-                date_obj = date_str
-            
-            # Parse time fields if provided
-            start_time = data.get('start_time')
-            end_time = data.get('end_time')
-            
-            # Convert empty strings to None, parse time strings
-            if start_time == '' or start_time is None:
-                start_time = None
-            elif isinstance(start_time, str):
-                # Parse time string "HH:MM" to time object
-                try:
-                    start_time = datetime.datetime.strptime(start_time, '%H:%M').time()
-                except ValueError:
+            try:
+                data = json.loads(request.body)
+                date_str = data.get('date')
+                if isinstance(date_str, str):
+                    date_obj = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+                else:
+                    date_obj = date_str
+                
+                # Parse time fields if provided
+                start_time = data.get('start_time')
+                end_time = data.get('end_time')
+                
+                # Convert empty strings to None, parse time strings
+                if start_time == '' or start_time is None:
                     start_time = None
-            
-            if end_time == '' or end_time is None:
-                end_time = None
-            elif isinstance(end_time, str):
-                # Parse time string "HH:MM" to time object
-                try:
-                    end_time = datetime.datetime.strptime(end_time, '%H:%M').time()
-                except ValueError:
+                elif isinstance(start_time, str):
+                    # Parse time string "HH:MM" to time object
+                    try:
+                        start_time = datetime.datetime.strptime(start_time, '%H:%M').time()
+                    except ValueError:
+                        start_time = None
+                
+                if end_time == '' or end_time is None:
                     end_time = None
-            
-            event = TeamEvent.objects.create(
-                title=data.get('title', ''),
-                description=data.get('description', ''),
-                date=date_obj,
-                start_time=start_time,
-                end_time=end_time,
-                owner=request.user
-            )
-            return JsonResponse({
-                'success': True,
-                'event': {
-                    'id': event.id,
-                    'title': event.title,
-                    'description': event.description,
-                    'date': event.date.isoformat(),
-                    'start_time': event.start_time.strftime('%H:%M') if event.start_time else '',
-                    'end_time': event.end_time.strftime('%H:%M') if event.end_time else '',
-                    'owner': event.owner.username,
-                    'created_at': event.created_at.strftime('%b %d, %Y %I:%M %p'),
-                    'has_conflict': event.has_time_conflict()
-                }
-            })
+                elif isinstance(end_time, str):
+                    # Parse time string "HH:MM" to time object
+                    try:
+                        end_time = datetime.datetime.strptime(end_time, '%H:%M').time()
+                    except ValueError:
+                        end_time = None
+                
+                event = TeamEvent.objects.create(
+                    title=data.get('title', ''),
+                    description=data.get('description', ''),
+                    date=date_obj,
+                    start_time=start_time,
+                    end_time=end_time,
+                    owner=request.user
+                )
+                return JsonResponse({
+                    'success': True,
+                    'event': {
+                        'id': event.id,
+                        'title': event.title,
+                        'description': event.description,
+                        'date': event.date.isoformat(),
+                        'start_time': event.start_time.strftime('%H:%M') if event.start_time else '',
+                        'end_time': event.end_time.strftime('%H:%M') if event.end_time else '',
+                        'owner': event.owner.username,
+                        'created_at': event.created_at.strftime('%b %d, %Y %I:%M %p'),
+                        'has_conflict': event.has_time_conflict()
+                    }
+                })
+            except Exception as e:
+                return JsonResponse({'success': False, 'error': str(e)}, status=400)
         else:
             # Regular form submission
             form = self.get_form()
@@ -335,3 +374,9 @@ def comment_create(request, announcement_id):
         except Announcement.DoesNotExist:
             pass
     return redirect('sams:calendar')
+
+
+def custom_logout(request):
+    """Custom logout view that handles both GET and POST requests."""
+    logout(request)
+    return redirect('login')
