@@ -2292,13 +2292,19 @@ async function loadAttendanceData(dateStr) {
         data.students.forEach(student => {
             const item = document.createElement('div');
             item.className = 'attendance-item';
-            item.innerHTML = `
-                <input type="checkbox" 
-                       id="student-${student.id}" 
-                       ${student.present ? 'checked' : ''}
-                       data-student-id="${student.id}">
-                <label for="student-${student.id}">${student.name}</label>
-            `;
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `student-${student.id}`;
+            checkbox.checked = student.present;
+            checkbox.dataset.studentId = student.id;
+            
+            const label = document.createElement('label');
+            label.htmlFor = `student-${student.id}`;
+            label.textContent = student.name;
+            
+            item.appendChild(checkbox);
+            item.appendChild(label);
             attendanceList.appendChild(item);
         });
     } catch (error) {
@@ -2460,15 +2466,34 @@ async function loadStudentList() {
         data.students.forEach(student => {
             const item = document.createElement('div');
             item.className = 'student-management-item';
-            item.innerHTML = `
-                <div class="student-info">
-                    <span class="student-name">${student.name}</span>
-                    ${student.student_id ? `<span class="student-id-badge">${student.student_id}</span>` : ''}
-                </div>
-                <button class="btn-delete-student" onclick="deleteStudent(${student.id}, '${student.name}')" title="Delete Student">
-                    <i class="fas fa-trash"></i>
-                </button>
-            `;
+            
+            const studentInfo = document.createElement('div');
+            studentInfo.className = 'student-info';
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'student-name';
+            nameSpan.textContent = student.name;
+            studentInfo.appendChild(nameSpan);
+            
+            if (student.student_id) {
+                const idBadge = document.createElement('span');
+                idBadge.className = 'student-id-badge';
+                idBadge.textContent = student.student_id;
+                studentInfo.appendChild(idBadge);
+            }
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn-delete-student';
+            deleteBtn.title = 'Delete Student';
+            deleteBtn.dataset.studentId = student.id;
+            deleteBtn.dataset.studentName = student.name;
+            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+            deleteBtn.onclick = function() {
+                deleteStudent(this.dataset.studentId, this.dataset.studentName);
+            };
+            
+            item.appendChild(studentInfo);
+            item.appendChild(deleteBtn);
             studentList.appendChild(item);
         });
     } catch (error) {
