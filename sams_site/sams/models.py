@@ -84,3 +84,34 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.author_name} on {self.announcement.title}"
+
+
+class Student(models.Model):
+    """Student roster for attendance tracking."""
+    name = models.CharField(max_length=200)
+    student_id = models.CharField(max_length=50, unique=True, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    
+    class Meta:
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+
+
+class Attendance(models.Model):
+    """Daily attendance record for students."""
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='attendance_records')
+    date = models.DateField()
+    present = models.BooleanField(default=False)
+    recorded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-date', 'student__name']
+        unique_together = ['student', 'date']
+    
+    def __str__(self):
+        status = "Present" if self.present else "Absent"
+        return f"{self.student.name} - {self.date} - {status}"

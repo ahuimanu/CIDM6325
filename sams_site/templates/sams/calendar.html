@@ -169,6 +169,33 @@
                 <div class="popout-arrow"></div>
             </div>
 
+            <!-- Attendance Popout -->
+            <div id="attendancePopout" class="event-popout attendance-popout" style="display: none;">
+                <div class="popout-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-clipboard-check me-2"></i>
+                        <span id="attendancePopoutTitle">Attendance - <span id="attendanceDate"></span></span>
+                    </h6>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="closeAttendancePopout()" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="popout-body" style="max-height: 400px; overflow-y: auto;">
+                    <div id="attendanceList" class="attendance-list">
+                        <!-- Student checkboxes will be populated here -->
+                    </div>
+                </div>
+                <div class="popout-form-actions">
+                    <button type="button" class="btn btn-sm btn-outline-secondary me-2" onclick="closeAttendancePopout()">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-sm btn-success" onclick="saveAttendance()">
+                        <i class="fas fa-save"></i> Save Attendance
+                    </button>
+                </div>
+                <div class="popout-arrow"></div>
+            </div>
+
             <!-- Calendar Table -->
             <div class="table-responsive">
                 <table class="table table-bordered calendar-table">
@@ -199,6 +226,11 @@
                                             <button class="add-event-btn-circle" 
                                                     onclick="showAddEventPopout(this, '{{ year }}-{{ month|stringformat:'02d' }}-{{ day|stringformat:'02d' }}')">
                                                 <i class="fas fa-plus"></i>
+                                            </button>
+                                            <!-- Attendance Button -->
+                                            <button class="attendance-btn-circle" 
+                                                    onclick="showAttendancePopout(this, '{{ year }}-{{ month|stringformat:'02d' }}-{{ day|stringformat:'02d' }}')">
+                                                <i class="fas fa-clipboard-check"></i>
                                             </button>
                                         </div>
                                         {% if day == today.day and month == today.month and year == today.year %}
@@ -360,7 +392,7 @@
                     <i class="fas fa-home me-1"></i>
                     <span>Home</span>
                 </a>
-                <a href="/admin/" class="nav-btn-inline admin-btn">
+                <a href="{% url 'login' %}" class="nav-btn-inline admin-btn">
                     <i class="fas fa-shield-alt me-1"></i>
                     <span>Admin Portal</span>
                 </a>
@@ -1100,6 +1132,78 @@ body {
 
 .add-event-btn-circle:active {
     transform: scale(0.95);
+}
+
+/* Attendance Button */
+.attendance-btn-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff7675, #fd79a8);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.25rem 0 0 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.attendance-btn-circle i {
+    color: white;
+    font-size: 0.65rem;
+    line-height: 1;
+}
+
+.attendance-btn-circle:hover {
+    background: linear-gradient(135deg, #fd79a8, #e84393);
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.attendance-btn-circle:active {
+    transform: scale(0.95);
+}
+
+/* Attendance Popout */
+.attendance-popout {
+    min-width: 350px;
+}
+
+.attendance-list {
+    padding: 0.5rem 0;
+}
+
+.attendance-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+}
+
+.attendance-item:last-child {
+    border-bottom: none;
+}
+
+.attendance-item:hover {
+    background-color: #fff5f5;
+}
+
+.attendance-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 0.75rem;
+    cursor: pointer;
+    accent-color: #ff7675;
+}
+
+.attendance-item label {
+    margin: 0;
+    cursor: pointer;
+    flex: 1;
+    font-size: 0.9rem;
 }
 
 /* Footer Navigation */
@@ -1984,9 +2088,175 @@ function handleAddEventPopoutKeys(event) {
     if (event.key === 'Escape') {
         closeAddEventPopout();
         event.preventDefault();
-    } else if (event.key === 'Enter' && event.ctrlKey) {
-        saveEventFromPopout();
+    }
+}
+
+// Attendance functions
+let currentAttendanceDate = null;
+
+async function showAttendancePopout(buttonElement, dateStr) {
+    // Close add event popout if open
+    closeAddEventPopout();
+    
+    const popout = document.getElementById('attendancePopout');
+    const dateDisplay = document.getElementById('attendanceDate');
+    
+    currentAttendanceDate = dateStr;
+    dateDisplay.textContent = new Date(dateStr).toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+    
+    // Load students and attendance data
+    await loadAttendanceData(dateStr);
+    
+    // Position the popout near the button
+    const rect = buttonElement.getBoundingClientRect();
+    const arrow = popout.querySelector('.popout-arrow');
+    
+    popout.style.display = 'block';
+    popout.style.position = 'fixed';
+    popout.style.zIndex = '10000';
+    
+    const popoutWidth = 350;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    let left = rect.left + (rect.width / 2) - (popoutWidth / 2);
+    let top = rect.bottom + 15;
+    
+    if (left < 10) left = 10;
+    if (left + popoutWidth > viewportWidth - 10) left = viewportWidth - popoutWidth - 10;
+    
+    const popoutHeight = popout.offsetHeight;
+    if (top + popoutHeight > viewportHeight - 10) {
+        top = rect.top - popoutHeight - 15;
+        arrow.style.bottom = '-10px';
+        arrow.style.top = 'auto';
+        arrow.style.borderBottom = 'none';
+        arrow.style.borderTop = '10px solid white';
+    }
+    
+    popout.style.left = left + 'px';
+    popout.style.top = top + 'px';
+    
+    setTimeout(() => {
+        popout.style.opacity = '1';
+        document.addEventListener('keydown', handleAttendancePopoutKeys);
+        document.addEventListener('click', closeAttendancePopoutOnOutsideClick);
+    }, 100);
+}
+
+async function loadAttendanceData(dateStr) {
+    const attendanceList = document.getElementById('attendanceList');
+    attendanceList.innerHTML = '<div class="text-center py-3"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+    
+    try {
+        const response = await fetch(`/attendance/load/?date=${dateStr}`, {
+            credentials: 'same-origin',
+        });
+        
+        if (!response.ok) throw new Error('Failed to load attendance');
+        
+        const data = await response.json();
+        
+        attendanceList.innerHTML = '';
+        data.students.forEach(student => {
+            const item = document.createElement('div');
+            item.className = 'attendance-item';
+            item.innerHTML = `
+                <input type="checkbox" 
+                       id="student-${student.id}" 
+                       ${student.present ? 'checked' : ''}
+                       data-student-id="${student.id}">
+                <label for="student-${student.id}">${student.name}</label>
+            `;
+            attendanceList.appendChild(item);
+        });
+    } catch (error) {
+        console.error('Error loading attendance:', error);
+        attendanceList.innerHTML = '<div class="text-danger text-center py-3">Failed to load students</div>';
+    }
+}
+
+async function saveAttendance() {
+    const checkboxes = document.querySelectorAll('#attendanceList input[type="checkbox"]');
+    const attendanceData = [];
+    
+    checkboxes.forEach(checkbox => {
+        attendanceData.push({
+            student_id: checkbox.dataset.studentId,
+            present: checkbox.checked
+        });
+    });
+    
+    try {
+        const response = await fetch('/attendance/save/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                date: currentAttendanceDate,
+                attendance: attendanceData
+            })
+        });
+        
+        if (!response.ok) throw new Error('Failed to save attendance');
+        
+        const result = await response.json();
+        
+        // Show success feedback
+        const saveBtn = document.querySelector('#attendancePopout .btn-success');
+        const originalHTML = saveBtn.innerHTML;
+        saveBtn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+        saveBtn.classList.remove('btn-success');
+        saveBtn.classList.add('btn-outline-success');
+        
+        setTimeout(() => {
+            saveBtn.innerHTML = originalHTML;
+            saveBtn.classList.remove('btn-outline-success');
+            saveBtn.classList.add('btn-success');
+            closeAttendancePopout();
+        }, 1500);
+        
+    } catch (error) {
+        console.error('Error saving attendance:', error);
+        alert('Failed to save attendance. Please try again.');
+    }
+}
+
+function closeAttendancePopout() {
+    const popout = document.getElementById('attendancePopout');
+    popout.style.display = 'none';
+    popout.style.opacity = '0';
+    
+    const arrow = popout.querySelector('.popout-arrow');
+    arrow.style.display = 'block';
+    
+    currentAttendanceDate = null;
+    document.removeEventListener('click', closeAttendancePopoutOnOutsideClick);
+    document.removeEventListener('keydown', handleAttendancePopoutKeys);
+}
+
+function handleAttendancePopoutKeys(event) {
+    const popout = document.getElementById('attendancePopout');
+    if (popout.style.display === 'none') return;
+    
+    if (event.key === 'Escape') {
+        closeAttendancePopout();
         event.preventDefault();
+    }
+}
+
+function closeAttendancePopoutOnOutsideClick(event) {
+    const popout = document.getElementById('attendancePopout');
+    if (!popout.contains(event.target) && !event.target.closest('.attendance-btn-circle')) {
+        closeAttendancePopout();
     }
 }
 

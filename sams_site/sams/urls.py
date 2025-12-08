@@ -16,6 +16,10 @@ urlpatterns = [
     path('blog/create/', views.blog_create, name='blog_create'),
     path('blog/<int:announcement_id>/comment/', views.comment_create, name='comment_create'),
     
+    # Attendance
+    path('attendance/load/', views.attendance_load, name='attendance_load'),
+    path('attendance/save/', views.attendance_save, name='attendance_save'),
+    
     # Items (secondary feature)
     path('items/', views.ItemListView.as_view(), name='item_list'),
     path('items/<int:pk>/', views.ItemDetailView.as_view(), name='item_detail'),

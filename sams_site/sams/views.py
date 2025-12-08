@@ -11,7 +11,7 @@ from django.utils.decorators import method_decorator
 import calendar
 import datetime
 import json
-from .models import Item, TeamEvent
+from .models import Item, TeamEvent, Student, Attendance
 from .forms import SamsUserCreationForm
 
 
@@ -380,3 +380,85 @@ def custom_logout(request):
     """Custom logout view that handles both GET and POST requests."""
     logout(request)
     return redirect('login')
+
+
+def attendance_load(request):
+    """Load students and their attendance status for a given date."""
+    date_str = request.GET.get('date')
+    
+    if not date_str:
+        return JsonResponse({'error': 'Date parameter required'}, status=400)
+    
+    try:
+        target_date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+    except ValueError:
+        return JsonResponse({'error': 'Invalid date format'}, status=400)
+    
+    # Get all students
+    students = Student.objects.all().order_by('name')
+    
+    # Get attendance records for this date
+    attendance_records = Attendance.objects.filter(date=target_date).select_related('student')
+    attendance_map = {record.student_id: record.present for record in attendance_records}
+    
+    students_data = [
+        {
+            'id': student.id,
+            'name': student.name,
+            'student_id': student.student_id or '',
+            'present': attendance_map.get(student.id, False)
+        }
+        for student in students
+    ]
+    
+    return JsonResponse({'students': students_data})
+
+
+def attendance_save(request):
+    """Save attendance records for a given date."""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST required'}, status=405)
+    
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'Authentication required'}, status=401)
+    
+    try:
+        data = json.loads(request.body)
+        date_str = data.get('date')
+        attendance_list = data.get('attendance', [])
+        
+        if not date_str:
+            return JsonResponse({'error': 'Date required'}, status=400)
+        
+        target_date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+        
+        # Save each attendance record
+        saved_count = 0
+        for item in attendance_list:
+            student_id = item.get('student_id')
+            present = item.get('present', False)
+            
+            if not student_id:
+                continue
+            
+            # Update or create attendance record
+            Attendance.objects.update_or_create(
+                student_id=student_id,
+                date=target_date,
+                defaults={
+                    'present': present,
+                    'recorded_by': request.user
+                }
+            )
+            saved_count += 1
+        
+        return JsonResponse({
+            'success': True,
+            'saved_count': saved_count,
+            'date': date_str
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

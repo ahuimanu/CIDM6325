@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, TeamEvent, Announcement, Comment
+from .models import Item, TeamEvent, Announcement, Comment, Student, Attendance
 
 
 @admin.register(Item)
@@ -34,3 +34,19 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ('created_at', 'author_name')
     search_fields = ('content', 'author_name', 'announcement__title')
     date_hierarchy = 'created_at'
+
+
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'student_id', 'created_at')
+    search_fields = ('name', 'student_id')
+    ordering = ['name']
+
+
+@admin.register(Attendance)
+class AttendanceAdmin(admin.ModelAdmin):
+    list_display = ('student', 'date', 'present', 'recorded_by', 'created_at')
+    list_filter = ('date', 'present', 'recorded_by')
+    search_fields = ('student__name',)
+    date_hierarchy = 'date'
+    ordering = ['-date', 'student__name']
