@@ -12,6 +12,11 @@
                 <div class="user-info">
                     <i class="fas fa-user-circle"></i>
                     <span class="username">{{ user.username }}</span>
+                    {% if user.is_staff %}
+                    <button class="btn-manage-students" onclick="showStudentManagementPopout()" title="Manage Students">
+                        <i class="fas fa-users-cog"></i> Manage Students
+                    </button>
+                    {% endif %}
                     <form method="post" action="{% url 'logout' %}" style="display: inline; margin: 0;">
                         {% csrf_token %}
                         <button type="submit" class="btn-logout" title="Logout">
@@ -194,6 +199,46 @@
                     </button>
                 </div>
                 <div class="popout-arrow"></div>
+            </div>
+
+            <!-- Student Management Popout -->
+            <div id="studentManagementPopout" class="event-popout student-management-popout" style="display: none; position: fixed; top: 100px; right: 20px; width: 500px; z-index: 2000;">
+                <div class="popout-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-users-cog me-2"></i>
+                        Manage Students
+                    </h6>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="closeStudentManagementPopout()" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="popout-body">
+                    <!-- Add Student Form -->
+                    <div class="mb-3 pb-3 border-bottom">
+                        <h6 class="text-muted small mb-2"><i class="fas fa-plus-circle"></i> Add New Student</h6>
+                        <form id="addStudentForm" onsubmit="return false;">
+                            <div class="row g-2">
+                                <div class="col-7">
+                                    <input type="text" class="form-control form-control-sm" id="newStudentName" placeholder="Student Name" required>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control form-control-sm" id="newStudentId" placeholder="Student ID (optional)">
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-primary mt-2" onclick="createStudent()">
+                                <i class="fas fa-user-plus"></i> Add Student
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Student List -->
+                    <div>
+                        <h6 class="text-muted small mb-2"><i class="fas fa-list"></i> Current Students (<span id="studentCount">0</span>)</h6>
+                        <div id="studentManagementList" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Student list will be populated here -->
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Calendar Table -->
@@ -479,7 +524,8 @@ body {
 
 .btn-logout,
 .btn-login,
-.btn-register {
+.btn-register,
+.btn-manage-students {
     padding: 0.4rem 1rem;
     border-radius: 6px;
     text-decoration: none;
@@ -489,6 +535,21 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
+}
+
+.btn-manage-students {
+    background: rgba(76, 175, 80, 0.3);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.btn-manage-students:hover {
+    background: rgba(76, 175, 80, 0.5);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn-logout {
@@ -1204,6 +1265,63 @@ body {
     cursor: pointer;
     flex: 1;
     font-size: 0.9rem;
+}
+
+/* Student Management Styles */
+.student-management-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+}
+
+.student-management-item:last-child {
+    border-bottom: none;
+}
+
+.student-management-item:hover {
+    background-color: #f8f9fa;
+}
+
+.student-info {
+    flex: 1;
+}
+
+.student-name {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.student-id-badge {
+    font-size: 0.75rem;
+    color: #666;
+    background: #e9ecef;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    margin-left: 0.5rem;
+}
+
+.btn-delete-student {
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-delete-student:hover {
+    background: #c82333;
+    transform: scale(1.05);
+}
+
+.student-management-popout .popout-body {
+    max-height: 600px;
 }
 
 /* Footer Navigation */
@@ -2257,6 +2375,177 @@ function closeAttendancePopoutOnOutsideClick(event) {
     const popout = document.getElementById('attendancePopout');
     if (!popout.contains(event.target) && !event.target.closest('.attendance-btn-circle')) {
         closeAttendancePopout();
+    }
+}
+
+// Student Management Functions
+async function showStudentManagementPopout() {
+    const popout = document.getElementById('studentManagementPopout');
+    
+    // Load students
+    await loadStudentList();
+    
+    popout.style.display = 'block';
+    setTimeout(() => {
+        popout.style.opacity = '1';
+    }, 10);
+    
+    // Add event listeners
+    setTimeout(() => {
+        document.addEventListener('click', closeStudentManagementPopoutOnOutsideClick);
+        document.addEventListener('keydown', handleStudentManagementPopoutKeys);
+    }, 100);
+}
+
+function closeStudentManagementPopout() {
+    const popout = document.getElementById('studentManagementPopout');
+    popout.style.display = 'none';
+    popout.style.opacity = '0';
+    
+    // Clear form
+    document.getElementById('newStudentName').value = '';
+    document.getElementById('newStudentId').value = '';
+    
+    document.removeEventListener('click', closeStudentManagementPopoutOnOutsideClick);
+    document.removeEventListener('keydown', handleStudentManagementPopoutKeys);
+}
+
+function handleStudentManagementPopoutKeys(event) {
+    const popout = document.getElementById('studentManagementPopout');
+    if (popout.style.display === 'none') return;
+    
+    if (event.key === 'Escape') {
+        closeStudentManagementPopout();
+        event.preventDefault();
+    }
+}
+
+function closeStudentManagementPopoutOnOutsideClick(event) {
+    const popout = document.getElementById('studentManagementPopout');
+    if (!popout.contains(event.target) && !event.target.closest('.btn-manage-students')) {
+        closeStudentManagementPopout();
+    }
+}
+
+async function loadStudentList() {
+    const studentList = document.getElementById('studentManagementList');
+    studentList.innerHTML = '<div class="text-center py-3"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+    
+    try {
+        const response = await fetch('/students/', {
+            credentials: 'same-origin',
+        });
+        
+        if (!response.ok) throw new Error('Failed to load students');
+        
+        const data = await response.json();
+        
+        document.getElementById('studentCount').textContent = data.students.length;
+        
+        studentList.innerHTML = '';
+        
+        if (data.students.length === 0) {
+            studentList.innerHTML = '<div class="text-center text-muted py-3">No students yet</div>';
+            return;
+        }
+        
+        data.students.forEach(student => {
+            const item = document.createElement('div');
+            item.className = 'student-management-item';
+            item.innerHTML = `
+                <div class="student-info">
+                    <span class="student-name">${student.name}</span>
+                    ${student.student_id ? `<span class="student-id-badge">${student.student_id}</span>` : ''}
+                </div>
+                <button class="btn-delete-student" onclick="deleteStudent(${student.id}, '${student.name}')" title="Delete Student">
+                    <i class="fas fa-trash"></i>
+                </button>
+            `;
+            studentList.appendChild(item);
+        });
+    } catch (error) {
+        console.error('Error loading students:', error);
+        studentList.innerHTML = '<div class="text-danger text-center py-3">Failed to load students</div>';
+    }
+}
+
+async function createStudent() {
+    const name = document.getElementById('newStudentName').value.trim();
+    const student_id = document.getElementById('newStudentId').value.trim();
+    
+    if (!name) {
+        alert('Please enter a student name');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/students/create/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                name: name,
+                student_id: student_id
+            })
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to create student');
+        }
+        
+        // Clear form
+        document.getElementById('newStudentName').value = '';
+        document.getElementById('newStudentId').value = '';
+        
+        // Reload student list
+        await loadStudentList();
+        
+        // Show success feedback
+        const form = document.getElementById('addStudentForm');
+        const successMsg = document.createElement('div');
+        successMsg.className = 'alert alert-success alert-dismissible fade show mt-2';
+        successMsg.innerHTML = `
+            <i class="fas fa-check-circle"></i> Student "${name}" added successfully!
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        form.appendChild(successMsg);
+        setTimeout(() => successMsg.remove(), 3000);
+        
+    } catch (error) {
+        console.error('Error creating student:', error);
+        alert('Error: ' + error.message);
+    }
+}
+
+async function deleteStudent(studentId, studentName) {
+    if (!confirm(`Are you sure you want to delete student "${studentName}"?\n\nThis will also delete all their attendance records.`)) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/students/${studentId}/delete/`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            credentials: 'same-origin',
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to delete student');
+        }
+        
+        // Reload student list
+        await loadStudentList();
+        
+    } catch (error) {
+        console.error('Error deleting student:', error);
+        alert('Error: ' + error.message);
     }
 }
 

@@ -462,3 +462,81 @@ def attendance_save(request):
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+
+def student_list(request):
+    """Get all students for management."""
+    students = Student.objects.all().order_by('name')
+    students_data = [
+        {
+            'id': student.id,
+            'name': student.name,
+            'student_id': student.student_id or '',
+        }
+        for student in students
+    ]
+    return JsonResponse({'students': students_data})
+
+
+def student_create(request):
+    """Create a new student."""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST required'}, status=405)
+    
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Permission denied'}, status=403)
+    
+    try:
+        data = json.loads(request.body)
+        name = data.get('name', '').strip()
+        student_id = data.get('student_id', '').strip()
+        
+        if not name:
+            return JsonResponse({'error': 'Name is required'}, status=400)
+        
+        # Check if student_id already exists (if provided)
+        if student_id and Student.objects.filter(student_id=student_id).exists():
+            return JsonResponse({'error': f'Student ID {student_id} already exists'}, status=400)
+        
+        student = Student.objects.create(
+            name=name,
+            student_id=student_id if student_id else None
+        )
+        
+        return JsonResponse({
+            'success': True,
+            'student': {
+                'id': student.id,
+                'name': student.name,
+                'student_id': student.student_id or '',
+            }
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+def student_delete(request, student_id):
+    """Delete a student."""
+    if request.method != 'DELETE':
+        return JsonResponse({'error': 'DELETE required'}, status=405)
+    
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Permission denied'}, status=403)
+    
+    try:
+        student = Student.objects.get(id=student_id)
+        student_name = student.name
+        student.delete()
+        
+        return JsonResponse({
+            'success': True,
+            'message': f'Student {student_name} deleted successfully'
+        })
+        
+    except Student.DoesNotExist:
+        return JsonResponse({'error': 'Student not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

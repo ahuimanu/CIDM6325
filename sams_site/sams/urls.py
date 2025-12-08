@@ -20,6 +20,11 @@ urlpatterns = [
     path('attendance/load/', views.attendance_load, name='attendance_load'),
     path('attendance/save/', views.attendance_save, name='attendance_save'),
     
+    # Student Management
+    path('students/', views.student_list, name='student_list'),
+    path('students/create/', views.student_create, name='student_create'),
+    path('students/<int:student_id>/delete/', views.student_delete, name='student_delete'),
+    
     # Items (secondary feature)
     path('items/', views.ItemListView.as_view(), name='item_list'),
     path('items/<int:pk>/', views.ItemDetailView.as_view(), name='item_detail'),
