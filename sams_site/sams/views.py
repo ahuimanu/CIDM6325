@@ -406,7 +406,7 @@ def attendance_load(request):
             'id': student.id,
             'name': student.name,
             'student_id': student.student_id or '',
-            'present': attendance_map.get(student.id, False)
+            'present': attendance_map.get(student.id, True)  # Default to True (present)
         }
         for student in students
     ]

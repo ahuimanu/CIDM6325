@@ -103,7 +103,7 @@ class Attendance(models.Model):
     """Daily attendance record for students."""
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='attendance_records')
     date = models.DateField()
-    present = models.BooleanField(default=False)
+    present = models.BooleanField(default=True)  # Students are present by default
     recorded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
