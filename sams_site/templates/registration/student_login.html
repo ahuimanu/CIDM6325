@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block title %}Student Login - SAMS{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMS Student Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #81ecec 0%, #74b9ff 50%, #a29bfe 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .student-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .student-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            max-width: 450px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideIn 0.6s ease-out;
+        }
+        
+        .student-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .student-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #81ecec, #74b9ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 20px rgba(129, 236, 236, 0.3);
+        }
+        
+        .student-logo i {
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .student-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00b894, #0984e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .student-subtitle {
+            color: #718096;
+            font-size: 1rem;
+        }
+        
+        .form-control {
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        
+        .form-control:focus {
+            border-color: #74b9ff;
+            box-shadow: 0 0 0 0.2rem rgba(116, 185, 255, 0.15);
+        }
+        
+        .form-floating label {
+            color: #a0aec0;
+        }
+        
+        .login-btn {
+            background: linear-gradient(135deg, #81ecec, #74b9ff);
+            border: none;
+            border-radius: 12px;
+            padding: 0.9rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(129, 236, 236, 0.4);
+            background: linear-gradient(135deg, #74b9ff, #81ecec);
+        }
+        
+        .link-box {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(129, 236, 236, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(129, 236, 236, 0.2);
+            margin-bottom: 1rem;
+        }
+        
+        .link-box a {
+            color: #0984e3;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .link-box a:hover {
+            color: #74b9ff;
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            color: #dc3545;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .student-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .student-title {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="student-container">
+        <div class="student-card">
+            <div class="student-header">
+                <div class="student-logo">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h1 class="student-title">Student Portal</h1>
+                <p class="student-subtitle">Welcome to SAMS</p>
+            </div>
+            
+            {% if form.errors %}
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Please check your credentials and try again.
+                </div>
+            {% endif %}
+            
+            <form method="post" class="student-form">
+                {% csrf_token %}
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="id_username" name="username" placeholder="Username" required>
+                    <label for="id_username"><i class="fas fa-user me-2"></i>Username</label>
+                </div>
+                
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="id_password" name="password" placeholder="Password" required>
+                    <label for="id_password"><i class="fas fa-lock me-2"></i>Password</label>
+                </div>
+                
+                <button type="submit" class="btn login-btn">
+                    <i class="fas fa-sign-in-alt me-2"></i>
+                    Access Student Portal
+                </button>
+            </form>
+            
+            <div class="link-box">
+                <p class="mb-0">Need a student account? <a href="{% url 'sams:student_register' %}">Register Here</a></p>
+            </div>
+            
+            <div class="link-box" style="background: rgba(162, 155, 254, 0.1); border-color: rgba(162, 155, 254, 0.2);">
+                <p class="mb-0" style="color: #6c5ce7;">
+                    <i class="fas fa-shield-alt me-2"></i>
+                    Admin User? <a href="{% url 'login' %}" style="color: #6c5ce7;">Go to Admin Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}
