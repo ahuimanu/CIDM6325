@@ -1,0 +1,2888 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Modern Calendar Wrapper -->
+<div class="calendar-page">
+    <!-- System Title Banner -->
+    <div class="system-banner">
+        <h2 class="system-title">Student Athlete Management System</h2>
+        <div class="auth-status">
+            {% if user.is_authenticated %}
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="username">{{ user.username }}</span>
+                    {% if user.is_staff %}
+                    <button class="btn-manage-students" onclick="showStudentManagementPopout()" title="Manage Students">
+                        <i class="fas fa-users-cog"></i> Manage Students
+                    </button>
+                    {% endif %}
+                    <form method="post" action="{% url 'logout' %}" style="display: inline; margin: 0;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-logout" title="Logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="user-info">
+                    <a href="{% url 'login' %}?next={% url 'sams:calendar' %}" class="btn-login" title="Login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                    <a href="{% url 'sams:register' %}" class="btn-register" title="Register">
+                        <i class="fas fa-user-plus"></i> Register
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="calendar-container">
+        <!-- Compact Header Section -->
+        <div class="compact-header">
+            <div class="header-row">
+                <div class="title-compact">
+                    <h1 class="month-title">{{ month_name }} {{ year }}</h1>
+                    <span class="subtitle-compact">Team Calendar & Event Management</span>
+                </div>
+                
+                <div class="nav-compact">
+                    <a href="?year={{ prev_year }}&month={{ prev_month }}" class="nav-btn-compact" title="Previous Month">
+                        <i class="fas fa-chevron-left"></i>
+                        <span>Prev</span>
+                    </a>
+                    <a href="?" class="nav-btn-compact nav-today" title="Go to Today">
+                        <i class="fas fa-calendar-day"></i>
+                        <span>Today</span>
+                    </a>
+                    <a href="?year={{ next_year }}&month={{ next_month }}" class="nav-btn-compact" title="Next Month">
+                        <span>Next</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+                
+                <div class="selectors-compact">
+                    <span class="jump-label">Jump to:</span>
+                    <select id="monthSelector" class="selector-compact" onchange="navigateToMonth()">
+                        <option value="1" {% if month == 1 %}selected{% endif %}>Jan</option>
+                        <option value="2" {% if month == 2 %}selected{% endif %}>Feb</option>
+                        <option value="3" {% if month == 3 %}selected{% endif %}>Mar</option>
+                        <option value="4" {% if month == 4 %}selected{% endif %}>Apr</option>
+                        <option value="5" {% if month == 5 %}selected{% endif %}>May</option>
+                        <option value="6" {% if month == 6 %}selected{% endif %}>Jun</option>
+                        <option value="7" {% if month == 7 %}selected{% endif %}>Jul</option>
+                        <option value="8" {% if month == 8 %}selected{% endif %}>Aug</option>
+                        <option value="9" {% if month == 9 %}selected{% endif %}>Sep</option>
+                        <option value="10" {% if month == 10 %}selected{% endif %}>Oct</option>
+                        <option value="11" {% if month == 11 %}selected{% endif %}>Nov</option>
+                        <option value="12" {% if month == 12 %}selected{% endif %}>Dec</option>
+                    </select>
+                    <select id="yearSelector" class="selector-compact" onchange="navigateToMonth()">
+                        <option value="2023" {% if year == 2023 %}selected{% endif %}>2023</option>
+                        <option value="2024" {% if year == 2024 %}selected{% endif %}>2024</option>
+                        <option value="2025" {% if year == 2025 %}selected{% endif %}>2025</option>
+                        <option value="2026" {% if year == 2026 %}selected{% endif %}>2026</option>
+                        <option value="2027" {% if year == 2027 %}selected{% endif %}>2027</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar Main Section -->
+        <div class="calendar-main">
+            <!-- Event View Popout (floating) -->
+            <div id="eventPopout" class="event-popout" style="display: none;">
+                <div class="popout-header">
+                    <h6 id="popoutEventTitle" class="mb-0 text-truncate"></h6>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="closeEventPopout()" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="popout-body">
+                    <p id="popoutEventDescription" class="mb-2 small"></p>
+                    <div class="popout-meta">
+                        <small class="text-muted">
+                            <div><strong>By:</strong> <span id="popoutEventOwner"></span></div>
+                            <div><strong>Time:</strong> <span id="popoutEventCreated"></span></div>
+                        </small>
+                    </div>
+                    {% if user.is_authenticated %}
+                    <div class="popout-actions mt-3">
+                        <button type="button" class="btn-edit-event" id="btnEditEvent" title="Edit Event">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button type="button" class="btn-delete-event" id="btnDeleteEvent" title="Delete Event">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="popout-arrow"></div>
+            </div>
+
+            <!-- Add Event Popout (floating form) -->
+            <div id="addEventPopout" class="event-popout add-event-popout" style="display: none;">
+                <div class="popout-header">
+                    <h6 id="addEventPopoutTitle" class="mb-0">
+                        <i class="fas fa-plus me-2"></i>
+                        <span id="addEventModeTitle">Add New Event</span>
+                    </h6>
+                    <div class="popout-buttons">
+                        <button class="btn btn-sm btn-outline-secondary" onclick="closeAddEventPopout()" title="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="popout-body">
+                    <form id="addEventForm" onsubmit="return false;">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">DATE</label>
+                            <input type="date" class="form-control form-control-sm" id="addEventDate" readonly>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label small fw-bold text-muted">START TIME</label>
+                                <input type="time" class="form-control form-control-sm" id="addEventStartTime" placeholder="HH:MM">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-bold text-muted">END TIME</label>
+                                <input type="time" class="form-control form-control-sm" id="addEventEndTime" placeholder="HH:MM">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">TITLE</label>
+                            <input type="text" class="form-control form-control-sm" id="addEventTitle" placeholder="Event title..." required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">DESCRIPTION</label>
+                            <textarea class="form-control form-control-sm" id="addEventDescription" rows="3" placeholder="Add details about this event..."></textarea>
+                        </div>
+                        <input type="hidden" id="addEventId">
+                    </form>
+                    <div class="popout-form-actions">
+                        <button type="button" class="btn btn-sm btn-outline-secondary me-2" onclick="closeAddEventPopout()">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-danger me-2" id="addEventDeleteBtn" style="display: none;" onclick="deleteEventFromPopout()">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary" id="addEventSaveBtn" onclick="saveEventFromPopout()">
+                            <i class="fas fa-save"></i> <span id="addEventSaveBtnText">Save</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="popout-arrow"></div>
+            </div>
+
+            <!-- Attendance Popout -->
+            <div id="attendancePopout" class="event-popout attendance-popout" style="display: none;">
+                <div class="popout-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-clipboard-check me-2"></i>
+                        <span id="attendancePopoutTitle">Attendance - <span id="attendanceDate"></span></span>
+                    </h6>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="closeAttendancePopout()" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="popout-body" style="max-height: 400px; overflow-y: auto;">
+                    <div id="attendanceList" class="attendance-list">
+                        <!-- Student checkboxes will be populated here -->
+                    </div>
+                </div>
+                <div class="popout-form-actions">
+                    <button type="button" class="btn btn-sm btn-outline-secondary me-2" onclick="closeAttendancePopout()">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-sm btn-success" onclick="saveAttendance()">
+                        <i class="fas fa-save"></i> Save Attendance
+                    </button>
+                </div>
+                <div class="popout-arrow"></div>
+            </div>
+
+            <!-- Student Management Popout -->
+            <div id="studentManagementPopout" class="event-popout student-management-popout" style="display: none; position: fixed; top: 100px; right: 20px; width: 500px; z-index: 2000;">
+                <div class="popout-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-users-cog me-2"></i>
+                        Manage Students
+                    </h6>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="closeStudentManagementPopout()" title="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="popout-body">
+                    <!-- Add Student Form -->
+                    <div class="mb-3 pb-3 border-bottom">
+                        <h6 class="text-muted small mb-2"><i class="fas fa-plus-circle"></i> Add New Student</h6>
+                        <form id="addStudentForm" onsubmit="return false;">
+                            <div class="row g-2">
+                                <div class="col-7">
+                                    <input type="text" class="form-control form-control-sm" id="newStudentName" placeholder="Student Name" required>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control form-control-sm" id="newStudentId" placeholder="Student ID (optional)">
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-primary mt-2" onclick="createStudent()">
+                                <i class="fas fa-user-plus"></i> Add Student
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Student List -->
+                    <div>
+                        <h6 class="text-muted small mb-2"><i class="fas fa-list"></i> Current Students (<span id="studentCount">0</span>)</h6>
+                        <div id="studentManagementList" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Student list will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered calendar-table">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-center p-2">Sunday</th>
+                            <th class="text-center p-2">Monday</th>
+                            <th class="text-center p-2">Tuesday</th>
+                            <th class="text-center p-2">Wednesday</th>
+                            <th class="text-center p-2">Thursday</th>
+                            <th class="text-center p-2">Friday</th>
+                            <th class="text-center p-2">Saturday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for week in month_days %}
+                        <tr>
+                            {% for day in week %}
+                            <td class="calendar-day p-2 {% if day == 0 %}empty-day{% else %}{% if day == today.day and month == today.month and year == today.year %}today{% endif %}{% endif %}" 
+                                style="height: 120px; vertical-align: top; {% if day == 0 %}background-color: #f8f9fa;{% endif %}">
+                                
+                                {% if day != 0 %}
+                                    <!-- Date Header -->
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div class="d-flex flex-column align-items-start">
+                                            <span class="fw-bold date-number">{{ day }}</span>
+                                            <!-- Add Event Button -->
+                                            <button class="add-event-btn-circle" 
+                                                    onclick="showAddEventPopout(this, '{{ year }}-{{ month|stringformat:'02d' }}-{{ day|stringformat:'02d' }}')">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                            <!-- Attendance Button -->
+                                            <button class="attendance-btn-circle" 
+                                                    onclick="showAttendancePopout(this, '{{ year }}-{{ month|stringformat:'02d' }}-{{ day|stringformat:'02d' }}')">
+                                                <i class="fas fa-clipboard-check"></i>
+                                            </button>
+                                        </div>
+                                        {% if day == today.day and month == today.month and year == today.year %}
+                                            <div class="today-indicator">
+                                                <div class="today-badge">
+                                                    <i class="fas fa-calendar-day"></i>
+                                                    <span>Today</span>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Current Date -->
+                                    {% with current_date=year|date:"Y-m-d"|add:"-"|add:month|stringformat:"02d"|add:"-"|add:day|stringformat:"02d" %}
+                                    
+                                    <!-- Events for this day -->
+                                    <div class="events-container" id="events-{{ year }}-{{ month|stringformat:'02d' }}-{{ day|stringformat:'02d' }}">
+                                        {% for date, event_list in events_by_date.items %}
+                                            {% if date.day == day and date.month == month and date.year == year %}
+                                                {% for event in event_list %}
+                                                <div class="event-item mb-1" data-event-id="{{ event.id }}">
+                                                    <div class="event-header {% if event.has_time_conflict %}bg-danger conflict-event{% else %}bg-info{% endif %} text-white rounded p-1 cursor-pointer" 
+                                                         data-title="{{ event.title|escapejs }}" 
+                                                         data-description="{{ event.description|escapejs }}"
+                                                         data-owner="{{ event.owner.username|escapejs }}"
+                                                         data-date="{{ event.date|date:"Y-m-d" }}"
+                                                         data-created="{{ event.created_at|date:"M d, Y g:i A" }}"
+                                                         data-start-time="{% if event.start_time %}{{ event.start_time|time:"H:i" }}{% endif %}"
+                                                         data-end-time="{% if event.end_time %}{{ event.end_time|time:"H:i" }}{% endif %}"
+                                                         data-has-conflict="{{ event.has_time_conflict }}"
+                                                         data-event-id="{{ event.id }}"
+                                                         onclick="showEventNote(this)">
+                                                        <div class="fw-bold event-title">
+                                                            {% if event.has_time_conflict %}<i class="fas fa-exclamation-triangle me-1"></i>{% endif %}
+                                                            {{ event.title|truncatechars:15 }}
+                                                        </div>
+                                                        <div class="event-time small opacity-75">
+                                                            {% if event.start_time and event.end_time %}
+                                                                {{ event.start_time|time:"g:i A" }} - {{ event.end_time|time:"g:i A" }}
+                                                            {% elif event.start_time %}
+                                                                {{ event.start_time|time:"g:i A" }}
+                                                            {% else %}
+                                                                All Day
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+
+                                    {% endwith %}
+                                {% endif %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        
+        <!-- Public Blog Section -->
+        <div class="blog-section">
+            <div class="blog-banner">
+                <h2 class="blog-title">
+                    <i class="fas fa-comments me-2"></i>
+                    Team Blog
+                </h2>
+            </div>
+            
+            <div class="blog-content">
+                <!-- Add New Post Form -->
+                <div class="new-post-card">
+                    <h4><i class="fas fa-plus-circle me-2"></i>Create New Post</h4>
+                    <form method="POST" action="{% url 'sams:blog_create' %}" class="blog-form">
+                        {% csrf_token %}
+                        <input type="text" name="author_name" class="form-control mb-2" placeholder="Your Name" required>
+                        <input type="text" name="title" class="form-control mb-2" placeholder="Post Title" required maxlength="200">
+                        <textarea name="content" class="form-control mb-2" placeholder="What's on your mind?" rows="3" required></textarea>
+                        <button type="submit" class="btn-submit-post">
+                            <i class="fas fa-paper-plane me-1"></i> Post
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Blog Posts -->
+                {% if announcements %}
+                    {% for announcement in announcements %}
+                    <div class="blog-post-card">
+                        <div class="post-header">
+                            <div class="post-info">
+                                <h3 class="post-title">{{ announcement.title }}</h3>
+                                <div class="post-meta">
+                                    <span class="author">
+                                        <i class="fas fa-user"></i> {{ announcement.author_name }}
+                                    </span>
+                                    <span class="date">
+                                        <i class="fas fa-clock"></i> {{ announcement.created_at|date:"M d, Y g:i A" }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-body">
+                            {{ announcement.content|linebreaks }}
+                        </div>
+                        
+                        <!-- Comments Section -->
+                        <div class="comments-section">
+                            <h5 class="comments-header">
+                                <i class="fas fa-comment-dots me-2"></i>
+                                Comments ({{ announcement.comments.count }})
+                            </h5>
+                            
+                            <!-- Existing Comments -->
+                            {% if announcement.comments.all %}
+                            <div class="comments-list">
+                                {% for comment in announcement.comments.all %}
+                                <div class="comment-item">
+                                    <div class="comment-author">
+                                        <i class="fas fa-user-circle me-1"></i>
+                                        <strong>{{ comment.author_name }}</strong>
+                                        <span class="comment-date">{{ comment.created_at|date:"M d, g:i A" }}</span>
+                                    </div>
+                                    <div class="comment-content">{{ comment.content }}</div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Add Comment Form -->
+                            <form method="POST" action="{% url 'sams:comment_create' announcement.id %}" class="comment-form">
+                                {% csrf_token %}
+                                <input type="text" name="author_name" class="form-control form-control-sm mb-1" placeholder="Your Name" required>
+                                <textarea name="content" class="form-control form-control-sm mb-1" placeholder="Add a comment..." rows="2" required></textarea>
+                                <button type="submit" class="btn-submit-comment">
+                                    <i class="fas fa-reply me-1"></i> Comment
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-posts">
+                        <i class="fas fa-inbox"></i>
+                        <p>No blog posts yet. Be the first to post!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Compact Navigation -->
+        {% if user.is_authenticated %}
+        <div class="compact-nav-footer">
+            <div class="nav-buttons-inline">
+                <a href="{% url 'sams:calendar' %}" class="nav-btn-inline home-btn">
+                    <i class="fas fa-home me-1"></i>
+                    <span>Home</span>
+                </a>
+                <a href="{% url 'login' %}" class="nav-btn-inline admin-btn">
+                    <i class="fas fa-shield-alt me-1"></i>
+                    <span>Admin Portal</span>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        </div> <!-- Close calendar-main -->
+    </div>
+</div>
+
+
+
+
+<style>
+/* ===== MODERN CALENDAR STYLES ===== */
+
+/* Global Layout Reset */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100vw;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Page Layout */
+.calendar-page {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* System Banner */
+.system-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 0.8rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.system-title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.auth-status {
+    display: flex;
+    align-items: center;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: white;
+    font-size: 0.95rem;
+}
+
+.user-info .fa-user-circle {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.username {
+    font-weight: 500;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+}
+
+.btn-logout,
+.btn-login,
+.btn-register,
+.btn-manage-students {
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.btn-manage-students {
+    background: rgba(76, 175, 80, 0.3);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.btn-manage-students:hover {
+    background: rgba(76, 175, 80, 0.5);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-logout {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-login {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.btn-login:hover {
+    background: rgba(255, 255, 255, 0.35);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.btn-register {
+    background: white;
+    color: #667eea;
+    border: 1px solid white;
+}
+
+.btn-register:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #764ba2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-container {
+    width: 100%;
+    max-width: 100vw;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0.3rem;
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 0.8s ease-out;
+    min-height: 100vh;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Compact Header Styles */
+.compact-header {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.2rem;
+    padding: 0.6rem 0.8rem;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.title-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.month-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.subtitle-compact {
+    color: #6c757d;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Compact Navigation Styles */
+.nav-compact {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+    flex-shrink: 1;
+}
+
+.nav-btn-compact {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+    border: none;
+}
+
+.nav-btn-compact:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.nav-btn-compact.nav-today {
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+}
+
+.nav-btn-compact.nav-today:hover {
+    background: linear-gradient(135deg, #0984e3, #6c5ce7);
+}
+
+.nav-btn-prev, .nav-btn-next {
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+}
+
+.nav-btn-today {
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    color: white;
+}
+
+/* Enhanced Navigation Buttons - Compact */
+.enhanced-nav {
+    min-width: 100px;
+    padding: 0.5rem 0.8rem;
+}
+
+.nav-btn-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.nav-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+}
+
+.nav-btn-next .nav-text {
+    align-items: flex-end;
+}
+
+.nav-btn-today .nav-text {
+    align-items: center;
+}
+
+.nav-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.nav-month {
+    font-size: 0.7rem;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.nav-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    color: white;
+}
+
+.date-selectors {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+    padding: 0.7rem;
+    background: rgba(116, 185, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(116, 185, 255, 0.2);
+}
+
+.selector-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.selector-label {
+    font-weight: 600;
+    color: #74b9ff;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.month-selector, .year-selector {
+    border-radius: 8px;
+    border: 1px solid #74b9ff;
+    padding: 0.4rem 0.7rem;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    background: white;
+    color: #495057;
+    min-width: 100px;
+}
+
+.month-selector:focus, .year-selector:focus {
+    border-color: #0984e3;
+    box-shadow: 0 0 0 0.2rem rgba(116, 185, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+/* Calendar Grid */
+.calendar-main {
+    margin-top: 0.2rem;
+}
+
+.table-responsive {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.calendar-table {
+    margin-bottom: 0;
+    background: white;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.calendar-table thead th {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-weight: 600;
+    padding: 1rem 0.5rem;
+    border: none;
+    text-align: center;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.calendar-day {
+    position: relative;
+    border: 1px solid #e9ecef;
+    height: 15vh;
+    min-height: 120px;
+    vertical-align: top;
+    background: white;
+    transition: all 0.3s ease;
+    width: calc(100% / 7);
+}
+
+.calendar-day:hover {
+    background: #f8f9fa;
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-day.today {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    border-color: #ffc107;
+}
+
+.calendar-day.empty-day {
+    background-color: #f8f9fa !important;
+    opacity: 0.5;
+}
+
+.date-number {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.today .date-number {
+    color: #e67e22;
+}
+
+/* Enhanced Today Indicator */
+.today-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+}
+
+.today-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: linear-gradient(135deg, #ff6b6b, #feca57);
+    color: white;
+    padding: 0.4rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+    animation: pulse 2s infinite;
+}
+
+.today-date {
+    font-size: 0.65rem;
+    color: #e67e22;
+    font-weight: 600;
+    text-align: center;
+    background: rgba(255, 193, 7, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 5px 20px rgba(255, 107, 107, 0.5);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+    }
+}
+
+/* Event Popout Styles */
+.event-popout {
+    position: absolute;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    z-index: 1050;
+    min-width: 280px;
+    max-width: 350px;
+    font-size: 0.9rem;
+    animation: popoutFadeIn 0.2s ease-out;
+}
+
+@keyframes popoutFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.popout-header {
+    background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 7px 7px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popout-header h6 {
+    font-weight: 600;
+    flex: 1;
+    margin-right: 0.5rem;
+}
+
+.popout-buttons {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.popout-buttons .btn {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.popout-buttons .btn:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.5);
+}
+
+.popout-body {
+    padding: 0.75rem;
+}
+
+.popout-meta {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.popout-actions {
+    display: flex;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.popout-actions .btn-edit-event,
+.popout-actions .btn-delete-event {
+    flex: 1;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-edit-event {
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+}
+
+.btn-edit-event:hover {
+    background: linear-gradient(135deg, #0984e3, #6c5ce7);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(9, 132, 227, 0.3);
+}
+
+.btn-delete-event {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+}
+
+.btn-delete-event:hover {
+    background: linear-gradient(135deg, #ee5a6f, #c92a2a);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(238, 90, 111, 0.3);
+}
+
+.popout-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    left: 20px;
+    z-index: 1;
+}
+
+.popout-arrow::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    left: -9px;
+    z-index: 0;
+}
+
+/* Add Event Popout Specific Styles */
+.add-event-popout {
+    min-width: 320px;
+    max-width: 380px;
+}
+
+.add-event-popout .popout-header {
+    background: linear-gradient(135deg, #74b9ff, #81ecec);
+}
+
+.add-event-popout .form-control-sm {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.add-event-popout .form-control-sm:focus {
+    border-color: #74b9ff;
+    box-shadow: 0 0 0 0.2rem rgba(32, 201, 151, 0.25);
+}
+
+.popout-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.calendar-day {
+    min-width: 120px;
+    position: relative;
+}
+.calendar-day.today {
+    background-color: #fff3cd;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+/* Event Styling */
+.event-item {
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.event-item:hover {
+    transform: translateY(-2px);
+}
+
+.event-header {
+    background: linear-gradient(135deg, #74b9ff, #81ecec) !important;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: none !important;
+}
+
+.event-header:hover {
+    background: linear-gradient(135deg, #138496, #17a2b8) !important;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Conflict Event Styling */
+.conflict-event {
+    background: linear-gradient(135deg, #dc3545, #c82333) !important;
+    border: 2px solid #bd2130 !important;
+    animation: conflictPulse 2s ease-in-out infinite;
+}
+
+.conflict-event:hover {
+    background: linear-gradient(135deg, #c82333, #bd2130) !important;
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(220, 53, 69, 0.5);
+}
+
+@keyframes conflictPulse {
+    0%, 100% {
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 16px rgba(220, 53, 69, 0.6);
+    }
+}
+
+.event-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 0.25rem;
+}
+
+.event-time {
+    font-size: 0.7rem;
+    opacity: 0.9;
+}
+
+.add-event-btn {
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+    transition: all 0.3s ease;
+    margin-top: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-event-btn:hover {
+    background: linear-gradient(135deg, #0984e3, #6c5ce7);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.add-event-btn-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.25rem 0 0 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.add-event-btn-circle i {
+    color: white;
+    font-size: 0.65rem;
+    line-height: 1;
+}
+
+.add-event-btn-circle:hover {
+    background: linear-gradient(135deg, #0984e3, #6c5ce7);
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.add-event-btn-circle:active {
+    transform: scale(0.95);
+}
+
+/* Attendance Button */
+.attendance-btn-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff7675, #fd79a8);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.25rem 0 0 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.attendance-btn-circle i {
+    color: white;
+    font-size: 0.65rem;
+    line-height: 1;
+}
+
+.attendance-btn-circle:hover {
+    background: linear-gradient(135deg, #fd79a8, #e84393);
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.attendance-btn-circle:active {
+    transform: scale(0.95);
+}
+
+/* Attendance Popout */
+.attendance-popout {
+    min-width: 350px;
+}
+
+.attendance-list {
+    padding: 0.5rem 0;
+}
+
+.attendance-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+}
+
+.attendance-item:last-child {
+    border-bottom: none;
+}
+
+.attendance-item:hover {
+    background-color: #fff5f5;
+}
+
+.attendance-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 0.75rem;
+    cursor: pointer;
+    accent-color: #ff7675;
+}
+
+.attendance-item label {
+    margin: 0;
+    cursor: pointer;
+    flex: 1;
+    font-size: 0.9rem;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: visible;
+}
+
+/* Student Management Styles */
+.student-management-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+}
+
+.student-management-item:last-child {
+    border-bottom: none;
+}
+
+.student-management-item:hover {
+    background-color: #f8f9fa;
+}
+
+.student-info {
+    flex: 1;
+    overflow: visible;
+    white-space: normal;
+}
+
+.student-name {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #333;
+    display: inline-block;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.student-id-badge {
+    font-size: 0.75rem;
+    color: #666;
+    background: #e9ecef;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    margin-left: 0.5rem;
+}
+
+.btn-delete-student {
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-delete-student:hover {
+    background: #c82333;
+    transform: scale(1.05);
+}
+
+.student-management-popout .popout-body {
+    max-height: 600px;
+}
+
+/* Footer Navigation */
+.calendar-footer {
+    margin-top: 2rem;
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 2px solid #e9ecef;
+}
+
+.primary-nav {
+    margin-bottom: 1.5rem;
+}
+
+.primary-nav .btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.primary-nav .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    color: white;
+}
+
+/* Secondary Navigation Buttons */
+.secondary-nav {
+    border-top: 1px solid #e9ecef;
+    padding-top: 1.5rem;
+}
+
+.nav-button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.nav-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.5rem;
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    min-width: 120px;
+}
+
+.nav-btn-secondary:hover {
+    background: linear-gradient(135deg, #495057, #343a40);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-decoration: none;
+}
+
+.nav-btn-secondary.admin-btn {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-btn-secondary.admin-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.nav-btn-secondary.admin-btn:hover::before {
+    left: 100%;
+}
+
+.nav-btn-secondary.admin-btn:hover {
+    background: linear-gradient(135deg, #c82333, #bd2130);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+}
+
+.nav-btn-secondary i {
+    font-size: 0.9rem;
+}
+
+.nav-btn-secondary.home-btn {
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+}
+
+.nav-btn-secondary.home-btn:hover {
+    background: linear-gradient(135deg, #0984e3, #6c5ce7);
+    box-shadow: 0 5px 15px rgba(116, 185, 255, 0.3);
+}
+
+/* Mobile Responsiveness for Footer */
+@media (max-width: 576px) {
+    .nav-button-group {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .nav-btn-secondary {
+        width: 200px;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .calendar-main-title {
+        font-size: 1.5rem;
+    }
+    
+    .calendar-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .navigation-section {
+        align-items: center;
+    }
+    
+    .nav-controls {
+        justify-content: center;
+    }
+    
+    .date-selectors {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .calendar-day {
+        height: 100px;
+    }
+    
+    .calendar-container {
+        padding: 0.5rem;
+    }
+}
+
+/* Full Screen Enhancements */
+@media (min-width: 1200px) {
+    .calendar-day {
+        height: 20vh;
+        min-height: 160px;
+    }
+    
+    .calendar-header {
+        margin-bottom: 0.8rem;
+    }
+    
+    .calendar-container {
+        padding: 0.8rem 1.5rem;
+    }
+    
+    .calendar-main-title {
+        font-size: 2rem;
+    }
+    
+    .calendar-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* Compact Selectors Styles */
+.selectors-compact {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.jump-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #74b9ff;
+    white-space: nowrap;
+}
+
+.selector-compact {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 0.3rem 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: white;
+    color: #495057;
+    min-width: 60px;
+    max-width: 80px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.selector-compact:focus {
+    border-color: #74b9ff;
+    box-shadow: 0 0 0 0.1rem rgba(116, 185, 255, 0.25);
+    outline: none;
+}
+
+/* Responsive for Compact Header */
+@media (max-width: 768px) {
+    .header-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .month-title {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    
+    .subtitle-compact {
+        text-align: center;
+    }
+    
+    .nav-compact, .selectors-compact {
+        justify-content: center;
+    }
+}
+
+/* Compact Navigation Footer */
+.compact-nav-footer {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(116, 185, 255, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(116, 185, 255, 0.2);
+}
+
+.nav-buttons-inline {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+}
+
+.nav-btn-inline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 8px rgba(116, 185, 255, 0.3);
+    box-sizing: border-box;
+    min-width: 140px;
+}
+
+.nav-btn-inline:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(116, 185, 255, 0.4);
+    color: white;
+    text-decoration: none;
+    background: linear-gradient(135deg, #81ecec 0%, #0984e3 100%);
+}
+
+.nav-btn-inline.home-btn:hover {
+    background: linear-gradient(135deg, #81ecec 0%, #0984e3 100%);
+}
+
+.nav-btn-inline.admin-btn:hover {
+    background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+}
+
+.nav-btn-inline.admin-btn {
+    background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+}
+
+/* Blog Section */
+.blog-section {
+    margin: 1.5rem 0 1rem 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.blog-banner {
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    padding: 0.8rem 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.blog-title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 0.3px;
+}
+
+.blog-content {
+    padding: 1.5rem;
+}
+
+.new-post-card {
+    background: linear-gradient(to bottom, rgba(116, 185, 255, 0.05), white);
+    border: 2px dashed #74b9ff;
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.new-post-card h4 {
+    color: #0984e3;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.blog-form .form-control {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 0.6rem;
+    font-size: 0.9rem;
+}
+
+.blog-form .form-control:focus {
+    border-color: #74b9ff;
+    box-shadow: 0 0 0 0.2rem rgba(116, 185, 255, 0.25);
+    outline: none;
+}
+
+.btn-submit-post {
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-submit-post:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(116, 185, 255, 0.4);
+}
+
+.blog-post-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.blog-post-card:hover {
+    box-shadow: 0 4px 12px rgba(116, 185, 255, 0.2);
+}
+
+.post-header {
+    margin-bottom: 0.8rem;
+}
+
+.post-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0 0 0.5rem 0;
+}
+
+.post-meta {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+.post-meta i {
+    margin-right: 0.3rem;
+    color: #74b9ff;
+}
+
+.post-body {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.comments-section {
+    margin-top: 1rem;
+}
+
+.comments-header {
+    font-size: 0.95rem;
+    color: #4a5568;
+    margin-bottom: 0.8rem;
+}
+
+.comments-list {
+    margin-bottom: 1rem;
+}
+
+.comment-item {
+    background: #f8f9fa;
+    border-left: 3px solid #74b9ff;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.comment-author {
+    font-size: 0.85rem;
+    color: #0984e3;
+    margin-bottom: 0.3rem;
+}
+
+.comment-date {
+    color: #a0aec0;
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+}
+
+.comment-content {
+    color: #4a5568;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.comment-form {
+    background: #f8f9fa;
+    padding: 0.8rem;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.comment-form .form-control-sm {
+    border: 1px solid #d0d0d0;
+    font-size: 0.85rem;
+}
+
+.comment-form .form-control-sm:focus {
+    border-color: #74b9ff;
+    box-shadow: 0 0 0 0.1rem rgba(116, 185, 255, 0.2);
+    outline: none;
+}
+
+.btn-submit-comment {
+    background: linear-gradient(135deg, #81ecec 0%, #0984e3 100%);
+    color: white;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-submit-comment:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(129, 236, 236, 0.4);
+}
+
+.no-posts {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #a0aec0;
+}
+
+.no-posts i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #cbd5e0;
+}
+
+.no-posts p {
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Full width table fix */
+.table-responsive {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    box-sizing: border-box;
+}
+
+.calendar-table {
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+    box-sizing: border-box;
+}
+
+/* Responsive adjustments for full width */
+@media (max-width: 768px) {
+    .compact-nav-footer {
+        margin-top: 0.3rem;
+        padding: 0.4rem;
+    }
+    
+    .nav-buttons-inline {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .nav-btn-inline {
+        width: 100%;
+        justify-content: center;
+        max-width: 200px;
+    }
+    
+    .calendar-container {
+        padding: 0.2rem;
+    }
+    
+    .compact-header {
+        padding: 0.5rem;
+    }
+}
+</style>
+
+<script>
+let currentEventId = null;
+let currentEventData = null;
+
+// Make functions globally accessible
+window.editCurrentEvent = editCurrentEvent;
+window.deleteCurrentEvent = deleteCurrentEvent;
+window.closeEventPopout = closeEventPopout;
+
+// Helper function to format time from 24hr to 12hr format
+function formatTime(timeStr) {
+    if (!timeStr) return '';
+    const [hours, minutes] = timeStr.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour % 12 || 12;
+    return `${displayHour}:${minutes} ${ampm}`;
+}
+
+function showAddEventPopout(buttonElement, date) {
+    // Close any other popouts first
+    closeEventPopout();
+    
+    // Reset form for new event
+    currentEventId = null;
+    currentEventData = null;
+    
+    // Set up the form
+    document.getElementById('addEventModeTitle').textContent = 'Add New Event';
+    document.getElementById('addEventDate').value = date;
+    document.getElementById('addEventTitle').value = '';
+    document.getElementById('addEventDescription').value = '';
+    document.getElementById('addEventStartTime').value = '';
+    document.getElementById('addEventEndTime').value = '';
+    document.getElementById('addEventId').value = '';
+    document.getElementById('addEventDeleteBtn').style.display = 'none';
+    document.getElementById('addEventSaveBtnText').textContent = 'Save';
+    
+    // Position the popout near the button
+    const popout = document.getElementById('addEventPopout');
+    const rect = buttonElement.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    
+    // Position above the button if there's space, otherwise below
+    const popoutHeight = 350; // approximate height
+    const arrow = popout.querySelector('.popout-arrow');
+    let top = rect.top + scrollTop - popoutHeight - 15;
+    
+    if (top < scrollTop + 20) {
+        // Position below the button
+        top = rect.bottom + scrollTop + 10;
+        arrow.style.top = '-8px';
+        arrow.style.bottom = 'auto';
+        arrow.style.transform = 'none';
+        arrow.style.borderTop = 'none';
+        arrow.style.borderBottom = '8px solid white';
+    } else {
+        // Position above the button
+        arrow.style.top = 'auto';
+        arrow.style.bottom = '-8px';
+        arrow.style.transform = 'none';
+        arrow.style.borderBottom = 'none';
+        arrow.style.borderTop = '8px solid white';
+    }
+    
+    // Position horizontally (try to center on button, but keep on screen)
+    let left = rect.left + scrollLeft + (rect.width / 2) - 160; // center the 320px popout
+    const maxLeft = window.innerWidth - 380 + scrollLeft - 20;
+    if (left < scrollLeft + 20) left = scrollLeft + 20;
+    if (left > maxLeft) left = maxLeft;
+    
+    popout.style.left = left + 'px';
+    popout.style.top = top + 'px';
+    popout.style.display = 'block';
+    
+    // Add a small delay for the animation and focus title input
+    setTimeout(() => {
+        popout.style.opacity = '1';
+        document.getElementById('addEventTitle').focus();
+    }, 10);
+    
+    // Close popout when clicking elsewhere or pressing Escape
+    setTimeout(() => {
+        document.addEventListener('click', closeAddEventPopoutOnOutsideClick);
+        document.addEventListener('keydown', handleAddEventPopoutKeys);
+    }, 100);
+}
+
+function showEventNote(element) {
+    const title = element.getAttribute('data-title');
+    const description = element.getAttribute('data-description');
+    const owner = element.getAttribute('data-owner');
+    const date = element.getAttribute('data-date');
+    const created = element.getAttribute('data-created');
+    const eventId = element.getAttribute('data-event-id');
+    const startTime = element.getAttribute('data-start-time');
+    const endTime = element.getAttribute('data-end-time');
+    const hasConflict = element.getAttribute('data-has-conflict') === 'True';
+    
+    // Close any existing popout FIRST (before setting new data)
+    closeEventPopout(true);
+    
+    // THEN store current event data for editing AND the element reference
+    currentEventData = { 
+        id: eventId, 
+        title, 
+        description, 
+        owner, 
+        date, 
+        created, 
+        startTime, 
+        endTime,
+        element: element  // Store reference to the DOM element
+    };
+    
+    console.log('Event opened, stored data:', currentEventData);
+    
+    // Populate the popout
+    document.getElementById('popoutEventTitle').textContent = title;
+    document.getElementById('popoutEventDescription').textContent = description || 'No description provided.';
+    document.getElementById('popoutEventOwner').textContent = owner;
+    
+    // Format time range display
+    let timeDisplay = 'All Day';
+    if (startTime && endTime) {
+        timeDisplay = `${formatTime(startTime)} - ${formatTime(endTime)}`;
+        if (hasConflict) {
+            timeDisplay += ' ⚠️ TIME CONFLICT';
+        }
+    } else if (startTime) {
+        timeDisplay = formatTime(startTime);
+    }
+    document.getElementById('popoutEventCreated').textContent = timeDisplay;
+    
+    // Position the popout near the clicked element
+    const popout = document.getElementById('eventPopout');
+    const rect = element.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    
+    // Position above the event if there's space, otherwise below
+    const popoutHeight = 200; // approximate height
+    const arrow = popout.querySelector('.popout-arrow');
+    let top = rect.top + scrollTop - popoutHeight - 15;
+    
+    if (top < scrollTop + 20) {
+        // Position below the event
+        top = rect.bottom + scrollTop + 10;
+        arrow.style.top = '-8px';
+        arrow.style.bottom = 'auto';
+        arrow.style.transform = 'none';
+        arrow.style.borderTop = 'none';
+        arrow.style.borderBottom = '8px solid white';
+    } else {
+        // Position above the event  
+        arrow.style.top = 'auto';
+        arrow.style.bottom = '-8px';
+        arrow.style.transform = 'none';
+        arrow.style.borderBottom = 'none';
+        arrow.style.borderTop = '8px solid white';
+    }
+    
+    // Position horizontally (try to center on the event, but keep on screen)
+    let left = rect.left + scrollLeft + (rect.width / 2) - 140; // center the 280px popout
+    const maxLeft = window.innerWidth - 350 + scrollLeft - 20;
+    if (left < scrollLeft + 20) left = scrollLeft + 20;
+    if (left > maxLeft) left = maxLeft;
+    
+    popout.style.left = left + 'px';
+    popout.style.top = top + 'px';
+    popout.style.display = 'block';
+    
+    // Add a small delay for the animation
+    setTimeout(() => {
+        popout.style.opacity = '1';
+    }, 10);
+    
+    // Close popout when clicking elsewhere
+    setTimeout(() => {
+        document.addEventListener('click', closePopoutOnOutsideClick);
+    }, 100);
+}
+
+function closeEventPopout(clearData = true) {
+    const popout = document.getElementById('eventPopout');
+    popout.style.display = 'none';
+    popout.style.opacity = '0';
+    if (clearData) {
+        currentEventData = null;
+    }
+    document.removeEventListener('click', closePopoutOnOutsideClick);
+}
+
+function closePopoutOnOutsideClick(event) {
+    const popout = document.getElementById('eventPopout');
+    // Don't close if clicking on edit or delete buttons
+    if (event.target.closest('.btn-edit-event') || event.target.closest('.btn-delete-event')) {
+        return;
+    }
+    if (!popout.contains(event.target) && !event.target.closest('.event-header')) {
+        closeEventPopout(true);
+    }
+}
+
+function editCurrentEvent() {
+    console.log('Edit button clicked', currentEventData);
+    if (currentEventData) {
+        const dataToEdit = {...currentEventData}; // Clone the data
+        closeEventPopout(false); // Don't clear data yet
+        // Use the add event popout for editing
+        showEditEventPopout(dataToEdit);
+    } else {
+        console.error('No current event data available');
+        alert('Error: No event data available for editing');
+    }
+}
+
+async function deleteCurrentEvent() {
+    console.log('Delete button clicked', currentEventData);
+    if (!currentEventData || !currentEventData.id) {
+        console.error('No event ID available', currentEventData);
+        alert('Error: No event data available for deletion');
+        return;
+    }
+    
+    if (!confirm('Are you sure you want to delete this event?')) {
+        return;
+    }
+    
+    const eventToDelete = {...currentEventData}; // Clone the data before closing
+    console.log('Deleting event with ID:', eventToDelete.id);
+    
+    try {
+        const url = `{% url 'sams:event_delete' 0 %}`.replace('0', eventToDelete.id);
+        console.log('Delete URL:', url);
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        });
+        
+        const result = await response.json();
+        console.log('Delete result:', result);
+        
+        if (result.success) {
+            // Remove the event from the DOM
+            if (eventToDelete.element) {
+                const eventItem = eventToDelete.element.closest('.event-item');
+                if (eventItem) {
+                    eventItem.style.transition = 'opacity 0.3s ease';
+                    eventItem.style.opacity = '0';
+                    setTimeout(() => {
+                        eventItem.remove();
+                        console.log('Event removed from DOM');
+                    }, 300);
+                }
+            }
+            closeEventPopout(true); // Now clear the data
+        } else {
+            alert('Error deleting event. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error deleting event: ' + error.message);
+    }
+}
+
+function showEditEventPopout(eventData) {
+    console.log('showEditEventPopout called with:', eventData);
+    // Close any other popouts first
+    closeEventPopout();
+    closeAddEventPopout();
+    
+    // Set up the form for editing
+    currentEventId = eventData.id;
+    currentEventData = eventData;
+    
+    console.log('Setting form values...');
+    document.getElementById('addEventModeTitle').textContent = 'Edit Event';
+    document.getElementById('addEventDate').value = eventData.date || new Date().toISOString().split('T')[0];
+    document.getElementById('addEventTitle').value = eventData.title || '';
+    document.getElementById('addEventDescription').value = eventData.description || '';
+    document.getElementById('addEventStartTime').value = eventData.startTime || '';
+    document.getElementById('addEventEndTime').value = eventData.endTime || '';
+    document.getElementById('addEventId').value = eventData.id;
+    document.getElementById('addEventDeleteBtn').style.display = 'inline-block';
+    document.getElementById('addEventSaveBtnText').textContent = 'Update';
+    
+    console.log('Form populated, showing popout...');
+    // Position in center of screen for editing
+    const popout = document.getElementById('addEventPopout');
+    const arrow = popout.querySelector('.popout-arrow');
+    
+    // Hide arrow for center positioning
+    arrow.style.display = 'none';
+    
+    // Center the popout
+    const left = (window.innerWidth / 2) - 190; // center the 380px popout
+    const top = (window.innerHeight / 2) - 175 + (window.pageYOffset || document.documentElement.scrollTop);
+    
+    popout.style.left = left + 'px';
+    popout.style.top = top + 'px';
+    popout.style.display = 'block';
+    
+    // Add a small delay for the animation and focus title input
+    setTimeout(() => {
+        popout.style.opacity = '1';
+        document.getElementById('addEventTitle').focus();
+        console.log('Edit popout should now be visible');
+    }, 10);
+    
+    // Close popout when clicking elsewhere
+    setTimeout(() => {
+        document.addEventListener('click', closeAddEventPopoutOnOutsideClick);
+    }, 100);
+}
+
+function closeAddEventPopout() {
+    const popout = document.getElementById('addEventPopout');
+    popout.style.display = 'none';
+    popout.style.opacity = '0';
+    
+    // Restore arrow for next use
+    const arrow = popout.querySelector('.popout-arrow');
+    arrow.style.display = 'block';
+    
+    currentEventId = null;
+    currentEventData = null;
+    document.removeEventListener('click', closeAddEventPopoutOnOutsideClick);
+    document.removeEventListener('keydown', handleAddEventPopoutKeys);
+}
+
+function handleAddEventPopoutKeys(event) {
+    const popout = document.getElementById('addEventPopout');
+    if (popout.style.display === 'none') return;
+    
+    if (event.key === 'Escape') {
+        closeAddEventPopout();
+        event.preventDefault();
+    }
+}
+
+// Attendance functions
+let currentAttendanceDate = null;
+
+async function showAttendancePopout(buttonElement, dateStr) {
+    // Close add event popout if open
+    closeAddEventPopout();
+    
+    const popout = document.getElementById('attendancePopout');
+    const dateDisplay = document.getElementById('attendanceDate');
+    
+    currentAttendanceDate = dateStr;
+    dateDisplay.textContent = new Date(dateStr).toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+    
+    // Load students and attendance data
+    await loadAttendanceData(dateStr);
+    
+    // Position the popout near the button
+    const rect = buttonElement.getBoundingClientRect();
+    const arrow = popout.querySelector('.popout-arrow');
+    
+    popout.style.display = 'block';
+    popout.style.position = 'fixed';
+    popout.style.zIndex = '10000';
+    
+    const popoutWidth = 350;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    let left = rect.left + (rect.width / 2) - (popoutWidth / 2);
+    let top = rect.bottom + 15;
+    
+    if (left < 10) left = 10;
+    if (left + popoutWidth > viewportWidth - 10) left = viewportWidth - popoutWidth - 10;
+    
+    const popoutHeight = popout.offsetHeight;
+    if (top + popoutHeight > viewportHeight - 10) {
+        top = rect.top - popoutHeight - 15;
+        arrow.style.bottom = '-10px';
+        arrow.style.top = 'auto';
+        arrow.style.borderBottom = 'none';
+        arrow.style.borderTop = '10px solid white';
+    }
+    
+    popout.style.left = left + 'px';
+    popout.style.top = top + 'px';
+    
+    setTimeout(() => {
+        popout.style.opacity = '1';
+        document.addEventListener('keydown', handleAttendancePopoutKeys);
+        document.addEventListener('click', closeAttendancePopoutOnOutsideClick);
+    }, 100);
+}
+
+async function loadAttendanceData(dateStr) {
+    const attendanceList = document.getElementById('attendanceList');
+    attendanceList.innerHTML = '<div class="text-center py-3"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+    
+    try {
+        const response = await fetch(`/attendance/load/?date=${dateStr}`, {
+            credentials: 'same-origin',
+        });
+        
+        if (!response.ok) throw new Error('Failed to load attendance');
+        
+        const data = await response.json();
+        
+        attendanceList.innerHTML = '';
+        data.students.forEach(student => {
+            const item = document.createElement('div');
+            item.className = 'attendance-item';
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `student-${student.id}`;
+            checkbox.checked = student.present;
+            checkbox.dataset.studentId = student.id;
+            
+            const label = document.createElement('label');
+            label.htmlFor = `student-${student.id}`;
+            label.textContent = student.name;
+            
+            item.appendChild(checkbox);
+            item.appendChild(label);
+            attendanceList.appendChild(item);
+        });
+    } catch (error) {
+        console.error('Error loading attendance:', error);
+        attendanceList.innerHTML = '<div class="text-danger text-center py-3">Failed to load students</div>';
+    }
+}
+
+async function saveAttendance() {
+    const checkboxes = document.querySelectorAll('#attendanceList input[type="checkbox"]');
+    const attendanceData = [];
+    
+    checkboxes.forEach(checkbox => {
+        attendanceData.push({
+            student_id: checkbox.dataset.studentId,
+            present: checkbox.checked
+        });
+    });
+    
+    try {
+        const response = await fetch('/attendance/save/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                date: currentAttendanceDate,
+                attendance: attendanceData
+            })
+        });
+        
+        if (!response.ok) throw new Error('Failed to save attendance');
+        
+        const result = await response.json();
+        
+        // Show success feedback
+        const saveBtn = document.querySelector('#attendancePopout .btn-success');
+        const originalHTML = saveBtn.innerHTML;
+        saveBtn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+        saveBtn.classList.remove('btn-success');
+        saveBtn.classList.add('btn-outline-success');
+        
+        setTimeout(() => {
+            saveBtn.innerHTML = originalHTML;
+            saveBtn.classList.remove('btn-outline-success');
+            saveBtn.classList.add('btn-success');
+            closeAttendancePopout();
+        }, 1500);
+        
+    } catch (error) {
+        console.error('Error saving attendance:', error);
+        alert('Failed to save attendance. Please try again.');
+    }
+}
+
+function closeAttendancePopout() {
+    const popout = document.getElementById('attendancePopout');
+    popout.style.display = 'none';
+    popout.style.opacity = '0';
+    
+    const arrow = popout.querySelector('.popout-arrow');
+    arrow.style.display = 'block';
+    
+    currentAttendanceDate = null;
+    document.removeEventListener('click', closeAttendancePopoutOnOutsideClick);
+    document.removeEventListener('keydown', handleAttendancePopoutKeys);
+}
+
+function handleAttendancePopoutKeys(event) {
+    const popout = document.getElementById('attendancePopout');
+    if (popout.style.display === 'none') return;
+    
+    if (event.key === 'Escape') {
+        closeAttendancePopout();
+        event.preventDefault();
+    }
+}
+
+function closeAttendancePopoutOnOutsideClick(event) {
+    const popout = document.getElementById('attendancePopout');
+    if (!popout.contains(event.target) && !event.target.closest('.attendance-btn-circle')) {
+        closeAttendancePopout();
+    }
+}
+
+// Student Management Functions
+async function showStudentManagementPopout() {
+    const popout = document.getElementById('studentManagementPopout');
+    
+    // Load students
+    await loadStudentList();
+    
+    popout.style.display = 'block';
+    setTimeout(() => {
+        popout.style.opacity = '1';
+    }, 10);
+    
+    // Add event listeners
+    setTimeout(() => {
+        document.addEventListener('click', closeStudentManagementPopoutOnOutsideClick);
+        document.addEventListener('keydown', handleStudentManagementPopoutKeys);
+    }, 100);
+}
+
+function closeStudentManagementPopout() {
+    const popout = document.getElementById('studentManagementPopout');
+    popout.style.display = 'none';
+    popout.style.opacity = '0';
+    
+    // Clear form
+    document.getElementById('newStudentName').value = '';
+    document.getElementById('newStudentId').value = '';
+    
+    document.removeEventListener('click', closeStudentManagementPopoutOnOutsideClick);
+    document.removeEventListener('keydown', handleStudentManagementPopoutKeys);
+}
+
+function handleStudentManagementPopoutKeys(event) {
+    const popout = document.getElementById('studentManagementPopout');
+    if (popout.style.display === 'none') return;
+    
+    if (event.key === 'Escape') {
+        closeStudentManagementPopout();
+        event.preventDefault();
+    }
+}
+
+function closeStudentManagementPopoutOnOutsideClick(event) {
+    const popout = document.getElementById('studentManagementPopout');
+    if (!popout.contains(event.target) && !event.target.closest('.btn-manage-students')) {
+        closeStudentManagementPopout();
+    }
+}
+
+async function loadStudentList() {
+    const studentList = document.getElementById('studentManagementList');
+    studentList.innerHTML = '<div class="text-center py-3"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+    
+    try {
+        const response = await fetch('/students/', {
+            credentials: 'same-origin',
+        });
+        
+        if (!response.ok) throw new Error('Failed to load students');
+        
+        const data = await response.json();
+        
+        document.getElementById('studentCount').textContent = data.students.length;
+        
+        studentList.innerHTML = '';
+        
+        if (data.students.length === 0) {
+            studentList.innerHTML = '<div class="text-center text-muted py-3">No students yet</div>';
+            return;
+        }
+        
+        data.students.forEach(student => {
+            const item = document.createElement('div');
+            item.className = 'student-management-item';
+            
+            const studentInfo = document.createElement('div');
+            studentInfo.className = 'student-info';
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'student-name';
+            nameSpan.textContent = student.name;
+            studentInfo.appendChild(nameSpan);
+            
+            if (student.student_id) {
+                const idBadge = document.createElement('span');
+                idBadge.className = 'student-id-badge';
+                idBadge.textContent = student.student_id;
+                studentInfo.appendChild(idBadge);
+            }
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn-delete-student';
+            deleteBtn.title = 'Delete Student';
+            deleteBtn.dataset.studentId = student.id;
+            deleteBtn.dataset.studentName = student.name;
+            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+            deleteBtn.onclick = function() {
+                deleteStudent(this.dataset.studentId, this.dataset.studentName);
+            };
+            
+            item.appendChild(studentInfo);
+            item.appendChild(deleteBtn);
+            studentList.appendChild(item);
+        });
+    } catch (error) {
+        console.error('Error loading students:', error);
+        studentList.innerHTML = '<div class="text-danger text-center py-3">Failed to load students</div>';
+    }
+}
+
+async function createStudent() {
+    const name = document.getElementById('newStudentName').value.trim();
+    const student_id = document.getElementById('newStudentId').value.trim();
+    
+    if (!name) {
+        alert('Please enter a student name');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/students/create/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                name: name,
+                student_id: student_id
+            })
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to create student');
+        }
+        
+        // Clear form
+        document.getElementById('newStudentName').value = '';
+        document.getElementById('newStudentId').value = '';
+        
+        // Reload student list
+        await loadStudentList();
+        
+        // Show success feedback
+        const form = document.getElementById('addStudentForm');
+        const successMsg = document.createElement('div');
+        successMsg.className = 'alert alert-success alert-dismissible fade show mt-2';
+        successMsg.innerHTML = `
+            <i class="fas fa-check-circle"></i> Student "${name}" added successfully!
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        form.appendChild(successMsg);
+        setTimeout(() => successMsg.remove(), 3000);
+        
+    } catch (error) {
+        console.error('Error creating student:', error);
+        alert('Error: ' + error.message);
+    }
+}
+
+async function deleteStudent(studentId, studentName) {
+    if (!confirm(`Are you sure you want to delete student "${studentName}"?\n\nThis will also delete all their attendance records.`)) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/students/${studentId}/delete/`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            credentials: 'same-origin',
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to delete student');
+        }
+        
+        // Reload student list
+        await loadStudentList();
+        
+    } catch (error) {
+        console.error('Error deleting student:', error);
+        alert('Error: ' + error.message);
+    }
+}
+
+function closeAddEventPopoutOnOutsideClick(event) {
+    const popout = document.getElementById('addEventPopout');
+    if (!popout.contains(event.target) && !event.target.closest('.add-event-btn-circle')) {
+        closeAddEventPopout();
+    }
+}
+
+async function saveEventFromPopout() {
+    const title = document.getElementById('addEventTitle').value.trim();
+    const description = document.getElementById('addEventDescription').value.trim();
+    const date = document.getElementById('addEventDate').value;
+    const startTime = document.getElementById('addEventStartTime').value;
+    const endTime = document.getElementById('addEventEndTime').value;
+    
+    if (!title) {
+        alert('Please enter a title for the event.');
+        document.getElementById('addEventTitle').focus();
+        return;
+    }
+    
+    const data = {
+        title: title,
+        description: description,
+        date: date,
+        start_time: startTime || null,
+        end_time: endTime || null
+    };
+    
+    try {
+        let url, method;
+        if (currentEventId) {
+            url = `{% url 'sams:event_edit' 0 %}`.replace('0', currentEventId);
+            method = 'POST';
+        } else {
+            url = '{% url "sams:event_create" %}';
+            method = 'POST';
+        }
+        
+        const response = await fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(data)
+        });
+        
+        console.log('Response status:', response.status);
+        console.log('Response content type:', response.headers.get('content-type'));
+        
+        // Check if response is JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            console.error('Server returned non-JSON response:', text.substring(0, 500));
+            if (response.status === 401 || text.includes('login')) {
+                alert('You must be logged in to add events. Please log in and try again.');
+                window.location.href = '/accounts/login/?next=' + window.location.pathname;
+            } else {
+                alert('Server error. Please refresh the page and try again.');
+            }
+            return;
+        }
+        
+        const result = await response.json();
+        console.log('Result:', result);
+        
+        if (result.success) {
+            console.log('Event saved successfully:', result.event);
+            closeAddEventPopout();
+            
+            // Add or update the event in the DOM dynamically
+            if (currentEventId) {
+                // Update existing event
+                console.log('Updating event in DOM');
+                updateEventInDOM(result.event);
+            } else {
+                // Add new event to the calendar
+                console.log('Adding new event to DOM');
+                addEventToDOM(result.event);
+            }
+        } else {
+            console.error('Server returned error:', result);
+            alert('Error saving event: ' + (result.error || 'Please try again.'));
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error saving event: ' + error.message);
+    }
+}
+
+function addEventToDOM(event) {
+    // Find the events container for this date
+    // event.date is in format YYYY-MM-DD, container ID matches this format
+    const containerId = `events-${event.date}`;
+    console.log('Looking for container:', containerId);
+    const container = document.getElementById(containerId);
+    
+    if (!container) {
+        console.error('Container not found for date:', event.date, 'ID:', containerId);
+        console.log('Available containers:', Array.from(document.querySelectorAll('[id^="events-"]')).map(el => el.id));
+        return;
+    }
+    console.log('Container found:', container);
+    
+    // Create the event element
+    const eventDiv = document.createElement('div');
+    eventDiv.className = 'event-item mb-1';
+    eventDiv.setAttribute('data-event-id', event.id);
+    
+    const conflictClass = event.has_conflict ? 'bg-danger conflict-event' : 'bg-info';
+    const conflictIcon = event.has_conflict ? '<i class="fas fa-exclamation-triangle me-1"></i>' : '';
+    
+    let timeDisplay = 'All Day';
+    if (event.start_time && event.end_time) {
+        timeDisplay = `${formatTime(event.start_time)} - ${formatTime(event.end_time)}`;
+    } else if (event.start_time) {
+        timeDisplay = formatTime(event.start_time);
+    }
+    
+    eventDiv.innerHTML = `
+        <div class="event-header ${conflictClass} text-white rounded p-1 cursor-pointer" 
+             data-title="${event.title}" 
+             data-description="${event.description || ''}"
+             data-owner="${event.owner}"
+             data-date="${event.date}"
+             data-created="${event.created_at}"
+             data-start-time="${event.start_time || ''}"
+             data-end-time="${event.end_time || ''}"
+             data-has-conflict="${event.has_conflict}"
+             data-event-id="${event.id}"
+             onclick="showEventNote(this)">
+            <div class="fw-bold event-title">
+                ${conflictIcon}${event.title.length > 15 ? event.title.substring(0, 12) + '...' : event.title}
+            </div>
+            <div class="event-time small opacity-75">
+                ${timeDisplay}
+            </div>
+        </div>
+    `;
+    
+    // Add to container with animation
+    eventDiv.style.opacity = '0';
+    container.appendChild(eventDiv);
+    setTimeout(() => {
+        eventDiv.style.transition = 'opacity 0.3s ease';
+        eventDiv.style.opacity = '1';
+    }, 10);
+}
+
+function updateEventInDOM(event) {
+    // Find the existing event element
+    const eventItems = document.querySelectorAll(`.event-item[data-event-id="${event.id}"]`);
+    
+    eventItems.forEach(eventItem => {
+        const eventHeader = eventItem.querySelector('.event-header');
+        if (!eventHeader) return;
+        
+        // Update classes for conflict status
+        const conflictClass = event.has_conflict ? 'bg-danger conflict-event' : 'bg-info';
+        eventHeader.className = `event-header ${conflictClass} text-white rounded p-1 cursor-pointer`;
+        
+        // Update data attributes
+        eventHeader.setAttribute('data-title', event.title);
+        eventHeader.setAttribute('data-description', event.description || '');
+        eventHeader.setAttribute('data-start-time', event.start_time || '');
+        eventHeader.setAttribute('data-end-time', event.end_time || '');
+        eventHeader.setAttribute('data-has-conflict', event.has_conflict);
+        
+        // Update display content
+        const conflictIcon = event.has_conflict ? '<i class="fas fa-exclamation-triangle me-1"></i>' : '';
+        let timeDisplay = 'All Day';
+        if (event.start_time && event.end_time) {
+            timeDisplay = `${formatTime(event.start_time)} - ${formatTime(event.end_time)}`;
+        } else if (event.start_time) {
+            timeDisplay = formatTime(event.start_time);
+        }
+        
+        eventHeader.innerHTML = `
+            <div class="fw-bold event-title">
+                ${conflictIcon}${event.title.length > 15 ? event.title.substring(0, 12) + '...' : event.title}
+            </div>
+            <div class="event-time small opacity-75">
+                ${timeDisplay}
+            </div>
+        `;
+    });
+}
+
+async function deleteEventFromPopout() {
+    console.log('deleteEventFromPopout called', currentEventId, currentEventData);
+    if (!currentEventId && (!currentEventData || !currentEventData.id)) {
+        console.error('No event ID available');
+        alert('Error: No event data available for deletion');
+        return;
+    }
+    
+    if (!confirm('Are you sure you want to delete this event?')) {
+        return;
+    }
+    
+    const eventId = currentEventId || currentEventData.id;
+    console.log('Deleting event with ID:', eventId);
+    
+    try {
+        const url = `{% url 'sams:event_delete' 0 %}`.replace('0', eventId);
+        console.log('Delete URL:', url);
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        });
+        
+        const result = await response.json();
+        console.log('Delete result:', result);
+        
+        if (result.success) {
+            // Remove the event from the DOM
+            if (currentEventData && currentEventData.element) {
+                const eventItem = currentEventData.element.closest('.event-item');
+                if (eventItem) {
+                    eventItem.style.transition = 'opacity 0.3s ease';
+                    eventItem.style.opacity = '0';
+                    setTimeout(() => {
+                        eventItem.remove();
+                        console.log('Event removed from DOM');
+                    }, 300);
+                }
+            }
+            closeAddEventPopout();
+        } else {
+            alert('Error deleting event. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error deleting event: ' + error.message);
+    }
+}
+
+
+
+
+
+// Navigate to selected month/year
+function navigateToMonth() {
+    const monthSelect = document.getElementById('monthSelector');
+    const yearSelect = document.getElementById('yearSelector');
+    const selectedMonth = monthSelect.value;
+    const selectedYear = yearSelect.value;
+    
+    window.location.href = `?year=${selectedYear}&month=${selectedMonth}`;
+}
+
+// Helper function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Set up event listeners when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, setting up button listeners...');
+    
+    // Use event delegation since the buttons are in a popout
+    document.addEventListener('click', function(e) {
+        // Check if click is on edit button or its children
+        const editBtn = e.target.closest('.btn-edit-event');
+        if (editBtn) {
+            console.log('Edit button clicked via event delegation');
+            console.log('Current event data:', currentEventData);
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            editCurrentEvent();
+            return false;
+        }
+        
+        // Check if click is on delete button or its children
+        const deleteBtn = e.target.closest('.btn-delete-event');
+        if (deleteBtn) {
+            console.log('Delete button clicked via event delegation');
+            console.log('Current event data:', currentEventData);
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            deleteCurrentEvent();
+            return false;
+        }
+    }, true); // Use capture phase
+});
+</script>
+{% endblock %}

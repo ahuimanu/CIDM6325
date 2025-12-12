@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ item.title }}</h1>
+  <p>{{ item.description|linebreaks }}</p>
+  <p>Owner: {{ item.owner }}</p>
+  <p>Created: {{ item.created_at }}</p>
+  {% load sams_tags %}
+  {% if user.is_authenticated %}
+    {% if item.owner == user or user|has_group:"maintainer" %}
+      <a href="{% url 'sams:item_edit' pk=item.pk %}">Edit</a> |
+      <a href="{% url 'sams:item_delete' pk=item.pk %}">Delete</a> |
+    {% endif %}
+  {% endif %}
+  <a href="{% url 'sams:item_list' %}">Back to list</a>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Debug Users{% endblock %}
+{% block content %}
+<h1 class="h3">Debug users (DEBUG only)</h1>
+<table class="table table-sm">
+  <thead><tr><th>username</th><th>email</th><th>active</th><th>staff</th><th></th></tr></thead>
+  <tbody>
+    {% for u in users %}
+      <tr>
+        <td>{{ u.username }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.is_active }}</td>
+        <td>{{ u.is_staff }}</td>
+        <td>
+          <form method="post" action="{% url 'debug_reset_password' u.username %}">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-outline-danger" type="submit">Reset PW</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
