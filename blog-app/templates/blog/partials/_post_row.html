@@ -1,0 +1,16 @@
+<tr id="row-{{ post.pk }}">
+  <td><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></td>
+  <td>{{ post.get_status_display }}</td>
+  <td>{{ post.author.username }}</td>
+  <td>{{ post.updated_at|date:"Y-m-d H:i" }}</td>
+  <td>
+    {% if user.is_authenticated %}
+      {% if post.author_id == user.id or perms.blog.change_post %}
+        <button class="btn btn-sm btn-outline-secondary"
+                hx-get="{% url 'hx_post_inline_edit' post.pk %}"
+                hx-target="#row-{{ post.pk }}" hx-swap="outerHTML"
+                aria-label="Inline edit {{ post.title }}">Edit</button>
+      {% endif %}
+    {% endif %}
+  </td>
+</tr>

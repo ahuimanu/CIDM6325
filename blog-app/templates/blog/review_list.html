@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Posts in Review{% endblock %}
+{% block content %}
+<h1 class="h3">Posts in Review</h1>
+{% if posts %}
+  <table class="table">
+    <thead><tr><th>Title</th><th>Author</th><th>Tags</th><th></th></tr></thead>
+    <tbody>
+      {% for p in posts %}
+        <tr>
+          <td><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></td>
+          <td>{{ p.author.username }}</td>
+          <td>{% for t in p.tags.all %}<span class="badge text-bg-secondary">{{ t.name }}</span>{% empty %}<span class="text-muted">No tags</span>{% endfor %}</td>
+          <td>
+            <form method="post" class="d-inline">{% csrf_token %}
+              <input type="hidden" name="post_id" value="{{ p.pk }}" />
+              <button name="action" value="publish" class="btn btn-sm btn-success">Publish</button>
+            </form>
+            <form method="post" class="d-inline">{% csrf_token %}
+              <input type="hidden" name="post_id" value="{{ p.pk }}" />
+              <button name="action" value="send_back" class="btn btn-sm btn-secondary">Send back</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p class="text-muted">No posts are currently in review.</p>
+{% endif %}
+{% endblock %}

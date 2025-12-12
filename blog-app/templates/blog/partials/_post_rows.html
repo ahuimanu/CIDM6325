@@ -1,0 +1,5 @@
+{% for post in posts %}
+  {% include "blog/partials/_post_row.html" with post=post %}
+{% empty %}
+  <tr><td colspan="5" class="text-muted">No posts yet.</td></tr>
+{% endfor %}

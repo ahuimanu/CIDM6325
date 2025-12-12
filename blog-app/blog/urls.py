@@ -1,0 +1,25 @@
+from django.urls import path
+from . import views
+from .views import PostCreateView, PostUpdateView, PostDeleteView
+
+urlpatterns = [
+    # list & detail
+    path("", views.PostListView.as_view(), name="post_list"),
+    # CRUD - static routes first to avoid slug conflicts
+    path("posts/new/", PostCreateView.as_view(), name="post_create"),
+    path("posts/review/", views.review_list, name="review_list"),
+    path("debug/users/", views.debug_users, name="debug_users"),
+    path("debug/users/reset/<str:username>/", views.debug_reset_password, name="debug_reset_password"),
+    path("posts/<slug:slug>/edit/", PostUpdateView.as_view(), name="post_update"),
+    path("posts/<slug:slug>/delete/", PostDeleteView.as_view(), name="post_delete"),
+    # detail (dynamic slug) - placed after static routes
+    path("posts/<slug:slug>/", views.PostDetailView.as_view(), name="post_detail"),
+
+    # HTMX endpoints
+    path("hx/search/", views.hx_post_search, name="hx_post_search"),
+    path("hx/posts/<int:pk>/inline/", views.hx_post_inline_edit, name="hx_post_inline_edit"),
+    # Development-only helper to create/login a dev user when DEBUG=True
+    path("dev-login/", views.dev_login, name="dev_login"),
+    path("accounts/register/", views.register, name="register"),
+    # review_list already declared above as a static route; no duplicate needed
+]

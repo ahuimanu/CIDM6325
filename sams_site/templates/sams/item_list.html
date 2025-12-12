@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>SAMS Items</h1>
+  <ul>
+    {% for item in items %}
+      <li>
+        <a href="{% url 'sams:item_detail' pk=item.pk %}">{{ item.title }}</a> — {{ item.owner }}
+        {% load sams_tags %}
+        {% if user.is_authenticated %}
+          {% if item.owner == user or user|has_group:"maintainer" %}
+            — <a href="{% url 'sams:item_edit' pk=item.pk %}">Edit</a>
+          {% endif %}
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>No items yet</li>
+    {% endfor %}
+  </ul>
+  {% if user.is_authenticated %}
+    <a href="{% url 'sams:item_create' %}">Create new item</a>
+  {% else %}
+    <p><a href="/accounts/login/">Log in</a> to create items.</p>
+  {% endif %}
+{% endblock %}
